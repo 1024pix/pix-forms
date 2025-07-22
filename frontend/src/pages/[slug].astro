@@ -1,0 +1,40 @@
+---
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+
+		<link href="https://unpkg.com/survey-core/survey-core.min.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js" />
+		<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js" />
+
+		<script>
+			const surveyJson = {
+				elements: [{
+					name: "FirstName",
+					title: "Enter your first name:",
+					type: "text"
+				}, {
+					name: "LastName",
+					title: "Enter your last name:",
+					type: "text"
+				}]
+			};
+
+			const survey = new Survey.Model(surveyJson);
+			document.addEventListener("DOMContentLoaded", function() {
+				survey.render(document.getElementById("surveyContainer"));
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Pix Forms</h1>
+
+		<div id="surveyContainer">{form}</div>
+	</body>
+</html>
