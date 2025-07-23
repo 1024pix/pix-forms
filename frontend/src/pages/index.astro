@@ -14,12 +14,15 @@ const _surveySchema = JSON.stringify(surveyJson);
 		<link href="https://unpkg.com/survey-core/survey-core.min.css" type="text/css" rel="stylesheet">
 		<script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js" />
 		<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js" />
+		<script type="text/javascript" src="https://unpkg.com/survey-core/i18n/french.js"/>
 
 		<script>
 			import { actions } from 'astro:actions';
 
 			const surveyJson = document.body.getAttribute("data-survey");
 			const surveyInstance = new Survey.Model(surveyJson);
+			surveyInstance.locale = JSON.parse(surveyJson).locale || 'fr';
+
 			document.addEventListener("DOMContentLoaded", function() {
 				surveyInstance.render(document.getElementById("surveyContainer"));
 
