@@ -1,15 +1,7 @@
 ---
-const survey = JSON.stringify({
-	elements: [{
-		name: "FirstName",
-		title: "Enter your first name:",
-		type: "text"
-	}, {
-		name: "LastName",
-		title: "Enter your last name:",
-		type: "text"
-	}]
-});
+import surveyJson from '../forms/formulaire-support.json';
+
+const survey = JSON.stringify(surveyJson);
 ---
 
 <html lang="en">
