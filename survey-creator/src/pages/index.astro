@@ -11,21 +11,24 @@
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<meta name="viewport" content="width=device-width" />
 	<meta name="generator" content={Astro.generator} />
-	<link  href="https://unpkg.com/survey-core/survey-core.min.css" type="text/css" rel="stylesheet">
-	<script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js"/>
-	<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js"/>
-
-	<link  href="https://unpkg.com/survey-creator-core/survey-creator-core.min.css" type="text/css" rel="stylesheet">
-	<script type="text/javascript" src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"/>
-	<script type="text/javascript" src="https://unpkg.com/survey-creator-js/survey-creator-js.min.js"/>
-
-	<script type="text/javascript" src="https://unpkg.com/survey-creator-core/i18n/french.js"/>
 
 	<script>
+		import { SurveyCreator } from "survey-creator-js";
+		import "survey-core";
+		import "survey-core/i18n/french";
+		import "survey-creator-core/i18n/french";
+
+		import "survey-core/survey-core.css";
+		import "survey-creator-core/survey-creator-core.css";
+
+		import { surveyLocalization } from 'survey-core';
+		surveyLocalization.supportedLocales = ["en", "fr"];
+		surveyLocalization.defaultLocale = 'fr';
+
 		const creatorOptions = {
 			autoSaveEnabled: true,
 			collapseOnDrag: true,
-			showTranslationTab: true, 
+			showTranslationTab: true,
 		};
 
 		const defaultJson = {
@@ -42,10 +45,8 @@
 				}]
 			}]
 		};
-		Survey.surveyLocalization.supportedLocales = ["fr", "en"];
-		SurveyCreator.localization.currentLocale = 'fr';
 
-		const creator = new SurveyCreator.SurveyCreator(creatorOptions);
+		const creator = new SurveyCreator(creatorOptions);
 		creator.locale = "fr";
 		creator.text = window.localStorage.getItem("survey-json") || JSON.stringify(defaultJson);
 		creator.saveSurveyFunc = (saveNo, callback) => {
