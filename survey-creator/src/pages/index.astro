@@ -1,0 +1,60 @@
+---
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Survey Creator / Form Builder</title>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<meta name="viewport" content="width=device-width" />
+	<meta name="generator" content={Astro.generator} />
+	<link  href="https://unpkg.com/survey-core/survey-core.min.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js"/>
+	<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js"/>
+
+	<link  href="https://unpkg.com/survey-creator-core/survey-creator-core.min.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"/>
+	<script type="text/javascript" src="https://unpkg.com/survey-creator-js/survey-creator-js.min.js"/>
+
+
+
+	<script>
+		const creatorOptions = {
+			autoSaveEnabled: true
+		};
+
+		const defaultJson = {
+			pages: [{
+				name: "Name",
+				elements: [{
+					name: "FirstName",
+					title: "Enter your first name:",
+					type: "text"
+				}, {
+					name: "LastName",
+					title: "Enter your last name:",
+					type: "text"
+				}]
+			}]
+		};
+
+		const creator = new SurveyCreator.SurveyCreator(creatorOptions);
+		creator.text = window.localStorage.getItem("survey-json") || JSON.stringify(defaultJson);
+		creator.saveSurveyFunc = (saveNo, callback) => {
+			window.localStorage.setItem("survey-json", creator.text);
+			callback(saveNo, true);
+
+		};
+
+		document.addEventListener("DOMContentLoaded", function() {
+			creator.render(document.getElementById("surveyCreator"));
+		});
+	</script>
+</head>
+<body style="margin: 0;">
+<div id="surveyCreator" style="height: 100vh;"></div>
+</body>
+</html>
