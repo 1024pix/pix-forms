@@ -1,5 +1,5 @@
 ---
-import surveyJson from "../forms/test-form.json";
+import surveyJson from "../forms/formulaire-support.json";
 
 const _surveySchema = JSON.stringify(surveyJson);
 ---
@@ -11,16 +11,17 @@ const _surveySchema = JSON.stringify(surveyJson);
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 
-		<link href="https://unpkg.com/survey-core/survey-core.min.css" type="text/css" rel="stylesheet">
-		<script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js" />
-		<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js" />
-		<script type="text/javascript" src="https://unpkg.com/survey-core/i18n/french.js"/>
-
 		<script>
+			import { SurveyModel } from "survey-js-ui";
+
+			import "survey-core";
+			import "survey-core/i18n/french";
+			import "survey-core/survey-core.css";
+
 			import { actions } from 'astro:actions';
 
 			const surveyJson = document.body.getAttribute("data-survey");
-			const surveyInstance = new Survey.Model(surveyJson);
+			const surveyInstance = new SurveyModel(surveyJson);
 			surveyInstance.locale = JSON.parse(surveyJson).locale || 'fr';
 
 			document.addEventListener("DOMContentLoaded", function() {
