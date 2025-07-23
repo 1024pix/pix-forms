@@ -16,6 +16,8 @@ const survey = JSON.stringify(surveyJson);
 		<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js" />
 
 		<script>
+			import { actions } from 'astro:actions';
+
 			const surveyJson = document.body.getAttribute("data-survey");
 			const survey = new Survey.Model(surveyJson);
 			document.addEventListener("DOMContentLoaded", function() {
@@ -24,6 +26,8 @@ const survey = JSON.stringify(surveyJson);
 
 				survey.onComplete.add((survey) => {
 					const result = survey.data;
+					actions.answer({ formId: 'coucou' });
+
 					console.log("Survey results:", result);
 					alert("Thank you for completing the survey!");
 				});
