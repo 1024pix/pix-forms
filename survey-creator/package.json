@@ -1,18 +1,21 @@
 {
-  "name": "",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^5.12.2"
-  },
-  "devDependencies": {
-    "survey-creator-core": "^2.2.6",
-    "survey-creator-js": "^2.2.6"
-  }
+	"name": "",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"lint": "biome check",
+		"lint:fix": "biome check --write"
+	},
+	"dependencies": {
+		"astro": "^5.12.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"survey-creator-core": "^2.2.6",
+		"survey-creator-js": "^2.2.6"
+	}
 }
