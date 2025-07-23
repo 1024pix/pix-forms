@@ -1,207 +1,207 @@
 {
-  "locale": "fr",
-  "title": "Mon formulaire de contact",
-  "description": "Vous n'avez pas trouvé votre réponse dans notre centre d'aide ? Écrivez-nous !",
-  "pages": [
-    {
-      "name": "Persona / Contexte",
-      "title": {
-        "default": "Dans quel contexte utilisez-vous Pix ?",
-        "fr": "Dites nous qui vous êtes"
-      },
-      "elements": [
-        {
-          "type": "dropdown",
-          "name": "Persona",
-          "title": "Vous êtes ?",
-          "isRequired": true,
-          "choices": ["Élève", "Parent", "Prof", "Étudiant"],
-          "placeholder": "Choisissez une valeur"
-        },
-        {
-          "type": "text",
-          "name": "UAI",
-          "visibleIf": "{Persona} = 'Prof'",
-          "title": {
-            "fr": "UAI de votre établissement"
-          },
-          "isRequired": true
-        },
-        {
-          "type": "dropdown",
-          "name": "Type étab",
-          "visibleIf": "({Persona} = 'Élève') or ({Persona} = 'Parent')",
-          "title": {
-            "fr": "Type d'établissement"
-          },
-          "isRequired": true,
-          "choices": [
-            "Public",
-            {
-              "value": "PSC",
-              "text": "Privé sous contrat"
-            },
-            {
-              "value": "EFE",
-              "text": "Établissement français à l'étranger"
-            },
-            {
-              "value": "PHC",
-              "text": "Privé hors contrat"
-            },
-            "CNED",
-            {
-              "value": "IEF",
-              "text": "Instruction en famille"
-            }
-          ],
-          "showOtherItem": true,
-          "showNoneItem": true,
-          "otherPlaceholder": "Choisissez un type d'établissement"
-        },
-        {
-          "type": "panel",
-          "name": "Informations utiles étudiants",
-          "readOnly": true,
-          "title": "Informations fréquemment utiles",
-          "elements": [
-            {
-              "type": "html",
-              "name": "info étudiant",
-              "visibleIf": "{Persona} = 'Étudiant'",
-              "html": "<strong>Si vous souhaitez récupérer le compte Pix que vous utilisiez</strong> au lycée, en classes préparatoires ou en BTS, rendez-vous directement sur <strong>la page de récupération de compte Pix </strong>ici <strong>: <a href=\"https://app.pix.fr/recuperer-mon-compte\" target=\"_blank\" rel=\"noopener noreferrer\">https://app.pix.fr/recuperer-mon-compte</a></strong>"
-            }
-          ]
-        },
-        {
-          "type": "panel",
-          "name": "question2",
-          "elements": [
-            {
-              "type": "html",
-              "name": "question4",
-              "visibleIf": "({Persona} = 'Élève') and ({Type étab} anyof ['Public', 'PSC'])",
-              "html": "Si vous avez oublié votre mot de passe, nous vous invitons à demander à votre enseignant(e) de le renouveler. Nous ne pourrons pas le faire."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "page1",
-      "elements": [
-        {
-          "type": "panel",
-          "name": "question8",
-          "title": "Motif de votre demande",
-          "elements": [
-            {
-              "type": "dropdown",
-              "name": "Motif de contact",
-              "title": {
-                "fr": "Motif de contact"
-              },
-              "choices": [
-                {
-                  "value": "Me connecter",
-                  "text": {
-                    "fr": "Me connecter",
-                    "default": "Connect"
-                  }
-                },
-                {
-                  "value": "Jouer",
-                  "text": {
-                    "fr": "Jouer",
-                    "default": "Tests"
-                  }
-                },
-                {
-                  "value": "Me certifier",
-                  "text": {
-                    "fr": "Me certifier",
-                    "default": "Certification"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "dropdown",
-              "name": "Sous-motif",
-              "title": "Sous-motif",
-              "choices": [
-                {
-                  "value": "MDP oublié",
-                  "text": "Mot de passe oublié",
-                  "visibleIf": "{Motif de contact} = 'Me connecter'",
-                  "enableIf": "{Motif de contact} = 'Me connecter'"
-                },
-                {
-                  "value": "Compte bloqué",
-                  "visibleIf": "{Motif de contact} = 'Me connecter'",
-                  "enableIf": "{Motif de contact} = 'Me connecter'"
-                },
-                {
-                  "value": "Oups",
-                  "text": "Page oups",
-                  "visibleIf": "{Motif de contact} = 'Me certifier'"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Message et PJ",
-      "title": {
-        "fr": "Votre message",
-        "default": "Your demand"
-      },
-      "description": {
-        "fr": "Dites-nous en plus, n'hésitez pas à nous joindre une capture d'écran.",
-        "default": "Tell us more"
-      },
-      "elements": [
-        {
-          "type": "comment",
-          "name": "Demande",
-          "title": {
-            "fr": "Votre demande",
-            "default": "Your demand"
-          },
-          "description": {
-            "fr": "Ne nous communiquez aucun mot de passe.",
-            "default": "Tell us more, keep your password secret"
-          },
-          "isRequired": true
-        },
-        {
-          "type": "file",
-          "name": "Pièce-jointe",
-          "title": {
-            "fr": "Pièce-jointe"
-          },
-          "description": {
-            "fr": "N'hésitez pas à nous joindre une capture d'écran pour étayer votre message."
-          }
-        }
-      ]
-    }
-  ],
-  "navigateToUrlOnCondition": [{}],
-  "showPageNumbers": true,
-  "showProgressBar": true,
-  "pagePrevText": {
-    "fr": "Précédent"
-  },
-  "pageNextText": {
-    "fr": "Suivant"
-  },
-  "completeText": {
-    "fr": "Envoyer ma demande"
-  },
-  "widthMode": "responsive",
-  "gridLayoutEnabled": true,
-  "headerView": "advanced"
+	"locale": "fr",
+	"title": "Mon formulaire de contact",
+	"description": "Vous n'avez pas trouvé votre réponse dans notre centre d'aide ? Écrivez-nous !",
+	"pages": [
+		{
+			"name": "Persona / Contexte",
+			"title": {
+				"default": "Dans quel contexte utilisez-vous Pix ?",
+				"fr": "Dites nous qui vous êtes"
+			},
+			"elements": [
+				{
+					"type": "dropdown",
+					"name": "Persona",
+					"title": "Vous êtes ?",
+					"isRequired": true,
+					"choices": ["Élève", "Parent", "Prof", "Étudiant"],
+					"placeholder": "Choisissez une valeur"
+				},
+				{
+					"type": "text",
+					"name": "UAI",
+					"visibleIf": "{Persona} = 'Prof'",
+					"title": {
+						"fr": "UAI de votre établissement"
+					},
+					"isRequired": true
+				},
+				{
+					"type": "dropdown",
+					"name": "Type étab",
+					"visibleIf": "({Persona} = 'Élève') or ({Persona} = 'Parent')",
+					"title": {
+						"fr": "Type d'établissement"
+					},
+					"isRequired": true,
+					"choices": [
+						"Public",
+						{
+							"value": "PSC",
+							"text": "Privé sous contrat"
+						},
+						{
+							"value": "EFE",
+							"text": "Établissement français à l'étranger"
+						},
+						{
+							"value": "PHC",
+							"text": "Privé hors contrat"
+						},
+						"CNED",
+						{
+							"value": "IEF",
+							"text": "Instruction en famille"
+						}
+					],
+					"showOtherItem": true,
+					"showNoneItem": true,
+					"otherPlaceholder": "Choisissez un type d'établissement"
+				},
+				{
+					"type": "panel",
+					"name": "Informations utiles étudiants",
+					"readOnly": true,
+					"title": "Informations fréquemment utiles",
+					"elements": [
+						{
+							"type": "html",
+							"name": "info étudiant",
+							"visibleIf": "{Persona} = 'Étudiant'",
+							"html": "<strong>Si vous souhaitez récupérer le compte Pix que vous utilisiez</strong> au lycée, en classes préparatoires ou en BTS, rendez-vous directement sur <strong>la page de récupération de compte Pix </strong>ici <strong>: <a href=\"https://app.pix.fr/recuperer-mon-compte\" target=\"_blank\" rel=\"noopener noreferrer\">https://app.pix.fr/recuperer-mon-compte</a></strong>"
+						}
+					]
+				},
+				{
+					"type": "panel",
+					"name": "question2",
+					"elements": [
+						{
+							"type": "html",
+							"name": "question4",
+							"visibleIf": "({Persona} = 'Élève') and ({Type étab} anyof ['Public', 'PSC'])",
+							"html": "Si vous avez oublié votre mot de passe, nous vous invitons à demander à votre enseignant(e) de le renouveler. Nous ne pourrons pas le faire."
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "page1",
+			"elements": [
+				{
+					"type": "panel",
+					"name": "question8",
+					"title": "Motif de votre demande",
+					"elements": [
+						{
+							"type": "dropdown",
+							"name": "Motif de contact",
+							"title": {
+								"fr": "Motif de contact"
+							},
+							"choices": [
+								{
+									"value": "Me connecter",
+									"text": {
+										"fr": "Me connecter",
+										"default": "Connect"
+									}
+								},
+								{
+									"value": "Jouer",
+									"text": {
+										"fr": "Jouer",
+										"default": "Tests"
+									}
+								},
+								{
+									"value": "Me certifier",
+									"text": {
+										"fr": "Me certifier",
+										"default": "Certification"
+									}
+								}
+							]
+						},
+						{
+							"type": "dropdown",
+							"name": "Sous-motif",
+							"title": "Sous-motif",
+							"choices": [
+								{
+									"value": "MDP oublié",
+									"text": "Mot de passe oublié",
+									"visibleIf": "{Motif de contact} = 'Me connecter'",
+									"enableIf": "{Motif de contact} = 'Me connecter'"
+								},
+								{
+									"value": "Compte bloqué",
+									"visibleIf": "{Motif de contact} = 'Me connecter'",
+									"enableIf": "{Motif de contact} = 'Me connecter'"
+								},
+								{
+									"value": "Oups",
+									"text": "Page oups",
+									"visibleIf": "{Motif de contact} = 'Me certifier'"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Message et PJ",
+			"title": {
+				"fr": "Votre message",
+				"default": "Your demand"
+			},
+			"description": {
+				"fr": "Dites-nous en plus, n'hésitez pas à nous joindre une capture d'écran.",
+				"default": "Tell us more"
+			},
+			"elements": [
+				{
+					"type": "comment",
+					"name": "Demande",
+					"title": {
+						"fr": "Votre demande",
+						"default": "Your demand"
+					},
+					"description": {
+						"fr": "Ne nous communiquez aucun mot de passe.",
+						"default": "Tell us more, keep your password secret"
+					},
+					"isRequired": true
+				},
+				{
+					"type": "file",
+					"name": "Pièce-jointe",
+					"title": {
+						"fr": "Pièce-jointe"
+					},
+					"description": {
+						"fr": "N'hésitez pas à nous joindre une capture d'écran pour étayer votre message."
+					}
+				}
+			]
+		}
+	],
+	"navigateToUrlOnCondition": [{}],
+	"showPageNumbers": true,
+	"showProgressBar": true,
+	"pagePrevText": {
+		"fr": "Précédent"
+	},
+	"pageNextText": {
+		"fr": "Suivant"
+	},
+	"completeText": {
+		"fr": "Envoyer ma demande"
+	},
+	"widthMode": "responsive",
+	"gridLayoutEnabled": true,
+	"headerView": "advanced"
 }

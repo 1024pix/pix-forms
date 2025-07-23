@@ -1,7 +1,7 @@
 ---
-import surveyJson from '../forms/formulaire-support.json';
+import surveyJson from "../forms/formulaire-support.json";
 
-const survey = JSON.stringify(surveyJson);
+const _surveySchema = JSON.stringify(surveyJson);
 ---
 
 <html lang="en">
@@ -19,13 +19,12 @@ const survey = JSON.stringify(surveyJson);
 			import { actions } from 'astro:actions';
 
 			const surveyJson = document.body.getAttribute("data-survey");
-			const survey = new Survey.Model(surveyJson);
+			const surveyInstance = new Survey.Model(surveyJson);
 			document.addEventListener("DOMContentLoaded", function() {
-				survey.render(document.getElementById("surveyContainer"));
+				surveyInstance.render(document.getElementById("surveyContainer"));
 
-
-				survey.onComplete.add((survey) => {
-					const result = survey.data;
+				surveyInstance.onComplete.add(() => {
+					const result = surveyInstance.data;
 					actions.answer({ formId: 'coucou' });
 
 					console.log("Survey results:", result);
@@ -35,7 +34,7 @@ const survey = JSON.stringify(surveyJson);
 		</script>
 
 	</head>
-	<body data-survey={survey}>
+	<body data-survey={_surveySchema}>
 		<h1>Hello</h1>
 
 		<div id="surveyContainer"></div>
