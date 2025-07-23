@@ -24,7 +24,8 @@
 
 	<script>
 		const creatorOptions = {
-			autoSaveEnabled: true
+			autoSaveEnabled: true,
+			collapseOnDrag: true,
 		};
 
 		const defaultJson = {
@@ -42,6 +43,7 @@
 			}]
 		};
 		Survey.surveyLocalization.supportedLocales = ["fr", "en"];
+		SurveyCreator.localization.currentLocale = 'fr';
 
 		const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 		creator.locale = "fr";

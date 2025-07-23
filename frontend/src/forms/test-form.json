@@ -1,0 +1,57 @@
+{
+  "locale": "fr",
+  "pages": [
+    {
+      "name": "Name",
+      "elements": [
+        {
+          "type": "text",
+          "name": "FirstName",
+          "title": {
+            "default": "default",
+            "fr": "Met ton nom"
+          }
+        },
+        {
+          "type": "text",
+          "name": "LastName",
+          "title": {
+            "default": "Enter your last name:",
+            "fr": "Met de la valeur"
+          }
+        }
+      ]
+    },
+    {
+      "name": "page1",
+      "title": {
+        "fr": "enchante toi"
+      },
+      "elements": [
+        {
+          "type": "text",
+          "name": "question1",
+          "inputType": "range"
+        },
+        {
+          "type": "radiogroup",
+          "name": "question2",
+          "choices": [
+            "Item 1",
+            "Item 2",
+            "Item 3"
+          ]
+        },
+        {
+          "type": "rating",
+          "name": "question3",
+          "title": {
+            "fr": "t'as tu trouvé du fun la dedans"
+          }
+        }
+      ]
+    }
+  ],
+  "readOnly": true,
+  "mode": "display"
+}
