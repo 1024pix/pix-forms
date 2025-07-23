@@ -1,66 +1,72 @@
 ---
-
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html>
-<head>
-	<title>Survey Creator / Form Builder</title>
-	<meta charset="utf-8" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<meta name="viewport" content="width=device-width" />
-	<meta name="generator" content={Astro.generator} />
+  <head>
+    <title>Survey Creator / Form Builder</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
 
-	<script>
-		import { SurveyCreator } from "survey-creator-js";
-		import "survey-core";
-		import "survey-core/i18n/french";
-		import "survey-creator-core/i18n/french";
+    <script>
+      import { SurveyCreator } from "survey-creator-js";
+      import "survey-core";
+      import "survey-core/i18n/french";
+      import "survey-creator-core/i18n/french";
 
-		import "survey-core/survey-core.css";
-		import "survey-creator-core/survey-creator-core.css";
+      import "survey-core/survey-core.css";
+      import "survey-creator-core/survey-creator-core.css";
 
-		import { surveyLocalization } from 'survey-core';
-		surveyLocalization.supportedLocales = ["en", "fr"];
-		surveyLocalization.defaultLocale = 'fr';
+      import { surveyLocalization } from "survey-core";
+      surveyLocalization.supportedLocales = ["en", "fr"];
+      surveyLocalization.defaultLocale = "fr";
 
-		const creatorOptions = {
-			autoSaveEnabled: true,
-			collapseOnDrag: true,
-			showTranslationTab: true,
-		};
+      const creatorOptions = {
+        autoSaveEnabled: true,
+        collapseOnDrag: true,
+        showTranslationTab: true,
+      };
 
-		const defaultJson = {
-			pages: [{
-				name: "Name",
-				elements: [{
-					name: "FirstName",
-					title: "Enter your first name:",
-					type: "text"
-				}, {
-					name: "LastName",
-					title: "Enter your last name:",
-					type: "text"
-				}]
-			}]
-		};
+      const defaultJson = {
+        pages: [
+          {
+            name: "Name",
+            elements: [
+              {
+                name: "FirstName",
+                title: "Enter your first name:",
+                type: "text",
+              },
+              {
+                name: "LastName",
+                title: "Enter your last name:",
+                type: "text",
+              },
+            ],
+          },
+        ],
+      };
 
-		const creator = new SurveyCreator(creatorOptions);
-		creator.locale = "fr";
-		creator.text = window.localStorage.getItem("survey-json") || JSON.stringify(defaultJson);
-		creator.saveSurveyFunc = (saveNo, callback) => {
-			window.localStorage.setItem("survey-json", creator.text);
-			callback(saveNo, true);
+      const creator = new SurveyCreator(creatorOptions);
+      creator.locale = "fr";
+      creator.text =
+        window.localStorage.getItem("survey-json") ||
+        JSON.stringify(defaultJson);
+      creator.saveSurveyFunc = (saveNo, callback) => {
+        window.localStorage.setItem("survey-json", creator.text);
+        callback(saveNo, true);
+      };
 
-		};
-
-		document.addEventListener("DOMContentLoaded", function() {
-			creator.render(document.getElementById("surveyCreator"));
-		});
-	</script>
-</head>
-<body style="margin: 0;">
-<div id="surveyCreator" style="height: 100vh;"></div>
-</body>
+      document.addEventListener("DOMContentLoaded", function () {
+        creator.render(document.getElementById("surveyCreator"));
+      });
+    </script>
+  </head>
+  <body style="margin: 0;">
+    <div id="surveyCreator" style="height: 100vh;"></div>
+  </body>
 </html>

@@ -5,42 +5,41 @@ const _surveySchema = JSON.stringify(surveyJson);
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
 
-		<script>
-			import { SurveyModel } from "survey-js-ui";
+    <script>
+      import { SurveyModel } from "survey-js-ui";
 
-			import "survey-core";
-			import "survey-core/i18n/french";
-			import "survey-core/survey-core.css";
+      import "survey-core";
+      import "survey-core/i18n/french";
+      import "survey-core/survey-core.css";
 
-			import { actions } from 'astro:actions';
+      import { actions } from "astro:actions";
 
-			const surveyJson = document.body.getAttribute("data-survey");
-			const surveyInstance = new SurveyModel(surveyJson);
-			surveyInstance.locale = JSON.parse(surveyJson).locale || 'fr';
+      const surveyJson = document.body.getAttribute("data-survey");
+      const surveyInstance = new SurveyModel(surveyJson);
+      surveyInstance.locale = JSON.parse(surveyJson).locale || "fr";
 
-			document.addEventListener("DOMContentLoaded", function() {
-				surveyInstance.render(document.getElementById("surveyContainer"));
+      document.addEventListener("DOMContentLoaded", function () {
+        surveyInstance.render(document.getElementById("surveyContainer"));
 
-				surveyInstance.onComplete.add(() => {
-					const result = surveyInstance.data;
-					actions.answer({ formId: 'coucou' });
+        surveyInstance.onComplete.add(() => {
+          const result = surveyInstance.data;
+          actions.answer({ formId: "coucou" });
 
-					console.log("Survey results:", result);
-					alert("Thank you for completing the survey!");
-				});
-			});
-		</script>
+          console.log("Survey results:", result);
+          alert("Thank you for completing the survey!");
+        });
+      });
+    </script>
+  </head>
+  <body data-survey={_surveySchema}>
+    <h1>Hello</h1>
 
-	</head>
-	<body data-survey={_surveySchema}>
-		<h1>Hello</h1>
-
-		<div id="surveyContainer"></div>
-	</body>
+    <div id="surveyContainer"></div>
+  </body>
 </html>
