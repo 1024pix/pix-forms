@@ -11,6 +11,7 @@
 		"lint:fix": "biome check --write"
 	},
 	"dependencies": {
+		"@astrojs/node": "^9.3.0",
 		"astro": "^5.12.1"
 	},
 	"devDependencies": {
