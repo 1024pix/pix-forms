@@ -1,5 +1,15 @@
 ---
-
+const survey = JSON.stringify({
+	elements: [{
+		name: "FirstName",
+		title: "Enter your first name:",
+		type: "text"
+	}, {
+		name: "LastName",
+		title: "Enter your last name:",
+		type: "text"
+	}]
+});
 ---
 
 <html lang="en">
@@ -14,18 +24,7 @@
 		<script type="text/javascript" src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js" />
 
 		<script>
-			const surveyJson = {
-				elements: [{
-					name: "FirstName",
-					title: "Enter your first name:",
-					type: "text"
-				}, {
-					name: "LastName",
-					title: "Enter your last name:",
-					type: "text"
-				}]
-			};
-
+			const surveyJson = document.body.getAttribute("data-survey");
 			const survey = new Survey.Model(surveyJson);
 			document.addEventListener("DOMContentLoaded", function() {
 				survey.render(document.getElementById("surveyContainer"));
@@ -38,9 +37,10 @@
 				});
 			});
 		</script>
+
 	</head>
-	<body>
-		<h1>Pix Forms</h1>
+	<body data-survey={survey}>
+		<h1>Hello</h1>
 
 		<div id="surveyContainer"></div>
 	</body>
