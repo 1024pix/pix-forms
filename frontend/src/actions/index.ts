@@ -17,7 +17,9 @@ export const server = {
       const result = await frcClient.verifyCaptchaResponse(captchaResponse);
 
       if (result.shouldReject()) {
-        throw new Error("Captcha verification failed");
+        throw new Error(
+          `Le captcha n'a pas été validé (code erreur ${result.response?.error.detail}. Veuillez réessayer.`
+        );
       }
 
       console.log(`Form submitted with ID: ${formId}`);

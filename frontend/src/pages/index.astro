@@ -35,9 +35,15 @@ const friendlyCaptchaSiteKey = process.env.FRIENDLY_CAPTCHA_SITE_KEY;
       function renderForm(captchaResponse: string) {
         surveyInstance.render(document.getElementById("surveyContainer"));
 
-        surveyInstance.onComplete.add(() => {
+        surveyInstance.onComplete.add(async () => {
           const result = surveyInstance.data;
-          actions.answer({ formId: "coucou", captchaResponse });
+          const {error} = await actions.answer({ formId: "coucou", captchaResponse: "blabla" });
+
+          if (error) {
+            alert("Une erreur est survenue lors de la soumission du formulaire : " + error.message);
+            console.error("Error submitting survey:", error);
+            return;
+          }
 
           console.log("Survey results:", result);
           alert("Thank you for completing the survey!");
