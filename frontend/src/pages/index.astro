@@ -24,7 +24,7 @@ const _surveySchema = JSON.stringify(surveyJson);
       const surveyInstance = new SurveyModel(surveyJson);
       surveyInstance.locale = JSON.parse(surveyJson).locale || "fr";
 
-      document.addEventListener("DOMContentLoaded", function () {
+      function renderForm() {
         surveyInstance.render(document.getElementById("surveyContainer"));
 
         surveyInstance.onComplete.add(() => {
@@ -34,6 +34,10 @@ const _surveySchema = JSON.stringify(surveyJson);
           console.log("Survey results:", result);
           alert("Thank you for completing the survey!");
         });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderForm();
       });
     </script>
   </head>
