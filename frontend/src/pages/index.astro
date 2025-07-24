@@ -1,7 +1,9 @@
 ---
 import surveyJson from "../forms/formulaire-support.json";
+import 'dotenv/config';
 
 const _surveySchema = JSON.stringify(surveyJson);
+const friendlyCaptchaSiteKey = process.env.FRIENDLY_CAPTCHA_SITE_KEY;
 ---
 
 <html lang="en">
@@ -17,6 +19,11 @@ const _surveySchema = JSON.stringify(surveyJson);
       import "survey-core";
       import "survey-core/i18n/french";
       import "survey-core/survey-core.css";
+
+      import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk"
+
+      // Re-use this SDK if you are creating multiple widgets.
+      const sdk = new FriendlyCaptchaSDK();
 
       import { actions } from "astro:actions";
 
@@ -37,12 +44,29 @@ const _surveySchema = JSON.stringify(surveyJson);
       }
 
       document.addEventListener("DOMContentLoaded", function () {
-        renderForm();
+        // HTML element that you want to mount the widget to.
+        const mount = (document.querySelector("#friendly-captcha") as HTMLElement);
+
+        // Create the widget
+        const widget = sdk.createWidget({
+          element: mount,
+          sitekey: mount.dataset.siteKey,
+        });
+        widget.addEventListener('frc:widget.complete', async (event)=> {
+          const { data } = await actions.validateCaptcha({captchaResponse : event.detail.response});
+         if (data) {
+           renderForm()
+           mount.style.display = 'none'
+         }
+        })
+
       });
     </script>
   </head>
   <body data-survey={_surveySchema}>
     <h1>Hello</h1>
+
+    <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
 
     <div id="surveyContainer"></div>
   </body>
