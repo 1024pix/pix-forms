@@ -1,0 +1,59 @@
+---
+import surveyResult from "../../mocks/form-result.json";
+import surveyJson from "../forms/formulaire-support.json";
+
+const _surveySchema = JSON.stringify(surveyJson);
+const _surveyResult = JSON.stringify(surveyResult);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <script>
+      import { SurveyModel } from "survey-js-ui";
+      import { Tabulator } from "survey-analytics/survey.analytics.tabulator";
+      import { VisualizationPanel } from "survey-analytics";
+
+      import "survey-analytics";
+
+      import "tabulator-tables/dist/css/tabulator.min.css";
+      import "survey-analytics/survey.analytics.tabulator.min.css";
+      import "survey-analytics/survey.analytics.css";
+
+      const surveyJson = document.body.getAttribute("data-survey");
+      const surveyResultJson = document.body.getAttribute("data-result");
+      const surveyInstance = new SurveyModel(surveyJson);
+      surveyInstance.locale = JSON.parse(surveyJson).locale || "fr";
+
+      const survey = new SurveyModel(surveyJson);
+
+      // Imitate an asynchronous call that loads data from a server
+      setTimeout(() => {
+        const dataFromServer = [JSON.parse(surveyResultJson)];
+        const vizPanel = new Tabulator(survey, dataFromServer);
+        vizPanel.render("surveyDashboardContainer1");
+
+        const vizPanel2 = new VisualizationPanel(
+          survey.getAllQuestions(),
+          dataFromServer,
+          {
+            allowHideQuestions: false,
+            survey: survey,
+          },
+        );
+
+        vizPanel2.render("surveyDashboardContainer2");
+      }, 10);
+    </script>
+  </head>
+  <body data-survey={_surveySchema} data-result={_surveyResult}>
+    <h1>Hello</h1>
+
+    <div id="surveyDashboardContainer1"></div>
+    <div id="surveyDashboardContainer2"></div>
+  </body>
+</html>

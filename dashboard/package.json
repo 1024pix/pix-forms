@@ -1,0 +1,26 @@
+{
+	"name": "dashboard",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"lint": "biome check",
+		"lint:fix": "biome check --write && prettier --write **/*.astro"
+	},
+	"dependencies": {
+		"@astrojs/node": "^9.3.0",
+		"astro": "^5.12.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"playwright": "^1.54.1",
+		"prettier": "^3.6.2",
+		"prettier-plugin-astro": "^0.14.1",
+		"survey-analytics": "^2.2.6",
+		"survey-core": "^2.2.6",
+		"survey-js-ui": "^2.2.6"
+	}
+}
