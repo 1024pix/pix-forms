@@ -1,27 +1,31 @@
 {
-	"locale": "fr",
-	"pages": [
-		{
-			"name": "Name",
-			"elements": [
-				{
-					"type": "text",
-					"name": "FirstName",
-					"title": {
-						"default": "default",
-						"fr": "Met ton nom"
-					}
-				},
-				{
-					"type": "text",
-					"name": "LastName",
-					"title": {
-						"default": "Enter your last name:",
-						"fr": "Met de la valeur"
-					}
-				}
-			]
-		}
-	],
-	"clearInvisibleValues": "none"
+  "schema": {
+    "locale": "fr",
+    "pages": [
+      {
+        "name": "page1",
+        "elements": [
+          {
+            "type": "text",
+            "name": "email",
+            "title": "email",
+            "description": "c'est si tu le connais"
+          },
+          {
+            "type": "text",
+            "name": "subject",
+            "title": "sujet"
+          },
+          {
+            "type": "text",
+            "name": "message",
+            "title": "message"
+          }
+        ]
+      }
+    ]
+  },
+  "formId": "formID",
+  "slug": "test-form",
+  "context": "freescout"
 }
