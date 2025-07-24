@@ -12,6 +12,8 @@
 	},
 	"dependencies": {
 		"@astrojs/node": "^9.3.0",
+		"@friendlycaptcha/sdk": "^0.1.26",
+		"@friendlycaptcha/server-sdk": "^0.1.2",
 		"astro": "^5.12.1"
 	},
 	"devDependencies": {
