@@ -1,5 +1,5 @@
 ---
-import surveyJson from "../forms/formulaire-support.json";
+import surveyJson from "../forms/test-form.json";
 import 'dotenv/config';
 
 const _surveySchema = JSON.stringify(surveyJson);
@@ -31,12 +31,13 @@ const friendlyCaptchaSiteKey = process.env.FRIENDLY_CAPTCHA_SITE_KEY;
       const surveyInstance = new SurveyModel(surveyJson);
       surveyInstance.locale = JSON.parse(surveyJson).locale || "fr";
 
-      function renderForm() {
+
+      function renderForm(captchaResponse: string) {
         surveyInstance.render(document.getElementById("surveyContainer"));
 
         surveyInstance.onComplete.add(() => {
           const result = surveyInstance.data;
-          actions.answer({ formId: "coucou" });
+          actions.answer({ formId: "coucou", captchaResponse });
 
           console.log("Survey results:", result);
           alert("Thank you for completing the survey!");
@@ -53,13 +54,9 @@ const friendlyCaptchaSiteKey = process.env.FRIENDLY_CAPTCHA_SITE_KEY;
           sitekey: mount.dataset.siteKey,
         });
         widget.addEventListener('frc:widget.complete', async (event)=> {
-          const { data } = await actions.validateCaptcha({captchaResponse : event.detail.response});
-         if (data) {
-           renderForm()
+           renderForm(event.detail.response)
            mount.style.display = 'none'
-         }
-        })
-
+        });
       });
     </script>
   </head>
