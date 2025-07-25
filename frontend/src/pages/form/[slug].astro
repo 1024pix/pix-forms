@@ -1,10 +1,14 @@
 ---
-  import surveyJson from "../forms/test-form.json";
 import 'dotenv/config';
-  import getConfigParam from "../services/config.service";
+import surveyJson from '../../forms/test-form.json';
+import getConfigParam from '../../services/config.service';
 
 const _surveySchema = JSON.stringify(surveyJson);
 const friendlyCaptchaSiteKey = getConfigParam('FRIENDLY_CAPTCHA_SITE_KEY');
+
+const params = Astro.params;
+
+export const prerender = false;
 ---
 
 <html lang="en">
@@ -69,7 +73,7 @@ const friendlyCaptchaSiteKey = getConfigParam('FRIENDLY_CAPTCHA_SITE_KEY');
     </script>
   </head>
   <body data-survey={_surveySchema}>
-    <h1>Hello</h1>
+    <h1>Formulaire {params.slug}</h1>
 
     <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
 
