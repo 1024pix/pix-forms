@@ -15,7 +15,8 @@
 		"@friendlycaptcha/sdk": "^0.1.26",
 		"@friendlycaptcha/server-sdk": "^0.1.2",
 		"astro": "^5.12.1",
-		"dotenv": "^17.2.0"
+		"dotenv": "^17.2.0",
+		"survey-creator-js": "^2.2.6"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
