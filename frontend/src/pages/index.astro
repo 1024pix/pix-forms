@@ -1,9 +1,10 @@
 ---
   import surveyJson from "../forms/test-form.json";
 import 'dotenv/config';
+  import getConfigParam from "../services/config.service";
 
 const _surveySchema = JSON.stringify(surveyJson);
-const friendlyCaptchaSiteKey = process.env.FRIENDLY_CAPTCHA_SITE_KEY;
+const friendlyCaptchaSiteKey = getConfigParam('FRIENDLY_CAPTCHA_SITE_KEY');
 ---
 
 <html lang="en">

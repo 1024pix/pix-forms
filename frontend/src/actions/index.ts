@@ -2,6 +2,7 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import 'dotenv/config';
+import getConfigParam from "../services/config.service.ts";
 
 export const server = {
   answer: defineAction({
@@ -14,8 +15,8 @@ export const server = {
 
     handler: async ({ formId, formResult, captchaResponse, context }) => {
       const frcClient = new FriendlyCaptchaClient({
-        apiKey: process.env.FRIENDLY_CAPTCHA_API_KEY,
-        sitekey: process.env.FRIENDLY_CAPTCHA_SITE_KEY,
+        apiKey: getConfigParam('FRIENDLY_CAPTCHA_API_KEY'),
+        sitekey: getConfigParam('FRIENDLY_CAPTCHA_SITE_KEY'),
       });
       const result = await frcClient.verifyCaptchaResponse(captchaResponse);
       console.log('url',`${process.env.FREESCOUT_API_URL}/api/conversations`)
@@ -29,7 +30,7 @@ export const server = {
         const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
 
         let headers = {
-          "X-FreeScout-API-Key": process.env.FREESCOUT_API_KEY,
+          "X-FreeScout-API-Key": getConfigParam('FREESCOUT_API_KEY'),
           "Content-Type": "application/json",
           "Accept": "application/json",
         }
