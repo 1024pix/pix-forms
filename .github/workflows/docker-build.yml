@@ -67,8 +67,8 @@ jobs:
             type=local,src=${{ runner.temp }}/.buildx-cache
             type=registry,ref=${{ secrets.CONTAINER_REGISTRY_SCW_INFRA_ENDPOINT }}/${{ steps.vars.outputs.repo_name }}:latest
           cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache-new,mode=max
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./
+          file: ./Dockerfile
           platforms: linux/amd64
           provenance: false
             
