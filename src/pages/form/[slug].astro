@@ -2,7 +2,7 @@
 import "dotenv/config";
 import getConfigParam from "../../services/config.service";
 
-const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY");
+const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true);
 
 const params = Astro.params;
 
@@ -54,10 +54,8 @@ export const prerender = false;
         surveyInstance.onComplete.add(async () => {
           const result = surveyInstance.data;
           const { error } = await actions.answer({
-            formId: surveyJson.formId,
             formResult: result,
             captchaResponse,
-            context: surveyJson.context,
           });
 
           if (error) {
@@ -79,6 +77,11 @@ export const prerender = false;
         const mount = document.querySelector(
           "#friendly-captcha",
         ) as HTMLElement;
+
+        if (mount.dataset.siteKey === undefined) {
+          renderForm("");
+          return;
+        }
 
         // Create the widget
         const widget = sdk.createWidget({
