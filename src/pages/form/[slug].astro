@@ -1,12 +1,13 @@
 ---
 import "dotenv/config";
-import surveyJson from "../../forms/test-form.json";
 import getConfigParam from "../../services/config.service";
 
-const _surveySchema = JSON.stringify(surveyJson);
 const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY");
 
 const params = Astro.params;
+const surveyJson = await import(`../../forms/${params.slug}.json`);
+
+const _surveySchema = JSON.stringify(surveyJson);
 
 export const prerender = false;
 ---
@@ -36,9 +37,9 @@ export const prerender = false;
 
       const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
 
-      const surveyInstance = new SurveyModel(surveyJson.schema);
+      const surveyInstance = new SurveyModel(surveyJson);
       surveyInstance.applyTheme(SharpLightPanelless);
-      surveyInstance.locale = surveyJson.schema.locale || "fr";
+      surveyInstance.locale = surveyJson?.locale || "fr";
 
       function renderForm(captchaResponse: string) {
         surveyInstance.render(document.getElementById("surveyContainer"));
