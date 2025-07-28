@@ -25,6 +25,11 @@
 				},
 				{
 					"type": "text",
+					"name": "customer_id1",
+					"title": "siret"
+				},
+				{
+					"type": "text",
 					"name": "subject",
 					"title": "Objet",
 					"isRequired": true

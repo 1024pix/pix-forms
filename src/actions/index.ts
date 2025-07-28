@@ -55,20 +55,66 @@ export const server = {
 							text: formResult.message,
 							type: "custom",
 							customer: {
-								email: formResult.email,
+								email: formResult.customer_email,
 							},
 						},
 					],
 				};
+
+				let response;
 				try {
-					await fetch(url, {
+					response = await fetch(url, {
 						method: "POST",
 						headers: headers,
 						body: JSON.stringify(body),
 					});
+
 				} catch (e) {
 					console.log(e);
 				}
+
+				// update customer
+
+
+				const customerId = (await response.json())?.customer?.id
+
+				if(!customerId) {
+					console.log('pas de customer à update')
+					return
+				}
+				const customerFields = []
+
+				for (let [key, value] of Object.entries(formResult)) {
+					const regex = /customer_id(\d+)/g
+					const customFieldRegexResult = [...key.matchAll(regex)]
+					if(customFieldRegexResult.length) {
+						const [_, customerFieldId] = customFieldRegexResult[0]
+						customerFields.push({
+							id: customerFieldId,
+							value
+						})
+					}
+				}
+
+				if(!customerFields.length) {
+					console.log('pas de customerFields à update')
+					return
+				}
+				const updateUrl = new URL(
+					`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}/customer_fields`,
+				);
+				const updateBody = JSON.stringify({customerFields})
+
+				try {
+					await fetch(updateUrl, {
+						method: "PUT",
+						headers: headers,
+						body: updateBody,
+					});
+				} catch (e) {
+					console.log(e)
+				}
+
 			}
 
 			console.log(`Form submitted`);
