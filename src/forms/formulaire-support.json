@@ -203,5 +203,7 @@
 	},
 	"widthMode": "responsive",
 	"gridLayoutEnabled": true,
-	"headerView": "advanced"
+	"headerView": "advanced",
+	"saveToFreescout": true,
+	"internalComment": "test"
 }

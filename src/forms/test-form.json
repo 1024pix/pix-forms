@@ -1,26 +1,28 @@
 {
-  "locale": "fr",
-  "pages": [
-    {
-      "name": "page1",
-      "elements": [
-        {
-          "type": "text",
-          "name": "email",
-          "title": "email",
-          "description": "c'est si tu le connais"
-        },
-        {
-          "type": "text",
-          "name": "subject",
-          "title": "sujet"
-        },
-        {
-          "type": "text",
-          "name": "message",
-          "title": "message"
-        }
-      ]
-    }
-  ]
+	"locale": "fr",
+	"pages": [
+		{
+			"name": "page1",
+			"elements": [
+				{
+					"type": "text",
+					"name": "email",
+					"title": "email",
+					"description": "c'est si tu le connais"
+				},
+				{
+					"type": "text",
+					"name": "subject",
+					"title": "sujet"
+				},
+				{
+					"type": "text",
+					"name": "message",
+					"title": "message"
+				}
+			]
+		}
+	],
+	"saveToFreescout": true,
+	"internalComment": "test"
 }
