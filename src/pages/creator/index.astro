@@ -68,22 +68,31 @@
         visibleIndex: 0,
       });
       Serializer.addProperty("survey", {
+        name: "freescoutMailboxId",
+        type: "number",
+        category: "pixCustomCategory",
+        visibleIf: (obj) => {
+          return obj.saveToFreescout;
+        },
+        visibleIndex: 1,
+      });
+      Serializer.addProperty("survey", {
         name: "saveUserId",
         type: "boolean",
         category: "pixCustomCategory",
-        visibleIndex: 0,
+        visibleIndex: 2,
       });
       Serializer.addProperty("survey", {
         name: "saveExternalUserId",
         type: "boolean",
         category: "pixCustomCategory",
-        visibleIndex: 0,
+        visibleIndex: 2,
       });
       Serializer.addProperty("survey", {
         name: "internalComment",
         type: "text",
         category: "pixCustomCategory",
-        visibleIndex: 0,
+        visibleIndex: 2,
       });
 
       // Specify a title for the custom category in the Property Grid

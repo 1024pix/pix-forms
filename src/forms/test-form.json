@@ -37,6 +37,7 @@
 			]
 		}
 	],
+	"freescoutMailboxId": 3,
 	"saveToFreescout": true,
 	"internalComment": "test"
 }

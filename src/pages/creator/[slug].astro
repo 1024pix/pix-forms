@@ -1,117 +1,135 @@
 ---
-const params = Astro.params;
-
-let _surveySchema = null;
-try {
-  const surveyJson = await import(`../../forms/${params.slug}.json`);
-
-  _surveySchema = JSON.stringify(surveyJson);
-} catch (error) {
-  console.error("Error loading survey JSON:", error);
-  return new Response(null, { status: 404 });
-}
-
-export const prerender = false;
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <!doctype html>
 <html>
-  <head>
-    <title>Survey Creator / Form Builder</title>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
+<head>
+  <title>Survey Creator / Form Builder</title>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
 
-    <script>
-      import { SurveyCreator } from "survey-creator-js";
-      import "survey-core";
-      import "survey-core/i18n/french";
-      import "survey-creator-core/i18n/french";
+  <script>
+    import { SurveyCreator } from "survey-creator-js";
+    import "survey-core";
+    import "survey-core/i18n/french";
+    import "survey-creator-core/i18n/french";
 
-      import { SharpLightPanelless } from "survey-core/themes";
+    import { SharpLightPanelless } from "survey-core/themes";
 
-      import "survey-core/survey-core.css";
-      import "survey-creator-core/survey-creator-core.css";
+    import "survey-core/survey-core.css";
+    import "survey-creator-core/survey-creator-core.css";
 
-      import { surveyLocalization } from "survey-core";
+    import { surveyLocalization } from "survey-core";
 
-      import { getLocaleStrings } from "survey-creator-core";
-      surveyLocalization.supportedLocales = ["en", "fr"];
-      surveyLocalization.defaultLocale = "fr";
+    import { getLocaleStrings } from "survey-creator-core";
+    surveyLocalization.supportedLocales = ["en", "fr"];
+    surveyLocalization.defaultLocale = "fr";
 
-      const creatorOptions = {
-        autoSaveEnabled: true,
-        collapseOnDrag: true,
-        showTranslationTab: true,
-      };
+    const creatorOptions = {
+      autoSaveEnabled: true,
+      collapseOnDrag: true,
+      showTranslationTab: true,
+    };
 
-      const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
+    const defaultJson = {
+      pages: [
+        {
+          name: "Name",
+          elements: [
+            {
+              name: "FirstName",
+              title: "Enter your first name:",
+              type: "text",
+            },
+            {
+              name: "LastName",
+              title: "Enter your last name:",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    };
 
-      const creator = new SurveyCreator(creatorOptions);
-      creator.applyTheme(SharpLightPanelless);
+    const creator = new SurveyCreator(creatorOptions);
+    creator.applyTheme(SharpLightPanelless);
 
-      import { Serializer, SvgRegistry } from "survey-core";
+    import { Serializer, SvgRegistry } from "survey-core";
 
-      // Add a property to the Survey class
-      Serializer.addProperty("survey", {
-        name: "saveToFreescout",
-        type: "boolean",
-        category: "pixCustomCategory",
-        visibleIndex: 0,
-      });
-      Serializer.addProperty("survey", {
-        name: "saveUserId",
-        type: "boolean",
-        category: "pixCustomCategory",
-        visibleIndex: 0,
-      });
-      Serializer.addProperty("survey", {
-        name: "saveExternalUserId",
-        type: "boolean",
-        category: "pixCustomCategory",
-        visibleIndex: 0,
-      });
-      Serializer.addProperty("survey", {
-        name: "internalComment",
-        type: "text",
-        category: "pixCustomCategory",
-        visibleIndex: 0,
-      });
+    // Add a property to the Survey class
+    Serializer.addProperty("survey", {
+      name: "saveToFreescout",
+      type: "boolean",
+      category: "pixCustomCategory",
+      visibleIndex: 0,
+    });
+    Serializer.addProperty("survey", {
+      name: "freescoutMailboxId",
+      type: "number",
+      category: "pixCustomCategory",
+      visibleIf: (obj) => {
+        return obj.saveToFreescout;
+      },
+      visibleIndex: 1,
+    });
+    Serializer.addProperty("survey", {
+      name: "saveUserId",
+      type: "boolean",
+      category: "pixCustomCategory",
+      visibleIndex: 2,
+    });
+    Serializer.addProperty("survey", {
+      name: "saveExternalUserId",
+      type: "boolean",
+      category: "pixCustomCategory",
+      visibleIndex: 2,
+    });
+    Serializer.addProperty("survey", {
+      name: "internalComment",
+      type: "text",
+      category: "pixCustomCategory",
+      visibleIndex: 2,
+    });
 
-      // Specify a title for the custom category in the Property Grid
-      const translations = getLocaleStrings("en");
-      translations.pe.tabs.pixCustomCategory = "Pix Custom Settings";
+    // Specify a title for the custom category in the Property Grid
+    const translations = getLocaleStrings("en");
+    translations.pe.tabs.pixCustomCategory = "Pix Custom Settings";
 
-      // Register an icon for the custom category in the Property Grid
-      const pixIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="198" data-ember-extension="1" viewBox="0 0 240 198"><title>6. logos/logos--pix/couleur</title><defs><linearGradient id="a" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient><linearGradient id="b" x1="68.643%" x2="68.643%" y1="0%" y2="100%"><stop offset="0%" stop-color="#ffbe00"/><stop offset="100%" stop-color="#ff9f00"/></linearGradient><linearGradient id="c" x1="50%" x2="50%" y1="0%" y2="73.049%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient><linearGradient id="d" x1="50%" x2="50%" y1="28.362%" y2="100%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient></defs><g fill="none" fill-rule="evenodd"><path fill="url(#a)" d="m42.555 61.426 3.097-3.758c2.756-3.178 4.715-6.246 5.876-9.27l23.577 28.787c4.279 5.483 4.075 6.499-3.057 6.499h-2.445c-7.132 0-9.781-1.422-14.06-6.5zm0-39.159L55.543 6.509c4.279-5.078 6.928-6.5 14.06-6.5h2.445c7.132 0 7.336 1.016 3.057 6.5L51.528 35.294c-1.161-3.022-3.12-6.091-5.876-9.269z" transform="translate(143 58.5)"/><path fill="url(#b)" d="M41.866 83.684c7.131 0 7.335-1.016 3.056-6.5L20.47 47.33c-1.834-2.234-2.853-4.062-2.853-5.484 0-1.624 1.019-3.452 2.853-5.483L44.922 6.51c4.28-5.484 4.075-6.5-3.056-6.5H39.42c-7.132 0-9.78 1.422-14.06 6.5L6.613 29.255c-7.947 9.139-7.947 16.044 0 25.183L25.36 77.185c4.28 5.077 6.928 6.499 14.06 6.499z" transform="matrix(-1 0 0 1 191.414 58.5)"/><path fill="url(#c)" d="M17 168.22c0 6.063 1.521 7.58 7.605 7.58h2.028c6.083 0 7.604-1.517 7.604-7.58v-35.202c4.563 7.242 12.844 10.948 24.843 10.948 23.49 0 35.15-12.296 35.15-36.718V92.594c0-24.423-12.505-35.876-38.7-35.876-24.335 0-38.53 11.79-38.53 35.876zm59.824-60.636c0 14.148-4.732 20.044-21.124 20.044-16.73 0-21.463-6.064-21.463-20.044V93.1c0-14.148 5.07-20.212 21.463-20.212 16.73 0 21.124 6.064 21.124 20.212z"/><path fill="url(#d)" d="M110.486 134.402c0 6.063 1.52 7.58 7.605 7.58h2.196c6.084 0 7.605-1.517 7.605-7.58V66.018c0-6.063-1.52-7.579-7.605-7.579h-2.196c-6.084 0-7.605 1.516-7.605 7.58zm1.183-94.153c4.225 4.042 10.984 4.042 15.04 0 4.225-4.211 4.225-10.948 0-14.99-4.056-4.212-10.815-4.212-15.04 0-4.225 4.042-4.225 10.779 0 14.99"/></g></svg>`;
-      SvgRegistry.registerIcon("pix-icon", pixIcon);
+    // Register an icon for the custom category in the Property Grid
+    const pixIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="198" data-ember-extension="1" viewBox="0 0 240 198"><title>6. logos/logos--pix/couleur</title><defs><linearGradient id="a" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient><linearGradient id="b" x1="68.643%" x2="68.643%" y1="0%" y2="100%"><stop offset="0%" stop-color="#ffbe00"/><stop offset="100%" stop-color="#ff9f00"/></linearGradient><linearGradient id="c" x1="50%" x2="50%" y1="0%" y2="73.049%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient><linearGradient id="d" x1="50%" x2="50%" y1="28.362%" y2="100%"><stop offset="0%" stop-color="#12a3ff"/><stop offset="100%" stop-color="#3d68ff"/></linearGradient></defs><g fill="none" fill-rule="evenodd"><path fill="url(#a)" d="m42.555 61.426 3.097-3.758c2.756-3.178 4.715-6.246 5.876-9.27l23.577 28.787c4.279 5.483 4.075 6.499-3.057 6.499h-2.445c-7.132 0-9.781-1.422-14.06-6.5zm0-39.159L55.543 6.509c4.279-5.078 6.928-6.5 14.06-6.5h2.445c7.132 0 7.336 1.016 3.057 6.5L51.528 35.294c-1.161-3.022-3.12-6.091-5.876-9.269z" transform="translate(143 58.5)"/><path fill="url(#b)" d="M41.866 83.684c7.131 0 7.335-1.016 3.056-6.5L20.47 47.33c-1.834-2.234-2.853-4.062-2.853-5.484 0-1.624 1.019-3.452 2.853-5.483L44.922 6.51c4.28-5.484 4.075-6.5-3.056-6.5H39.42c-7.132 0-9.78 1.422-14.06 6.5L6.613 29.255c-7.947 9.139-7.947 16.044 0 25.183L25.36 77.185c4.28 5.077 6.928 6.499 14.06 6.499z" transform="matrix(-1 0 0 1 191.414 58.5)"/><path fill="url(#c)" d="M17 168.22c0 6.063 1.521 7.58 7.605 7.58h2.028c6.083 0 7.604-1.517 7.604-7.58v-35.202c4.563 7.242 12.844 10.948 24.843 10.948 23.49 0 35.15-12.296 35.15-36.718V92.594c0-24.423-12.505-35.876-38.7-35.876-24.335 0-38.53 11.79-38.53 35.876zm59.824-60.636c0 14.148-4.732 20.044-21.124 20.044-16.73 0-21.463-6.064-21.463-20.044V93.1c0-14.148 5.07-20.212 21.463-20.212 16.73 0 21.124 6.064 21.124 20.212z"/><path fill="url(#d)" d="M110.486 134.402c0 6.063 1.52 7.58 7.605 7.58h2.196c6.084 0 7.605-1.517 7.605-7.58V66.018c0-6.063-1.52-7.579-7.605-7.579h-2.196c-6.084 0-7.605 1.516-7.605 7.58zm1.183-94.153c4.225 4.042 10.984 4.042 15.04 0 4.225-4.211 4.225-10.948 0-14.99-4.056-4.212-10.815-4.212-15.04 0-4.225 4.042-4.225 10.779 0 14.99"/></g></svg>`;
+    SvgRegistry.registerIcon("pix-icon", pixIcon);
 
-      creator.locale = "fr";
-      creator.text = JSON.stringify(surveyJson);
-      creator.saveSurveyFunc = (saveNo, callback) => {
-        // ToDo save server side
-        callback(saveNo, true);
-      };
+    creator.locale = "fr";
+    creator.text =
+      window.localStorage.getItem("survey-json") ||
+      JSON.stringify(defaultJson);
+    creator.saveSurveyFunc = (saveNo, callback) => {
+      window.localStorage.setItem("survey-json", creator.text);
+      callback(saveNo, true);
+    };
 
-      creator.onSurveyInstanceCreated.add((_, options) => {
-        // Assign the icon to the custom category
-        if (options.area === "property-grid") {
-          const choicesCategory =
-            options.survey.getPageByName("pixCustomCategory");
-          if (choicesCategory) {
-            choicesCategory.iconName = "pix-icon";
-          }
+    creator.onSurveyInstanceCreated.add((_, options) => {
+      // Assign the icon to the custom category
+      if (options.area === "property-grid") {
+        const choicesCategory =
+          options.survey.getPageByName("pixCustomCategory");
+        if (choicesCategory) {
+          choicesCategory.iconName = "pix-icon";
         }
-      });
+      }
+    });
 
-      document.addEventListener("DOMContentLoaded", function () {
-        creator.render(document.getElementById("surveyCreator"));
-        creator.activatePropertyGridCategory("pixCustomCategory");
-      });
-    </script>
-  </head>
-  <body data-survey={_surveySchema} style="margin: 0;">
-    <div id="surveyCreator" style="height: 100vh;"></div>
-  </body>
+    document.addEventListener("DOMContentLoaded", function () {
+      creator.render(document.getElementById("surveyCreator"));
+      creator.activatePropertyGridCategory("pixCustomCategory");
+    });
+  </script>
+</head>
+<body style="margin: 0;">
+<div id="surveyCreator" style="height: 100vh;"></div>
+</body>
 </html>

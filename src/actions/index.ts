@@ -10,9 +10,10 @@ export const server = {
 			formResult: z.any(),
 			captchaResponse: z.string(),
 			saveToFreescout: z.boolean().optional(),
+			freescoutMailboxId: z.number().optional(),
 		}),
 
-		handler: async ({  formResult, captchaResponse, saveToFreescout }) => {
+		handler: async ({  formResult, captchaResponse, saveToFreescout, freescoutMailboxId }) => {
       const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true);
       if (friendlyCaptchaSiteKey) {
 				console.log("Friendly Captcha site key is not set. Skipping captcha verification.");
@@ -41,7 +42,7 @@ export const server = {
 				};
 				const body = {
 					type: "email",
-					mailboxId: 3,
+					mailboxId: freescoutMailboxId,
 
 					subject: formResult.subject,
 					customer: {
