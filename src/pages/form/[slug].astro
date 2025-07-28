@@ -25,7 +25,9 @@ export const prerender = false;
       import "survey-core/i18n/french";
       import "survey-core/survey-core.css";
 
-      import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk"
+      import { SharpLightPanelless } from "survey-core/themes";
+
+      import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
       // Re-use this SDK if you are creating multiple widgets.
       const sdk = new FriendlyCaptchaSDK();
@@ -35,6 +37,7 @@ export const prerender = false;
       const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
 
       const surveyInstance = new SurveyModel(surveyJson.schema);
+      surveyInstance.applyTheme(SharpLightPanelless);
       surveyInstance.locale = surveyJson.schema.locale || "fr";
 
 

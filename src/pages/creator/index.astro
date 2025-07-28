@@ -18,6 +18,8 @@
       import "survey-core/i18n/french";
       import "survey-creator-core/i18n/french";
 
+      import { SharpLightPanelless } from "survey-core/themes";
+
       import "survey-core/survey-core.css";
       import "survey-creator-core/survey-creator-core.css";
 
@@ -52,6 +54,8 @@
       };
 
       const creator = new SurveyCreator(creatorOptions);
+      creator.applyTheme(SharpLightPanelless);
+
       creator.locale = "fr";
       creator.text =
         window.localStorage.getItem("survey-json") ||
