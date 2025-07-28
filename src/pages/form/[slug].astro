@@ -5,9 +5,16 @@ import getConfigParam from "../../services/config.service";
 const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY");
 
 const params = Astro.params;
-const surveyJson = await import(`../../forms/${params.slug}.json`);
 
-const _surveySchema = JSON.stringify(surveyJson);
+let _surveySchema = null;
+try {
+  const surveyJson = await import(`../../forms/${params.slug}.json`);
+
+  _surveySchema = JSON.stringify(surveyJson);
+} catch (error) {
+  console.error("Error loading survey JSON:", error);
+  return new Response(null, { status: 404 });
+}
 
 export const prerender = false;
 ---
