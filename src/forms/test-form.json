@@ -6,19 +6,33 @@
 			"elements": [
 				{
 					"type": "text",
-					"name": "email",
-					"title": "email",
-					"description": "c'est si tu le connais"
+					"name": "customer_firstname",
+					"title": "Prénom",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_lastname",
+					"title": "Nom de famille",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_email",
+					"title": "Adresse e-mail",
+					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "subject",
-					"title": "sujet"
+					"title": "Objet",
+					"isRequired": true
 				},
 				{
-					"type": "text",
+					"type": "comment",
 					"name": "message",
-					"title": "message"
+					"title": "Message",
+					"isRequired": true
 				}
 			]
 		}

@@ -9,9 +9,10 @@ export const server = {
 		input: z.object({
 			formResult: z.any(),
 			captchaResponse: z.string(),
+			saveToFreescout: z.boolean().optional(),
 		}),
 
-		handler: async ({  formResult, captchaResponse }) => {
+		handler: async ({  formResult, captchaResponse, saveToFreescout }) => {
       const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true);
       if (friendlyCaptchaSiteKey) {
 				console.log("Friendly Captcha site key is not set. Skipping captcha verification.");
@@ -28,7 +29,7 @@ export const server = {
         }
       }
 
-			if (true) {
+			if (saveToFreescout) {
 				const url = new URL(
 					`${process.env.FREESCOUT_API_URL}/api/conversations`,
 				);
@@ -44,7 +45,9 @@ export const server = {
 
 					subject: formResult.subject,
 					customer: {
-						email: formResult.email,
+						email: formResult.customer_email,
+						firstName: formResult.customer_firstname,
+						lastName: formResult.customer_lastname,
 					},
 					threads: [
 						{
