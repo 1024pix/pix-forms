@@ -1,10 +1,10 @@
 ---
-import 'dotenv/config';
-import surveyJson from '../../forms/test-form.json';
-import getConfigParam from '../../services/config.service';
+import "dotenv/config";
+import surveyJson from "../../forms/test-form.json";
+import getConfigParam from "../../services/config.service";
 
 const _surveySchema = JSON.stringify(surveyJson);
-const friendlyCaptchaSiteKey = getConfigParam('FRIENDLY_CAPTCHA_SITE_KEY');
+const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY");
 
 const params = Astro.params;
 
@@ -40,16 +40,23 @@ export const prerender = false;
       surveyInstance.applyTheme(SharpLightPanelless);
       surveyInstance.locale = surveyJson.schema.locale || "fr";
 
-
       function renderForm(captchaResponse: string) {
         surveyInstance.render(document.getElementById("surveyContainer"));
-        console.log(surveyJson.context )
+        console.log(surveyJson.context);
         surveyInstance.onComplete.add(async () => {
           const result = surveyInstance.data;
-          const {error} = await actions.answer({ formId: surveyJson.formId, formResult: result, captchaResponse, context: surveyJson.context });
+          const { error } = await actions.answer({
+            formId: surveyJson.formId,
+            formResult: result,
+            captchaResponse,
+            context: surveyJson.context,
+          });
 
           if (error) {
-            alert("Une erreur est survenue lors de la soumission du formulaire : " + error.message);
+            alert(
+              "Une erreur est survenue lors de la soumission du formulaire : " +
+                error.message,
+            );
             console.error("Error submitting survey:", error);
             return;
           }
@@ -61,16 +68,18 @@ export const prerender = false;
 
       document.addEventListener("DOMContentLoaded", function () {
         // HTML element that you want to mount the widget to.
-        const mount = (document.querySelector("#friendly-captcha") as HTMLElement);
+        const mount = document.querySelector(
+          "#friendly-captcha",
+        ) as HTMLElement;
 
         // Create the widget
         const widget = sdk.createWidget({
           element: mount,
           sitekey: mount.dataset.siteKey,
         });
-        widget.addEventListener('frc:widget.complete', async (event)=> {
-           renderForm(event.detail.response)
-           mount.style.display = 'none'
+        widget.addEventListener("frc:widget.complete", async (event) => {
+          renderForm(event.detail.response);
+          mount.style.display = "none";
         });
       });
     </script>
