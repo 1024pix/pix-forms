@@ -8,20 +8,19 @@
 				{
 					"type": "text",
 					"name": "customer_firstname",
-					"title": "Prénom",
-					"isRequired": true
+					"title": "Prénom"
 				},
 				{
 					"type": "text",
 					"name": "customer_lastname",
-					"title": "Nom de famille",
-					"isRequired": true
+					"title": "Nom de famille"
 				},
 				{
 					"type": "text",
 					"name": "customer_email",
 					"title": "Adresse e-mail",
-					"isRequired": true
+					"isRequired": true,
+					"defaultValue": "i@i.fr"
 				},
 				{
 					"type": "text",
@@ -31,14 +30,17 @@
 				{
 					"type": "text",
 					"name": "subject",
-					"title": "Objet",
-					"isRequired": true
+					"title": "Objet"
 				},
 				{
 					"type": "comment",
 					"name": "message",
-					"title": "Message",
-					"isRequired": true
+					"title": "Message"
+				},
+				{
+					"type": "file",
+					"name": "attachments",
+					"title": "envoie de fichier"
 				}
 			]
 		}

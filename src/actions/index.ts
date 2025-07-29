@@ -29,7 +29,6 @@ export const server = {
           );
         }
       }
-
 			if (saveToFreescout) {
 				const url = new URL(
 					`${process.env.FREESCOUT_API_URL}/api/conversations`,
@@ -57,6 +56,7 @@ export const server = {
 							customer: {
 								email: formResult.customer_email,
 							},
+							attachments: formResult.attachments .map(formatAttachment)
 						},
 					],
 				};
@@ -121,3 +121,11 @@ export const server = {
 		},
 	}),
 };
+
+function formatAttachment({name, type, content}) {
+	return {
+			fileName: name,
+			mimeType: type,
+			data: content.split('base64,')[1]
+		}
+}
