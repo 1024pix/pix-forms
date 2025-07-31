@@ -1,7 +1,7 @@
 export default function getConfigParam(key: string, optional = false) {
-	const param = process.env[key];
+	const param = process.env[key] || "";
 
-	if (param === undefined && !optional) {
+	if (param === "" && !optional) {
 		throw new Error(`Configuration parameter ${key} is not set.`);
 	}
 
