@@ -40,6 +40,26 @@ const formsWithSlugsAsProperties = Object.entries(forms).map(([path, form]) => {
           </tr>
         </thead>
         <tbody>
+        <tr>
+            <td>
+              Nouveau formulaire
+            </td>
+            <td class="text-end">
+              <a
+                class="btn btn-primary btn-sm"
+                href=/creator/continue
+              >
+                Edit
+              </a>
+              <a
+                id="new-survey-button"
+                class="btn btn-primary btn-sm"
+                href=/creator/new
+              >
+                  Créer
+              </a>
+            </td>
+        </tr>
           {
             formsWithSlugsAsProperties.map((form) => (
               <tr>
@@ -67,4 +87,49 @@ const formsWithSlugsAsProperties = Object.entries(forms).map(([path, form]) => {
       </table>
     </div>
   </body>
+  <script>
+      const button = document.querySelector('#new-survey-button');
+      button.addEventListener('click', ()=> {
+        const defaultJson = {
+          pages: [
+            {
+              name: "Name",
+              elements: [
+                {
+                  type: "text",
+                  name: "customer_firstname",
+                  title: "Prénom",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "customer_lastname",
+                  title: "Nom de famille",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "customer_email",
+                  title: "Adresse e-mail",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "subject",
+                  title: "Objet",
+                  isRequired: true,
+                },
+                {
+                  type: "comment",
+                  name: "message",
+                  title: "Message",
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        };
+        window.localStorage.setItem("survey-json", JSON.stringify(defaultJson))
+      })
+  </script>
 </html>

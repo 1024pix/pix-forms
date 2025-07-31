@@ -2,9 +2,12 @@
 const params = Astro.params;
 
 let _surveySchema = null;
+
 try {
-	const surveyJson = await import(`../../forms/${params.slug}.json`);
-	_surveySchema = JSON.stringify(surveyJson);
+  if (!['new', 'continue'].includes(params.slug)) {
+    const surveyJson = await import(`../../forms/${params.slug}.json`);
+    _surveySchema = JSON.stringify(surveyJson);
+  }
 } catch (error) {
 	console.error("Error loading survey JSON:", error);
 	return new Response(null, { status: 404 });
@@ -43,26 +46,6 @@ export const prerender = false;
       autoSaveEnabled: true,
       collapseOnDrag: true,
       showTranslationTab: true,
-    };
-
-    const defaultJson = {
-      pages: [
-        {
-          name: "Name",
-          elements: [
-            {
-              name: "FirstName",
-              title: "Enter your first name:",
-              type: "text",
-            },
-            {
-              name: "LastName",
-              title: "Enter your last name:",
-              type: "text",
-            },
-          ],
-        },
-      ],
     };
 
     const creator = new SurveyCreator(creatorOptions);
@@ -115,9 +98,7 @@ export const prerender = false;
     SvgRegistry.registerIcon("pix-icon", pixIcon);
 
     creator.locale = "fr";
-    creator.text =
-      window.localStorage.getItem("survey-json") ||
-      JSON.stringify(defaultJson);
+
     creator.saveSurveyFunc = (saveNo, callback) => {
       window.localStorage.setItem("survey-json", creator.text);
       callback(saveNo, true);
@@ -135,7 +116,9 @@ export const prerender = false;
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-      creator.render(document.getElementById("surveyCreator"));
+     const surveyCreator = document.querySelector("#surveyCreator");
+      creator.text = surveyCreator.dataset.survey ?? window.localStorage.getItem("survey-json");
+      creator.render(surveyCreator);
       creator.activatePropertyGridCategory("pixCustomCategory");
     });
 
@@ -147,7 +130,7 @@ export const prerender = false;
     }
   </script>
 </head>
-<body style="margin: 0;">
-<div id="surveyCreator" style="height: 100vh;"></div>
+<body style="margin: 0;" >
+<div id="surveyCreator" style="height: 100vh;" data-survey={_surveySchema}></div>
 </body>
 </html>
