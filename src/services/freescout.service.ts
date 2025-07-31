@@ -58,15 +58,40 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 		throw new Error(JSON.stringify(result));
 	}
 
-	const customerId = result?.customer?.id;
-	await updateCustomerFields(customerId, formResult);
+	const { id: customerId, lastName, firstName } = result?.customer;
+	await updateCustomerAndFields(customerId, firstName, lastName, formResult)
 }
 
-async function updateCustomerFields(customerId: number, formResult: FormResult) {
+async function updateCustomerAndFields(customerId: number, firstName: string, lastName: string, formResult: FormResult) {
 	if (!customerId) {
 		console.log("pas de customer à update");
 		return;
 	}
+	await updateCustomer(customerId, firstName, lastName, formResult);
+	await updateCustomerFields(customerId, formResult);
+}
+
+async function updateCustomer(customerId: number, firstName: string, lastName: string, formResult: FormResult) {
+	if(firstName === formResult.customer_firstname && lastName === formResult.customer_lastname) {
+		return
+	}
+	const updateUrl = new URL(
+		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}`,
+	);
+
+	const body = JSON.stringify({
+		firstName: formResult.customer_firstname,
+		lastName: formResult.customer_lastname,
+	});
+
+	await fetch(updateUrl, {
+		method: "PUT",
+		headers,
+		body,
+	});
+}
+
+async function updateCustomerFields(customerId: number, formResult: FormResult) {
 	const customerFields = [];
 
 	for (const [key, value] of Object.entries(formResult)) {
@@ -88,12 +113,12 @@ async function updateCustomerFields(customerId: number, formResult: FormResult) 
 	const updateUrl = new URL(
 		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}/customer_fields`,
 	);
-	const updateBody = JSON.stringify({ customerFields });
+	const body = JSON.stringify({ customerFields });
 
 	await fetch(updateUrl, {
 		method: "PUT",
 		headers,
-		body: updateBody,
+		body,
 	});
 }
 
