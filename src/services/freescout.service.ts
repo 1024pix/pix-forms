@@ -42,7 +42,7 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 				customer: {
 					email: formResult.customer_email,
 				},
-				attachments: formResult.attachments.map(formatAttachment),
+				attachments: formResult.attachments?.map(formatAttachment),
 			},
 		],
 	};
