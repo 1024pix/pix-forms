@@ -1,6 +1,16 @@
 ---
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const params = Astro.params;
+
+let _surveySchema = null;
+try {
+	const surveyJson = await import(`../../forms/${params.slug}.json`);
+	_surveySchema = JSON.stringify(surveyJson);
+} catch (error) {
+	console.error("Error loading survey JSON:", error);
+	return new Response(null, { status: 404 });
+}
+
+export const prerender = false;
 ---
 
 <!doctype html>
