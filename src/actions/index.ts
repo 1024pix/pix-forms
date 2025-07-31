@@ -40,9 +40,9 @@ export const server = {
 					);
 				}
 			}
-			if (saveToFreescout) {
+			if (saveToFreescout && freescoutMailboxId) {
 				try {
-					await sendForm({ formResult, freescoutMailboxId });
+					await sendForm(formResult, freescoutMailboxId);
 				} catch (e) {
 					console.log(e);
 				}

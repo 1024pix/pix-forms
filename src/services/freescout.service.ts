@@ -1,17 +1,34 @@
 import getConfigParam from "./config.service.ts";
 
-export async function sendForm({ formResult, freescoutMailboxId }) {
+
+type Attachement = {
+	name: string;
+	type: string;
+	content: string; // base64 encoded content
+};
+
+type FormResult = {
+	customer_email: string;
+	customer_firstname: string;
+	customer_lastname: string;
+	subject: string;
+	message: string;
+	attachments: Attachement[];
+	[key: string]: string | number | Attachement[];
+}
+
+const headers = {
+	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+	"Content-Type": "application/json",
+	Accept: "application/json",
+};
+
+export async function sendForm( formResult: FormResult, freescoutMailboxId: number ) {
 	const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
 
-	const headers = {
-		"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-		"Content-Type": "application/json",
-		Accept: "application/json",
-	};
 	const body = {
 		type: "email",
 		mailboxId: freescoutMailboxId,
-
 		subject: formResult.subject,
 		customer: {
 			email: formResult.customer_email,
@@ -32,16 +49,15 @@ export async function sendForm({ formResult, freescoutMailboxId }) {
 
 	const response = await fetch(url, {
 		method: "POST",
-		headers: headers,
+		headers,
 		body: JSON.stringify(body),
 	});
 
 	const customerId = (await response.json())?.customer?.id;
-
-	await updateCustomer({ customerId, headers, formResult });
+	await updateCustomer(customerId, formResult);
 }
 
-async function updateCustomer({ customerId, headers, formResult }) {
+async function updateCustomer(customerId: number, formResult: FormResult) {
 	if (!customerId) {
 		console.log("pas de customer à update");
 		return;
@@ -71,12 +87,12 @@ async function updateCustomer({ customerId, headers, formResult }) {
 
 	await fetch(updateUrl, {
 		method: "PUT",
-		headers: headers,
+		headers,
 		body: updateBody,
 	});
 }
 
-function formatAttachment({ name, type, content }) {
+function formatAttachment({ name, type, content }: Attachement) {
 	const data = content.split("base64,")[1];
 	return {
 		fileName: name,
