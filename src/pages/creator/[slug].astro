@@ -35,7 +35,7 @@ export const prerender = false;
 
     import { surveyLocalization } from "survey-core";
 
-    import { getLocaleStrings } from "survey-creator-core";
+    import {getLocaleStrings, PropertyGridEditorCollection} from "survey-creator-core";
     surveyLocalization.supportedLocales = ["en", "fr"];
     surveyLocalization.defaultLocale = "fr";
 
@@ -69,6 +69,7 @@ export const prerender = false;
     creator.applyTheme(SharpLightPanelless);
 
     import { Serializer, SvgRegistry } from "survey-core";
+    import initQuill from "../../quill";
 
     // Add a property to the Survey class
     Serializer.addProperty("survey", {
@@ -137,6 +138,13 @@ export const prerender = false;
       creator.render(document.getElementById("surveyCreator"));
       creator.activatePropertyGridCategory("pixCustomCategory");
     });
+
+    /** RICH TEXT EDITOR WIDGET */
+
+    const componentName = "quill";
+    if (!Serializer.findClass(componentName)) {
+      initQuill(creator, componentName);
+    }
   </script>
 </head>
 <body style="margin: 0;">
