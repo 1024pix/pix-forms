@@ -24,7 +24,7 @@
 				},
 				{
 					"type": "text",
-					"name": "customer_id1",
+					"name": "customer_field_1",
 					"title": "siret"
 				},
 				{

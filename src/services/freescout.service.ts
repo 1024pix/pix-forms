@@ -53,11 +53,16 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 		body: JSON.stringify(body),
 	});
 
-	const customerId = (await response.json())?.customer?.id;
-	await updateCustomer(customerId, formResult);
+	const result = await response.json();
+	if (result.message === 'Error occurred') {
+		throw new Error(JSON.stringify(result));
+	}
+
+	const customerId = result?.customer?.id;
+	await updateCustomerFields(customerId, formResult);
 }
 
-async function updateCustomer(customerId: number, formResult: FormResult) {
+async function updateCustomerFields(customerId: number, formResult: FormResult) {
 	if (!customerId) {
 		console.log("pas de customer à update");
 		return;
@@ -65,10 +70,10 @@ async function updateCustomer(customerId: number, formResult: FormResult) {
 	const customerFields = [];
 
 	for (const [key, value] of Object.entries(formResult)) {
-		const regex = /customer_id(\d+)/g;
-		const customFieldRegexResult = [...key.matchAll(regex)];
-		if (customFieldRegexResult.length) {
-			const [_, customerFieldId] = customFieldRegexResult[0];
+		const regex = /customer_field_(\d+)/g;
+		const customerFieldRegexResult = [...key.matchAll(regex)];
+		if (customerFieldRegexResult.length) {
+			const [_, customerFieldId] = customerFieldRegexResult[0];
 			customerFields.push({
 				id: customerFieldId,
 				value,
