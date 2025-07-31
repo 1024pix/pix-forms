@@ -25,9 +25,6 @@ export const server = {
 				true,
 			);
 			if (friendlyCaptchaSiteKey) {
-				console.log(
-					"Friendly Captcha site key is not set. Skipping captcha verification.",
-				);
 				const frcClient = new FriendlyCaptchaClient({
 					apiKey: getConfigParam("FRIENDLY_CAPTCHA_API_KEY", true),
 					sitekey: friendlyCaptchaSiteKey,
@@ -39,6 +36,10 @@ export const server = {
 						`Le captcha n'a pas été validé (code erreur ${result.response?.error.detail}. Veuillez réessayer.`,
 					);
 				}
+			} else {
+				console.log(
+					"Friendly Captcha site key is not set. Skipping captcha verification.",
+				);
 			}
 			if (saveToFreescout && freescoutMailboxId) {
 				try {

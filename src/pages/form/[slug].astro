@@ -80,7 +80,7 @@ export const prerender = false;
           "#friendly-captcha",
         ) as HTMLElement;
 
-        if (mount.dataset.siteKey === undefined) {
+        if (mount.dataset.siteKey === '') {
           renderForm("");
           return;
         }
