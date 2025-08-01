@@ -59,10 +59,20 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 	}
 
 	const { id: customerId, lastName, firstName } = result?.customer;
-	await updateCustomerAndFields(customerId, firstName, lastName, formResult)
+	await updateCustomerAndCustomerFields(
+		customerId,
+		firstName,
+		lastName,
+		formResult,
+	);
 }
 
-async function updateCustomerAndFields(customerId: number, firstName: string, lastName: string, formResult: FormResult) {
+async function updateCustomerAndCustomerFields(
+	customerId: number,
+	firstName: string,
+	lastName: string,
+	formResult: FormResult,
+) {
 	if (!customerId) {
 		console.log("pas de customer à update");
 		return;
