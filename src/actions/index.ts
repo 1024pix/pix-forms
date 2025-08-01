@@ -5,7 +5,7 @@ import "dotenv/config";
 import nodemailer from "nodemailer";
 import { processBase64Attachement } from "../services/attachements.ts";
 import getConfigParam from "../services/config.service.ts";
-import { sendForm } from "../services/freescout.service.ts";
+import { createConversation } from "../services/freescout.service.ts";
 
 export const server = {
 	answer: defineAction({
@@ -55,7 +55,7 @@ export const server = {
 
 			if (saveToFreescout && freescoutMailboxId) {
 				try {
-					await sendForm(formResult, freescoutMailboxId);
+					await createConversation(formResult, freescoutMailboxId);
 				} catch (e) {
 					console.log(e);
 				}

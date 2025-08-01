@@ -23,7 +23,7 @@ const headers = {
 	Accept: "application/json",
 };
 
-export async function sendForm( formResult: FormResult, freescoutMailboxId: number ) {
+export async function createConversation(formResult: FormResult, freescoutMailboxId: number ) {
 	const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
 
 	const body = {
@@ -35,6 +35,7 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 			firstName: formResult.customer_firstname,
 			lastName: formResult.customer_lastname,
 		},
+		customFields: _extractCustomFields(formResult, "custom_field_"),
 		threads: [
 			{
 				text: formResult.message,
@@ -57,6 +58,8 @@ export async function sendForm( formResult: FormResult, freescoutMailboxId: numb
 	if (result.message === 'Error occurred') {
 		throw new Error(JSON.stringify(result));
 	}
+
+	console.log(`Conversation #${result.id} created`);
 
 	const { id: customerId, lastName, firstName } = result?.customer;
 	await updateCustomerAndCustomerFields(
@@ -139,7 +142,7 @@ function _extractCustomFields(
 	return Object.entries(formResult)
 		.map(([key, value]) => {
 			if (key.startsWith(customFieldPrefix)) {
-				const customerFieldId = key.replace("customer_field_", "");
+				const customerFieldId = Number(key.replace(customFieldPrefix, ""));
 				return { id: customerFieldId, value };
 			}
 			return null;
