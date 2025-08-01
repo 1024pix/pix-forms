@@ -19,7 +19,19 @@ try {
 export const prerender = false;
 ---
 
-<html lang="en">
+<style>
+  .captcha {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 50px;
+  }
+</style>
+
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -91,13 +103,17 @@ export const prerender = false;
         });
         widget.addEventListener("frc:widget.complete", async (event) => {
           renderForm(event.detail.response);
-          mount.style.display = "none";
+          (mount.parentElement as HTMLDivElement).style.display = "none";
         });
       });
     </script>
   </head>
   <body data-form-slug={slug} data-survey={_surveySchema}>
-    <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
+    <div class="captcha">
+      <h1>{form.title}</h1>
+      <p>Pour accéder au formulaire, cochez la case :</p>
+      <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
+    </div>
 
     <div id="surveyContainer"></div>
   </body>
