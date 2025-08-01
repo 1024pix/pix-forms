@@ -6,11 +6,11 @@ const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true)
 
 const { slug } = Astro.params;
 
+let form;
 let _surveySchema = null;
 try {
-  const surveyJson = await import(`../../forms/${slug}.json`);
-
-	_surveySchema = JSON.stringify(surveyJson);
+  form = await import(`../../forms/${slug}.json`);
+	_surveySchema = JSON.stringify(form);
 } catch (error) {
 	console.error("Error loading survey JSON:", error);
 	return new Response(null, { status: 404 });
@@ -25,6 +25,8 @@ export const prerender = false;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+
+    <title>{form.title}</title>
 
     <script>
       import { SurveyModel } from "survey-js-ui";
