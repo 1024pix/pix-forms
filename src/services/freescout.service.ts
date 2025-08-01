@@ -101,15 +101,11 @@ async function updateCustomer(customerId: number, firstName: string, lastName: s
 	});
 }
 
-async function updateCustomerFields(customerId: number, formResult: FormResult) {
-
-	const customerFields = Object.entries(formResult).map(([key, value]) => {
-		if (key.startsWith("customer_field_")) {
-			const customerFieldId = key.replace("customer_field_", "");
-			return {id: customerFieldId, value };
-		}
-		return null;
-	}).filter(field => field !== null);
+async function updateCustomerFields(
+	customerId: number,
+	formResult: FormResult,
+) {
+	const customerFields = _extractCustomFields(formResult, "customer_field_");
 
 	if (!customerFields.length) {
 		console.log("pas de customerFields à update");
@@ -134,4 +130,19 @@ function formatAttachment({ name, type, content }: Attachement) {
 		mimeType: type,
 		data: processBase64Attachement(content),
 	};
+}
+
+function _extractCustomFields(
+	formResult: FormResult,
+	customFieldPrefix: string,
+) {
+	return Object.entries(formResult)
+		.map(([key, value]) => {
+			if (key.startsWith(customFieldPrefix)) {
+				const customerFieldId = key.replace("customer_field_", "");
+				return { id: customerFieldId, value };
+			}
+			return null;
+		})
+		.filter((field) => field !== null);
 }
