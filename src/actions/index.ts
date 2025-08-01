@@ -3,6 +3,9 @@ import { z } from "astro:schema";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import "dotenv/config";
 import nodemailer from "nodemailer";
+import { processBase64Attachement } from "../services/attachements.ts";
+import getConfigParam from "../services/config.service.ts";
+import { sendForm } from "../services/freescout.service.ts";
 
 export const server = {
 	answer: defineAction({
@@ -90,14 +93,14 @@ export const server = {
 					attachments: [],
 				};
 
-        if (formResult.attachments && formResult.attachments.length > 0) {
-        	email.attachments = formResult.attachments.map((attachment: any) => {
-            const { data } = formatAttachment(attachment);
-            return {
-              filename: attachment.name,
-              content: data,
-              encoding: "base64",
-            }
+				if (formResult.attachments && formResult.attachments.length > 0) {
+					email.attachments = formResult.attachments.map((attachment: any) => {
+						return {
+							filename: attachment.name,
+							content: processBase64Attachement(attachment.content),
+							contentType: attachment.type,
+							encoding: "base64",
+						};
 					});
 				}
 
@@ -106,16 +109,7 @@ export const server = {
 				console.log("Message sent:", info.messageId);
 			}
 
-      console.log(`Form submitted`);
-    },
-  }),
+			console.log(`Form submitted`);
+		},
+	}),
 };
-
-function formatAttachment({ name, type, content }) {
-  const data = content.split("base64,")[1];
-  return {
-    fileName: name,
-    mimeType: type,
-    data,
-  };
-}

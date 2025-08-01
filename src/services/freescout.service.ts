@@ -1,5 +1,5 @@
 import getConfigParam from "./config.service.ts";
-
+import {processBase64Attachement} from "./attachements.ts";
 
 type Attachement = {
 	name: string;
@@ -123,10 +123,9 @@ async function updateCustomerFields(customerId: number, formResult: FormResult) 
 }
 
 function formatAttachment({ name, type, content }: Attachement) {
-	const data = content.split("base64,")[1];
 	return {
 		fileName: name,
 		mimeType: type,
-		data,
+		data: processBase64Attachement(content),
 	};
 }
