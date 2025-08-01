@@ -26,7 +26,7 @@
 				{
 					"type": "text",
 					"name": "customer_field_1",
-					"title": "siret"
+					"title": "SIRET"
 				},
 				{
 					"type": "text",
@@ -43,7 +43,7 @@
 				{
 					"type": "file",
 					"name": "attachments",
-					"title": "envoie de fichier"
+					"title": "Pièce jointe"
 				}
 			]
 		}
