@@ -4,11 +4,11 @@ import getConfigParam from "../../services/config.service";
 
 const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true);
 
-const params = Astro.params;
+const { slug } = Astro.params;
 
 let _surveySchema = null;
 try {
-	const surveyJson = await import(`../../forms/${params.slug}.json`);
+  const surveyJson = await import(`../../forms/${slug}.json`);
 
 	_surveySchema = JSON.stringify(surveyJson);
 } catch (error) {
@@ -50,14 +50,12 @@ export const prerender = false;
 
       function renderForm(captchaResponse: string) {
         surveyInstance.render(document.getElementById("surveyContainer"));
-        console.log(surveyJson.context);
         surveyInstance.onComplete.add(async () => {
           const result = surveyInstance.data;
           const { error } = await actions.answer({
+            formSlug: document.body.getAttribute("data-form-slug") || "",
             formResult: result,
             captchaResponse,
-            saveToFreescout: surveyJson.saveToFreescout,
-            freescoutMailboxId: surveyJson.freescoutMailboxId,
           });
 
           if (error) {
@@ -97,8 +95,8 @@ export const prerender = false;
       });
     </script>
   </head>
-  <body data-survey={_surveySchema}>
-    <h1>Formulaire {params.slug}</h1>
+  <body data-form-slug={slug} data-survey={_surveySchema}>
+    <h1>Formulaire {slug}</h1>
 
     <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
 

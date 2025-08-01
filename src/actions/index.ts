@@ -8,18 +8,27 @@ import { sendForm } from "../services/freescout.service.ts";
 export const server = {
 	answer: defineAction({
 		input: z.object({
+			formSlug: z.string(),
 			formResult: z.any(),
 			captchaResponse: z.string(),
-			saveToFreescout: z.boolean().optional(),
-			freescoutMailboxId: z.number().optional(),
 		}),
 
 		handler: async ({
+			formSlug,
 			formResult,
 			captchaResponse,
-			saveToFreescout,
-			freescoutMailboxId,
 		}) => {
+
+			let schema = null;
+			try {
+				schema = await import(`../forms/${formSlug}.json`);
+			} catch (error: any) {
+				console.error(error);
+				throw new Error("Error loading survey JSON:", error);
+			}
+
+			const { saveToFreescout, freescoutMailboxId } = schema;
+
 			const friendlyCaptchaSiteKey = getConfigParam(
 				"FRIENDLY_CAPTCHA_SITE_KEY",
 				true,
