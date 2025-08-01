@@ -102,24 +102,20 @@ async function updateCustomer(customerId: number, firstName: string, lastName: s
 }
 
 async function updateCustomerFields(customerId: number, formResult: FormResult) {
-	const customerFields = [];
 
-	for (const [key, value] of Object.entries(formResult)) {
-		const regex = /customer_field_(\d+)/g;
-		const customerFieldRegexResult = [...key.matchAll(regex)];
-		if (customerFieldRegexResult.length) {
-			const [_, customerFieldId] = customerFieldRegexResult[0];
-			customerFields.push({
-				id: customerFieldId,
-				value,
-			});
+	const customerFields = Object.entries(formResult).map(([key, value]) => {
+		if (key.startsWith("customer_field_")) {
+			const customerFieldId = key.replace("customer_field_", "");
+			return {id: customerFieldId, value };
 		}
-	}
+		return null;
+	}).filter(field => field !== null);
 
 	if (!customerFields.length) {
 		console.log("pas de customerFields à update");
 		return;
 	}
+
 	const updateUrl = new URL(
 		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}/customer_fields`,
 	);
