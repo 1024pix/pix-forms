@@ -2,8 +2,7 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import "dotenv/config";
-import getConfigParam from "../services/config.service.ts";
-import { sendForm } from "../services/freescout.service.ts";
+import nodemailer from "nodemailer";
 
 export const server = {
 	answer: defineAction({
@@ -13,12 +12,7 @@ export const server = {
 			captchaResponse: z.string(),
 		}),
 
-		handler: async ({
-			formSlug,
-			formResult,
-			captchaResponse,
-		}) => {
-
+		handler: async ({ formSlug, formResult, captchaResponse }) => {
 			let schema = null;
 			try {
 				schema = await import(`../forms/${formSlug}.json`);
@@ -27,7 +21,12 @@ export const server = {
 				throw new Error("Error loading survey JSON:", error);
 			}
 
-			const { saveToFreescout, freescoutMailboxId } = schema;
+			const {
+				saveToFreescout,
+				freescoutMailboxId,
+				sendByEmail,
+				emailRecipientAddress,
+			} = schema;
 
 			const friendlyCaptchaSiteKey = getConfigParam(
 				"FRIENDLY_CAPTCHA_SITE_KEY",
@@ -50,6 +49,7 @@ export const server = {
 					"Friendly Captcha site key is not set. Skipping captcha verification.",
 				);
 			}
+
 			if (saveToFreescout && freescoutMailboxId) {
 				try {
 					await sendForm(formResult, freescoutMailboxId);
@@ -58,7 +58,64 @@ export const server = {
 				}
 			}
 
-			console.log(`Form submitted`);
-		},
-	}),
+			if (sendByEmail && emailRecipientAddress) {
+				const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
+				const subject = formResult.subject;
+
+				const transporter = nodemailer.createTransport({
+					host: getConfigParam("SMTP_HOST"),
+					port: getConfigParam("SMTP_PORT"),
+					secure: getConfigParam("SMTP_SECURE") === "true",
+					auth: {
+						user: getConfigParam("SMTP_USER"),
+						pass: getConfigParam("SMTP_PASS"),
+					},
+				});
+
+				const message = Object.entries(formResult)
+					.map(([key, value]) => {
+						if (key !== "attachments") {
+							return `<strong>${key}</strong><br> ${value}`;
+						}
+						return null;
+					})
+					.join("<br><br>");
+
+				const email = {
+					from: sender,
+					replyTo: formResult.customer_email,
+					to: emailRecipientAddress,
+					subject,
+					html: message.replace(/\n/g, "<br>"),
+					attachments: [],
+				};
+
+        if (formResult.attachments && formResult.attachments.length > 0) {
+        	email.attachments = formResult.attachments.map((attachment: any) => {
+            const { data } = formatAttachment(attachment);
+            return {
+              filename: attachment.name,
+              content: data,
+              encoding: "base64",
+            }
+					});
+				}
+
+				const info = await transporter.sendMail(email);
+
+				console.log("Message sent:", info.messageId);
+			}
+
+      console.log(`Form submitted`);
+    },
+  }),
 };
+
+function formatAttachment({ name, type, content }) {
+  const data = content.split("base64,")[1];
+  return {
+    fileName: name,
+    mimeType: type,
+    data,
+  };
+}

@@ -1,6 +1,5 @@
 {
 	"title": "Formulaire de test",
-	"locale": "fr",
 	"pages": [
 		{
 			"name": "page1",
@@ -8,19 +7,21 @@
 				{
 					"type": "text",
 					"name": "customer_firstname",
-					"title": "Prénom"
+					"title": "Prénom",
+					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_lastname",
-					"title": "Nom de famille"
+					"title": "Nom de famille",
+					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_email",
 					"title": "Adresse e-mail",
-					"isRequired": true,
-					"defaultValue": "i@i.fr"
+					"defaultValue": "i@i.fr",
+					"isRequired": true
 				},
 				{
 					"type": "text",
@@ -30,12 +31,14 @@
 				{
 					"type": "text",
 					"name": "subject",
-					"title": "Objet"
+					"title": "Objet",
+					"isRequired": true
 				},
 				{
 					"type": "comment",
 					"name": "message",
-					"title": "Message"
+					"title": "Message",
+					"isRequired": true
 				},
 				{
 					"type": "file",
@@ -45,7 +48,9 @@
 			]
 		}
 	],
-	"freescoutMailboxId": 3,
 	"saveToFreescout": true,
+	"freescoutMailboxId": 3,
+	"sendByEmail": true,
+	"emailRecipientAddress": "support@example.org",
 	"internalComment": "test"
 }
