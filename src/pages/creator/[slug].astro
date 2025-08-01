@@ -70,23 +70,28 @@ export const prerender = false;
       },
       visibleIndex: 1,
     });
+
     Serializer.addProperty("survey", {
-      name: "saveUserId",
+      name: "sendByEmail",
       type: "boolean",
       category: "pixCustomCategory",
       visibleIndex: 2,
     });
     Serializer.addProperty("survey", {
-      name: "saveExternalUserId",
-      type: "boolean",
+      name: "emailRecipientAddress",
+      type: "email",
       category: "pixCustomCategory",
-      visibleIndex: 2,
+      visibleIf: (obj) => {
+        return obj.sendByEmail;
+      },
+      visibleIndex: 3,
     });
+
     Serializer.addProperty("survey", {
       name: "internalComment",
       type: "text",
       category: "pixCustomCategory",
-      visibleIndex: 2,
+      visibleIndex: 6,
     });
 
     // Specify a title for the custom category in the Property Grid
