@@ -3,6 +3,7 @@ import { z } from "astro:schema";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import "dotenv/config";
 import nodemailer from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { processBase64Attachement } from "../services/attachements.ts";
 import getConfigParam from "../services/config.service.ts";
 import { createConversation } from "../services/freescout.service.ts";
@@ -35,16 +36,18 @@ export const server = {
 				"FRIENDLY_CAPTCHA_SITE_KEY",
 				true,
 			);
+
 			if (friendlyCaptchaSiteKey) {
 				const frcClient = new FriendlyCaptchaClient({
 					apiKey: getConfigParam("FRIENDLY_CAPTCHA_API_KEY", true),
 					sitekey: friendlyCaptchaSiteKey,
 				});
+
 				const result = await frcClient.verifyCaptchaResponse(captchaResponse);
 
 				if (result.shouldReject()) {
 					throw new Error(
-						`Le captcha n'a pas été validé (code erreur ${result.response?.error.detail}. Veuillez réessayer.`,
+						"Le captcha n'a pas été validé. Veuillez réessayer.",
 					);
 				}
 			} else {
@@ -65,15 +68,17 @@ export const server = {
 				const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
 				const subject = formResult.subject;
 
-				const transporter = nodemailer.createTransport({
+				const smtpOptions: SMTPTransport.Options = {
 					host: getConfigParam("SMTP_HOST"),
-					port: getConfigParam("SMTP_PORT"),
+					port: Number(getConfigParam("SMTP_PORT")),
 					secure: getConfigParam("SMTP_SECURE") === "true",
 					auth: {
 						user: getConfigParam("SMTP_USER"),
 						pass: getConfigParam("SMTP_PASS"),
 					},
-				});
+				};
+
+				const transporter = nodemailer.createTransport(smtpOptions);
 
 				const message = Object.entries(formResult)
 					.map(([key, value]) => {
