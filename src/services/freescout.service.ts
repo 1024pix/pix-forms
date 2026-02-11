@@ -17,11 +17,11 @@ type FormResult = {
 	[key: string]: string | number | Attachement[];
 }
 
-const headers = {
-	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-	"Content-Type": "application/json",
-	Accept: "application/json",
-};
+const getHeaders = () => ({
+    "X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+    "Content-Type": "application/json",
+    Accept: "application/json",
+});
 
 export async function createConversation(formResult: FormResult, freescoutMailboxId: number ) {
 	const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
@@ -50,7 +50,7 @@ export async function createConversation(formResult: FormResult, freescoutMailbo
 
 	const response = await fetch(url, {
 		method: "POST",
-		headers,
+		headers: getHeaders(),
 		body: JSON.stringify(body),
 	});
 
@@ -99,7 +99,7 @@ async function updateCustomer(customerId: number, firstName: string, lastName: s
 
 	await fetch(updateUrl, {
 		method: "PUT",
-		headers,
+		headers: getHeaders(),
 		body,
 	});
 }
@@ -122,7 +122,7 @@ async function updateCustomerFields(
 
 	await fetch(updateUrl, {
 		method: "PUT",
-		headers,
+		headers: getHeaders(),
 		body,
 	});
 }

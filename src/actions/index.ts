@@ -58,13 +58,13 @@ export const server = {
 				);
 			}
 
-			if (saveToFreescout && freescoutMailboxId) {
-				try {
-					await createConversation(formResult, freescoutMailboxId);
-				} catch (e) {
-					console.log(e);
-				}
-			}
+      if (saveToFreescout && freescoutMailboxId) {
+        try {
+          await createConversation(formResult, freescoutMailboxId);
+        } catch (e) {
+          console.log(e);
+        }
+      }
 
 			if (sendByEmail && emailRecipientAddress) {
 				const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
