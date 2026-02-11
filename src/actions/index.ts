@@ -6,7 +6,6 @@ import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { processBase64Attachement } from "../services/attachements.ts";
 import getConfigParam from "../services/config.service.ts";
-import { createConversation } from "../services/freescout.service.ts";
 
 export const server = {
 	answer: defineAction({
@@ -56,13 +55,17 @@ export const server = {
 				);
 			}
 
-			if (saveToFreescout && freescoutMailboxId) {
-				try {
-					await createConversation(formResult, freescoutMailboxId);
-				} catch (e) {
-					console.log(e);
-				}
-			}
+      if (saveToFreescout && freescoutMailboxId) {
+        try {
+          const { createConversation } = await import(
+            "../services/freescout.service.ts"
+          );
+
+          await createConversation(formResult, freescoutMailboxId);
+        } catch (e) {
+          console.log(e);
+        }
+      }
 
 			if (sendByEmail && emailRecipientAddress) {
 				const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
