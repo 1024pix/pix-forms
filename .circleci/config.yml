@@ -1,0 +1,25 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:24.14.0
+    resource_class: small
+
+jobs:
+  build-and-test:
+    executor: node
+    working_directory: ~/pix-forms
+    steps:
+      - checkout:
+          path: ~/pix-forms
+      - run: npm ci
+      - run: npm run lint
+      - run:
+          name: Test
+          command: npm run test
+
+workflows:
+  build-and-test:
+    jobs:
+      - build-and-test
