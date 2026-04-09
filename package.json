@@ -11,12 +11,12 @@
 		"lint:fix": "biome check --write && prettier --write **/*.astro"
 	},
 	"dependencies": {
-		"@astrojs/node": "^9.3.0",
+		"@astrojs/node": "^10.0.4",
 		"@friendlycaptcha/sdk": "^0.1.26",
 		"@friendlycaptcha/server-sdk": "^0.1.2",
-		"astro": "^5.12.1",
+		"astro": "^6.1.5",
 		"dotenv": "^17.2.0",
-		"nodemailer": "^7.0.5",
+		"nodemailer": "^8.0.5",
 		"quill": "^2.0.3",
 		"survey-analytics": "^2.2.6",
 		"survey-creator-js": "^2.2.6"
