@@ -81,7 +81,7 @@ export default function initQuill(
 
 	// Register `quill` as an editor for properties of the `text` and `html` types in the Survey Creator's Property Grid
 	PropertyGridEditorCollection.register({
-		fit: (prop) => prop.type == "text" || prop.type == "html",
+		fit: (prop) => prop.type === "text" || prop.type === "html",
 		getJSON: () => ({ type: "quill" }),
 	});
 }

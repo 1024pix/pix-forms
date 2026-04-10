@@ -2,14 +2,17 @@
 import "dotenv/config";
 import getConfigParam from "../../services/config.service";
 
-const friendlyCaptchaSiteKey = getConfigParam("FRIENDLY_CAPTCHA_SITE_KEY", true);
+const friendlyCaptchaSiteKey = getConfigParam(
+	"FRIENDLY_CAPTCHA_SITE_KEY",
+	true,
+);
 
 const { slug } = Astro.params;
 
-let form;
+let form = null;
 let _surveySchema = null;
 try {
-  form = await import(`../../forms/${slug}.json`);
+	form = await import(`../../forms/${slug}.json`);
 	_surveySchema = JSON.stringify(form);
 } catch (error) {
 	console.error("Error loading survey JSON:", error);
@@ -95,7 +98,7 @@ export const prerender = false;
           "#friendly-captcha",
         ) as HTMLElement;
 
-        if (mount.dataset.siteKey === '') {
+        if (mount.dataset.siteKey === "") {
           renderForm("");
           return;
         }

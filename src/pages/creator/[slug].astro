@@ -4,10 +4,10 @@ const params = Astro.params;
 let _surveySchema = null;
 
 try {
-  if (!['new', 'continue'].includes(params.slug)) {
-    const surveyJson = await import(`../../forms/${params.slug}.json`);
-    _surveySchema = JSON.stringify(surveyJson);
-  }
+	if (!["new", "continue"].includes(params.slug)) {
+		const surveyJson = await import(`../../forms/${params.slug}.json`);
+		_surveySchema = JSON.stringify(surveyJson);
+	}
 } catch (error) {
 	console.error("Error loading survey JSON:", error);
 	return new Response(null, { status: 404 });
