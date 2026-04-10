@@ -2,7 +2,7 @@
 import { getViteConfig } from "astro/config";
 
 export default getViteConfig({
-  test: {
-    // Options de configuration Vitest
-  },
+	test: {
+		// Options de configuration Vitest
+	},
 });

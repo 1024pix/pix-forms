@@ -1,12 +1,12 @@
 ---
 const forms = import.meta.glob("../../forms/*.json", {
-  eager: true,
-  import: "default",
+	eager: true,
+	import: "default",
 });
 
 const formsWithSlugsAsProperties = Object.entries(forms).map(([path, form]) => {
-  const slug = path.replace("../../forms/", "").replace(".json", "");
-  return { ...form, slug };
+	const slug = path.replace("../../forms/", "").replace(".json", "");
+	return { ...form, slug };
 });
 ---
 

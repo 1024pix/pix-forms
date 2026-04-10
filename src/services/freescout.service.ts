@@ -1,5 +1,5 @@
+import { processBase64Attachement } from "./attachements.ts";
 import getConfigParam from "./config.service.ts";
-import {processBase64Attachement} from "./attachements.ts";
 
 type Attachement = {
 	name: string;
@@ -15,15 +15,18 @@ type FormResult = {
 	message: string;
 	attachments: Attachement[];
 	[key: string]: string | number | Attachement[];
-}
+};
 
 const getHeaders = () => ({
-    "X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-    "Content-Type": "application/json",
-    Accept: "application/json",
+	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+	"Content-Type": "application/json",
+	Accept: "application/json",
 });
 
-export async function createConversation(formResult: FormResult, freescoutMailboxId: number ) {
+export async function createConversation(
+	formResult: FormResult,
+	freescoutMailboxId: number,
+) {
 	const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
 
 	const body = {
@@ -55,13 +58,13 @@ export async function createConversation(formResult: FormResult, freescoutMailbo
 	});
 
 	const result = await response.json();
-	if (result.message === 'Error occurred') {
+	if (result.message === "Error occurred") {
 		throw new Error(JSON.stringify(result));
 	}
 
 	console.log(`Conversation #${result.id} created`);
-
-	const { id: customerId, lastName, firstName } = result?.customer;
+	if (!result) return;
+	const { id: customerId, lastName, firstName } = result.customer;
 	await updateCustomerAndCustomerFields(
 		customerId,
 		firstName,
@@ -84,9 +87,17 @@ async function updateCustomerAndCustomerFields(
 	await updateCustomerFields(customerId, formResult);
 }
 
-async function updateCustomer(customerId: number, firstName: string, lastName: string, formResult: FormResult) {
-	if(firstName === formResult.customer_firstname && lastName === formResult.customer_lastname) {
-		return
+async function updateCustomer(
+	customerId: number,
+	firstName: string,
+	lastName: string,
+	formResult: FormResult,
+) {
+	if (
+		firstName === formResult.customer_firstname &&
+		lastName === formResult.customer_lastname
+	) {
+		return;
 	}
 	const updateUrl = new URL(
 		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}`,
