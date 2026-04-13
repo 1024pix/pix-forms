@@ -1,47 +1,39 @@
-# Astro Starter Kit: Minimal
+# Pix-forms
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Pix-forms est une application Astro qui permet de créer et d'éditer des formulaires en utilisant la librairie SurveyJS.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Installation
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Prérequis
 
-## 🚀 Project Structure
+Vous devez au préalable avoir correctement installé les logiciels suivants :
 
-Inside of your Astro project, you'll see the following folders and files:
+- [Node.js](https://nodejs.org/fr) (version utilisée disponible dans les fichiers .nvmrc) il est recommandé d'utiliser un gestionnaire de versions tel que nvm
+- [Docker](https://docs.docker.com/get-started/)
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Assurez-vous aussi de ne pas avoir de processus écoutant sur les ports
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- 4321 (Astro App)
+- 1025 (serveur SMPT)
+- 8025 (interface web Mailpit pour le serveur SMPT)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Commandes
 
-Any static assets, like images, can be placed in the `public/` directory.
+Les commandes à lancer depuis un terminal, à la racine du projet:
 
-## 🧞 Commands
+| Command                   | Action                                                              |
+| :------------------------ | :------------------------------------------------------------------ |
+| `npm install`             | Installer les dépendances                                           |
+| `docker compose up -d`    | Installer l'image et lancer le conteneur Docker                     |
+| `npm run dev`             | Lancer le serveur de développement local `localhost:4321`           |
+| `npm run test`            | Lancer les tests                                                    |
+| `npm run lint`            | Lancer la vérification du linter biome                              |
+| `npm run lint:fix`        | Lancer la vérification du linter biome et la correction automatique |
+| `npm run build`           | Construire le build de production dans `./dist/`                    |
+| `npm run preview`         | Visionner le build localement avant de déployer                     |
+| `npm run astro ...`       | Lancer des commandes CLI comme `astro add`, `astro check`           |
+| `npm run astro -- --help` | Obetnir de l'aide sur Astro CLI                                     |
 
-All commands are run from the root of the project, from a terminal:
+### Serveur de mail
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Un serveur SMPT est mis en place avec Mailpit sur le port 1025. Une interface web pour visualiser les mails envoyés est disponible sur le port 8025: http://localhost:8025/ (nécessite d'avoir lancé le conteneur Docker)
