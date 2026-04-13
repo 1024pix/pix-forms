@@ -1,0 +1,7 @@
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: pix-forms-smtp-server
+    ports:
+      - "${PIX_MAILPIT_WEB_PORT:-1025}:1025"
+      - "${PIX_MAILPIT_SMTP_PORT:-8025}:8025"
