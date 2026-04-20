@@ -37,3 +37,16 @@ Les commandes à lancer depuis un terminal, à la racine du projet:
 ### Serveur de mail
 
 Un serveur SMPT est mis en place avec Mailpit sur le port 1025. Une interface web pour visualiser les mails envoyés est disponible sur le port 8025: http://localhost:8025/ (nécessite d'avoir lancé le conteneur Docker)
+
+### Déploiement
+
+#### Recette
+Chaque merge sur la branche main va lancer la github action `docker-main.yml` qui va: 
+- Builder une image docker avec une version `rc-XXX`
+- Déployer l'image sur l'environnement kube de recette
+
+#### Production
+Pour pouvoir déployer une version en production, il faut créer une nouvelle release (via github). 
+La création de la release va lancer la github action `docker-release.yml` qui va:
+- Builder une image docker avec pour numéro de version le tag de la release
+- Déployer l'image sur l'environnement kube de production
