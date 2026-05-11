@@ -4,7 +4,7 @@ import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import "dotenv/config";
 import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
-import { processBase64Attachement } from "../services/attachements.ts";
+import { processBase64Attachment } from "../services/attachments.service.ts";
 import getConfigParam from "../services/config.service.ts";
 import { createConversation } from "../services/freescout.service.ts";
 
@@ -104,7 +104,7 @@ export const server = {
 					email.attachments = formResult.attachments.map((attachment: any) => {
 						return {
 							filename: attachment.name,
-							content: processBase64Attachement(attachment.content),
+							content: processBase64Attachment(attachment.content),
 							contentType: attachment.type,
 							encoding: "base64",
 						};

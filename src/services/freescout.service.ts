@@ -1,4 +1,4 @@
-import { processBase64Attachement } from "./attachements.ts";
+import { processBase64Attachment } from "./attachments.service.ts";
 import getConfigParam from "./config.service.ts";
 
 type Attachement = {
@@ -144,7 +144,7 @@ export function formatAttachment({ name, type, content }: Attachement) {
   return {
     fileName: name,
     mimeType: type,
-    data: processBase64Attachement(content),
+    data: processBase64Attachment(content),
   };
 }
 
