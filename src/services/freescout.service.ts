@@ -27,7 +27,9 @@ export async function createConversation(
   formResult: FormResult,
   freescoutMailboxId: number,
 ) {
-  const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
+  const url = new URL(
+    `${getConfigParam("FREESCOUT_API_URL")}/api/conversations`,
+  );
 
   const body = {
     type: "email",
@@ -100,7 +102,7 @@ async function updateCustomer(
     return;
   }
   const updateUrl = new URL(
-    `${process.env.FREESCOUT_API_URL}/api/customers/${customerId}`,
+    `${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}`,
   );
 
   const body = JSON.stringify({
@@ -127,7 +129,7 @@ async function updateCustomerFields(
   }
 
   const updateUrl = new URL(
-    `${process.env.FREESCOUT_API_URL}/api/customers/${customerId}/customer_fields`,
+    `${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}/customer_fields`,
   );
   const body = JSON.stringify({ customerFields });
 
