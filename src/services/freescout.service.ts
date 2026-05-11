@@ -1,5 +1,5 @@
 import { processBase64Attachment } from "./attachments.service.ts";
-import getConfigParam from "./config.service.ts";
+import { getConfigParam } from "./config.service.ts";
 
 type Attachement = {
   name: string;

@@ -5,7 +5,7 @@ import "dotenv/config";
 import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { processBase64Attachment } from "../services/attachments.service.ts";
-import getConfigParam from "../services/config.service.ts";
+import { getConfigParam } from "../services/config.service.ts";
 import { createConversation } from "../services/freescout.service.ts";
 
 export const server = {

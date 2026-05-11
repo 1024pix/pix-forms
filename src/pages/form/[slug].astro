@@ -1,10 +1,10 @@
 ---
 import "dotenv/config";
-import getConfigParam from "../../services/config.service";
+import { getConfigParam } from "../../services/config.service";
 
 const friendlyCaptchaSiteKey = getConfigParam(
-	"FRIENDLY_CAPTCHA_SITE_KEY",
-	true,
+  "FRIENDLY_CAPTCHA_SITE_KEY",
+  true,
 );
 
 const { slug } = Astro.params;
@@ -12,11 +12,11 @@ const { slug } = Astro.params;
 let form = null;
 let _surveySchema = null;
 try {
-	form = await import(`../../forms/${slug}.json`);
-	_surveySchema = JSON.stringify(form);
+  form = await import(`../../forms/${slug}.json`);
+  _surveySchema = JSON.stringify(form);
 } catch (error) {
-	console.error("Error loading survey JSON:", error);
-	return new Response(null, { status: 404 });
+  console.error("Error loading survey JSON:", error);
+  return new Response(null, { status: 404 });
 }
 
 export const prerender = false;
