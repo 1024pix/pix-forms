@@ -4,13 +4,13 @@ const params = Astro.params;
 let _surveySchema = null;
 
 try {
-  if (!["new", "continue"].includes(params.slug)) {
-    const surveyJson = await import(`../../forms/${params.slug}.json`);
-    _surveySchema = JSON.stringify(surveyJson);
-  }
+	if (!["new", "continue"].includes(params.slug)) {
+		const surveyJson = await import(`../../forms/${params.slug}.json`);
+		_surveySchema = JSON.stringify(surveyJson);
+	}
 } catch (error) {
-  console.error("Error loading survey JSON:", error);
-  return new Response(null, { status: 404 });
+	console.error("Error loading survey JSON:", error);
+	return new Response(null, { status: 404 });
 }
 
 export const prerender = false;
@@ -18,126 +18,126 @@ export const prerender = false;
 
 <!doctype html>
 <html>
-  <head>
-    <title>Survey Creator / Form Builder</title>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
+	<head>
+		<title>Survey Creator / Form Builder</title>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
 
-    <script>
-      import { SurveyCreator } from "survey-creator-js";
-      import "survey-core";
-      import "survey-core/i18n/french";
-      import "survey-creator-core/i18n/french";
+		<script>
+			import { SurveyCreator } from "survey-creator-js";
+			import "survey-core";
+			import "survey-core/i18n/french";
+			import "survey-creator-core/i18n/french";
 
-      import { SharpLightPanelless } from "survey-core/themes";
+			import { SharpLightPanelless } from "survey-core/themes";
 
-      import "survey-core/survey-core.css";
-      import "survey-creator-core/survey-creator-core.css";
+			import "survey-core/survey-core.css";
+			import "survey-creator-core/survey-creator-core.css";
 
-      import { surveyLocalization } from "survey-core";
+			import { surveyLocalization } from "survey-core";
 
-      import {
-        getLocaleStrings,
-        PropertyGridEditorCollection,
-      } from "survey-creator-core";
-      surveyLocalization.supportedLocales = ["en", "fr"];
-      surveyLocalization.defaultLocale = "fr";
+			import {
+				getLocaleStrings,
+				PropertyGridEditorCollection,
+			} from "survey-creator-core";
+			surveyLocalization.supportedLocales = ["en", "fr"];
+			surveyLocalization.defaultLocale = "fr";
 
-      const creatorOptions = {
-        autoSaveEnabled: true,
-        collapseOnDrag: true,
-        showTranslationTab: true,
-      };
+			const creatorOptions = {
+				autoSaveEnabled: true,
+				collapseOnDrag: true,
+				showTranslationTab: true,
+			};
 
-      const creator = new SurveyCreator(creatorOptions);
-      creator.applyTheme(SharpLightPanelless);
+			const creator = new SurveyCreator(creatorOptions);
+			creator.applyTheme(SharpLightPanelless);
 
-      import { Serializer, SvgRegistry } from "survey-core";
-      import initQuill from "../../quill";
+			import { Serializer, SvgRegistry } from "survey-core";
+			import initQuill from "../../quill";
 
-      // Add a property to the Survey class
-      Serializer.addProperty("survey", {
-        name: "saveToFreescout",
-        type: "boolean",
-        category: "pixCustomCategory",
-        visibleIndex: 0,
-      });
-      Serializer.addProperty("survey", {
-        name: "freescoutMailboxId",
-        type: "number",
-        category: "pixCustomCategory",
-        visibleIf: (obj) => {
-          return obj.saveToFreescout;
-        },
-        visibleIndex: 1,
-      });
+			// Add a property to the Survey class
+			Serializer.addProperty("survey", {
+				name: "saveToFreescout",
+				type: "boolean",
+				category: "pixCustomCategory",
+				visibleIndex: 0,
+			});
+			Serializer.addProperty("survey", {
+				name: "freescoutMailboxId",
+				type: "number",
+				category: "pixCustomCategory",
+				visibleIf: (obj) => {
+					return obj.saveToFreescout;
+				},
+				visibleIndex: 1,
+			});
 
-      Serializer.addProperty("survey", {
-        name: "sendByEmail",
-        type: "boolean",
-        category: "pixCustomCategory",
-        visibleIndex: 2,
-      });
-      Serializer.addProperty("survey", {
-        name: "emailRecipientAddress",
-        type: "email",
-        category: "pixCustomCategory",
-        visibleIf: (obj) => {
-          return obj.sendByEmail;
-        },
-        visibleIndex: 3,
-      });
+			Serializer.addProperty("survey", {
+				name: "sendByEmail",
+				type: "boolean",
+				category: "pixCustomCategory",
+				visibleIndex: 2,
+			});
+			Serializer.addProperty("survey", {
+				name: "emailRecipientAddress",
+				type: "email",
+				category: "pixCustomCategory",
+				visibleIf: (obj) => {
+					return obj.sendByEmail;
+				},
+				visibleIndex: 3,
+			});
 
-      Serializer.addProperty("survey", {
-        name: "internalComment",
-        type: "text",
-        category: "pixCustomCategory",
-        visibleIndex: 6,
-      });
+			Serializer.addProperty("survey", {
+				name: "internalComment",
+				type: "text",
+				category: "pixCustomCategory",
+				visibleIndex: 6,
+			});
 
-      // Specify a title for the custom category in the Property Grid
-      const translations = getLocaleStrings("en");
-      translations.pe.tabs.pixCustomCategory = "Pix métadonnées";
+			// Specify a title for the custom category in the Property Grid
+			const translations = getLocaleStrings("en");
+			translations.pe.tabs.pixCustomCategory = "Pix métadonnées";
 
-      creator.locale = "fr";
+			creator.locale = "fr";
 
-      creator.saveSurveyFunc = (saveNo, callback) => {
-        window.localStorage.setItem("survey-json", creator.text);
-        callback(saveNo, true);
-      };
+			creator.saveSurveyFunc = (saveNo, callback) => {
+				window.localStorage.setItem("survey-json", creator.text);
+				callback(saveNo, true);
+			};
 
-      creator.onSurveyInstanceCreated.add((_, options) => {
-        // Assign the icon to the custom category
-        if (options.area === "property-grid") {
-          const choicesCategory =
-            options.survey.getPageByName("pixCustomCategory");
-          if (choicesCategory) {
-            choicesCategory.iconName = "icon-chevronright-16x16";
-          }
-        }
-      });
+			creator.onSurveyInstanceCreated.add((_, options) => {
+				// Assign the icon to the custom category
+				if (options.area === "property-grid") {
+					const choicesCategory =
+						options.survey.getPageByName("pixCustomCategory");
+					if (choicesCategory) {
+						choicesCategory.iconName = "icon-chevronright-16x16";
+					}
+				}
+			});
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const surveyCreator = document.querySelector("#surveyCreator");
-        creator.text =
-          surveyCreator.dataset.survey ??
-          window.localStorage.getItem("survey-json");
-        creator.render(surveyCreator);
-        creator.activatePropertyGridCategory("pixCustomCategory");
-      });
+			document.addEventListener("DOMContentLoaded", function () {
+				const surveyCreator = document.querySelector("#surveyCreator");
+				creator.text =
+					surveyCreator.dataset.survey ??
+					window.localStorage.getItem("survey-json");
+				creator.render(surveyCreator);
+				creator.activatePropertyGridCategory("pixCustomCategory");
+			});
 
-      /** RICH TEXT EDITOR WIDGET */
+			/** RICH TEXT EDITOR WIDGET */
 
-      const componentName = "quill";
-      if (!Serializer.findClass(componentName)) {
-        initQuill(creator, componentName);
-      }
-    </script>
-  </head>
-  <body style="margin: 0;">
-    <div id="surveyCreator" style="height: 100vh;" data-survey={_surveySchema}>
-    </div>
-  </body>
+			const componentName = "quill";
+			if (!Serializer.findClass(componentName)) {
+				initQuill(creator, componentName);
+			}
+		</script>
+	</head>
+	<body style="margin: 0;">
+		<div id="surveyCreator" style="height: 100vh;" data-survey={_surveySchema}>
+		</div>
+	</body>
 </html>
