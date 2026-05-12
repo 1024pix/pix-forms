@@ -1,10 +1,135 @@
 ---
+const forms = import.meta.glob("../forms/*.json", {
+	eager: true,
+	import: "default",
+});
 
+const formsWithSlugsAsProperties = Object.entries(forms).map(([path, form]) => {
+	const slug = path.replace("../forms/", "").replace(".json", "");
+	return { ...form, slug };
+});
 ---
 
-<h1>Pix Forms</h1>
+<!doctype html>
+<html>
+  <head>
+    <title>Survey Creator / Form Builder</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
 
-<ul>
-  <li><a href="/creator">Creator</a></li>
-  <li><a href="/dashboard">Dashboard</a></li>
-</ul>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css"
+      integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Pix Forms Creator</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1>Pix Forms Creator</h1>
+      <h2 class="mb-2">Formulaires</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Titre</th>
+            <th scope="col" class="text-center" style="width: 175px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+              Nouveau formulaire
+            </td>
+            <td class="text-end">
+              <a
+                class="btn btn-primary btn-sm"
+                href=/creator/continue
+              >
+                Edit
+              </a>
+              <a
+                id="new-survey-button"
+                class="btn btn-primary btn-sm"
+                href=/creator/new
+              >
+                  Créer
+              </a>
+            </td>
+        </tr>
+          {
+            formsWithSlugsAsProperties.map((form) => (
+              <tr>
+                <td>
+                  {form.title || "Formulaire sans titre"}
+                </td>
+                <td class="text-end">
+                  <a
+                    class="btn btn-primary btn-sm"
+                    href={`/form/${form.slug}`}
+                  >
+                    Afficher
+                  </a>
+                  <a
+                    class="btn btn-primary btn-sm"
+                    href={`/creator/${form.slug}`}
+                  >
+                    Modifier
+                  </a>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+      const button = document.querySelector('#new-survey-button');
+      button.addEventListener('click', ()=> {
+        const defaultJson = {
+          pages: [
+            {
+              name: "Name",
+              elements: [
+                {
+                  type: "text",
+                  name: "customer_firstname",
+                  title: "Prénom",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "customer_lastname",
+                  title: "Nom de famille",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "customer_email",
+                  title: "Adresse e-mail",
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "subject",
+                  title: "Objet",
+                  isRequired: true,
+                },
+                {
+                  type: "comment",
+                  name: "message",
+                  title: "Message",
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        };
+        window.localStorage.setItem("survey-json", JSON.stringify(defaultJson))
+      })
+  </script>
+</html>
