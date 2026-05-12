@@ -1,0 +1,22 @@
+name: Docker Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    uses: 1024pix/pix-actions/.github/workflows/docker-build.yml@main
+    with:
+      images: |
+        [
+          {
+            "name": "pix-forms",
+            "context": "./",
+            "dockerfile": "./Dockerfile"
+          }
+        ]
+    secrets:
+      REGISTRY_ENDPOINT: ${{ secrets.CONTAINER_REGISTRY_SCW_INFRA_ENDPOINT }}
+      REGISTRY_USERNAME: nologin
+      REGISTRY_TOKEN: ${{ secrets.SCW_CONTAINER_REGISTRY_INFRA_SECRET_KEY }}
