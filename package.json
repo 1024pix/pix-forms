@@ -8,6 +8,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"test": "vitest run",
+		"test:unit": "vitest run tests/unit",
 		"lint": "biome check",
 		"lint:fix": "biome check --write && prettier --write **/*.astro"
 	},
