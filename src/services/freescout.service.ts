@@ -1,5 +1,5 @@
-import { processBase64Attachement } from "./attachements.ts";
-import getConfigParam from "./config.service.ts";
+import { processBase64Attachment } from "./attachments.service.ts";
+import { getConfigParam } from "./config.service.ts";
 
 type Attachement = {
 	name: string;
@@ -17,6 +17,12 @@ type FormResult = {
 	[key: string]: string | number | Attachement[];
 };
 
+type FreescoutAttachment = {
+	fileName: string;
+	mimeType: string;
+	data: string;
+};
+
 const getHeaders = () => ({
 	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
 	"Content-Type": "application/json",
@@ -27,7 +33,9 @@ export async function createConversation(
 	formResult: FormResult,
 	freescoutMailboxId: number,
 ) {
-	const url = new URL(`${process.env.FREESCOUT_API_URL}/api/conversations`);
+	const url = new URL(
+		`${getConfigParam("FREESCOUT_API_URL")}/api/conversations`,
+	);
 
 	const body = {
 		type: "email",
@@ -38,7 +46,7 @@ export async function createConversation(
 			firstName: formResult.customer_firstname,
 			lastName: formResult.customer_lastname,
 		},
-		customFields: _extractCustomFields(formResult, "custom_field_"),
+		customFields: extractCustomFields(formResult, "custom_field_"),
 		threads: [
 			{
 				text: formResult.message,
@@ -100,7 +108,7 @@ async function updateCustomer(
 		return;
 	}
 	const updateUrl = new URL(
-		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}`,
+		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}`,
 	);
 
 	const body = JSON.stringify({
@@ -119,7 +127,7 @@ async function updateCustomerFields(
 	customerId: number,
 	formResult: FormResult,
 ) {
-	const customerFields = _extractCustomFields(formResult, "customer_field_");
+	const customerFields = extractCustomFields(formResult, "customer_field_");
 
 	if (!customerFields.length) {
 		console.log("pas de customerFields à update");
@@ -127,7 +135,7 @@ async function updateCustomerFields(
 	}
 
 	const updateUrl = new URL(
-		`${process.env.FREESCOUT_API_URL}/api/customers/${customerId}/customer_fields`,
+		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}/customer_fields`,
 	);
 	const body = JSON.stringify({ customerFields });
 
@@ -138,18 +146,22 @@ async function updateCustomerFields(
 	});
 }
 
-function formatAttachment({ name, type, content }: Attachement) {
+export function formatAttachment({
+	name,
+	type,
+	content,
+}: Attachement): FreescoutAttachment {
 	return {
 		fileName: name,
 		mimeType: type,
-		data: processBase64Attachement(content),
+		data: processBase64Attachment(content),
 	};
 }
 
-function _extractCustomFields(
+export function extractCustomFields(
 	formResult: FormResult,
 	customFieldPrefix: string,
-) {
+): { id: number; value: string | number | Attachement[] }[] {
 	return Object.entries(formResult)
 		.map(([key, value]) => {
 			if (key.startsWith(customFieldPrefix)) {

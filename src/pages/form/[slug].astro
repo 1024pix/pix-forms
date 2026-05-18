@@ -1,6 +1,6 @@
 ---
 import "dotenv/config";
-import getConfigParam from "../../services/config.service";
+import { getConfigParam } from "../../services/config.service";
 
 const friendlyCaptchaSiteKey = getConfigParam(
 	"FRIENDLY_CAPTCHA_SITE_KEY",
@@ -23,105 +23,105 @@ export const prerender = false;
 ---
 
 <style>
-  .captcha {
-    color: rgb(103, 58, 176);
-    display: flex;
-    flex-direction: column;
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 24px;
-  }
+	.captcha {
+		color: rgb(103, 58, 176);
+		display: flex;
+		flex-direction: column;
+		font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 20px;
+		font-weight: 700;
+		padding: 24px;
+	}
 
-  h1 {
-    margin: 0;
-  }
+	h1 {
+		margin: 0;
+	}
 </style>
 
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
 
-    <title>{form.title}</title>
+		<title>{form.title}</title>
 
-    <script>
-      import { SurveyModel } from "survey-js-ui";
+		<script>
+			import { SurveyModel } from "survey-js-ui";
 
-      import "survey-core";
-      import "survey-core/i18n/french";
-      import "survey-core/survey-core.css";
+			import "survey-core";
+			import "survey-core/i18n/french";
+			import "survey-core/survey-core.css";
 
-      import { SharpLightPanelless } from "survey-core/themes";
+			import { SharpLightPanelless } from "survey-core/themes";
 
-      import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
+			import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
-      // Re-use this SDK if you are creating multiple widgets.
-      const sdk = new FriendlyCaptchaSDK();
+			// Re-use this SDK if you are creating multiple widgets.
+			const sdk = new FriendlyCaptchaSDK();
 
-      import { actions } from "astro:actions";
+			import { actions } from "astro:actions";
 
-      const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
+			const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
 
-      const surveyInstance = new SurveyModel(surveyJson);
-      surveyInstance.applyTheme(SharpLightPanelless);
-      surveyInstance.locale = surveyJson?.locale || "fr";
+			const surveyInstance = new SurveyModel(surveyJson);
+			surveyInstance.applyTheme(SharpLightPanelless);
+			surveyInstance.locale = surveyJson?.locale || "fr";
 
-      function renderForm(captchaResponse: string) {
-        surveyInstance.render(document.getElementById("surveyContainer"));
-        surveyInstance.onComplete.add(async () => {
-          const result = surveyInstance.data;
-          const { error } = await actions.answer({
-            formSlug: document.body.getAttribute("data-form-slug") || "",
-            formResult: result,
-            captchaResponse,
-          });
+			function renderForm(captchaResponse: string) {
+				surveyInstance.render(document.getElementById("surveyContainer"));
+				surveyInstance.onComplete.add(async () => {
+					const result = surveyInstance.data;
+					const { error } = await actions.answer({
+						formSlug: document.body.getAttribute("data-form-slug") || "",
+						formResult: result,
+						captchaResponse,
+					});
 
-          if (error) {
-            alert(
-              "Une erreur est survenue lors de la soumission du formulaire : " +
-                error.message,
-            );
-            console.error("Error submitting survey:", error);
-            return;
-          }
+					if (error) {
+						alert(
+							"Une erreur est survenue lors de la soumission du formulaire : " +
+								error.message,
+						);
+						console.error("Error submitting survey:", error);
+						return;
+					}
 
-          console.log("Survey results:", result);
-        });
-      }
+					console.log("Survey results:", result);
+				});
+			}
 
-      document.addEventListener("DOMContentLoaded", function () {
-        // HTML element that you want to mount the widget to.
-        const mount = document.querySelector(
-          "#friendly-captcha",
-        ) as HTMLElement;
+			document.addEventListener("DOMContentLoaded", function () {
+				// HTML element that you want to mount the widget to.
+				const mount = document.querySelector(
+					"#friendly-captcha",
+				) as HTMLElement;
 
-        if (mount.dataset.siteKey === "") {
-          renderForm("");
-          return;
-        }
+				if (mount.dataset.siteKey === "") {
+					renderForm("");
+					return;
+				}
 
-        // Create the widget
-        const widget = sdk.createWidget({
-          element: mount,
-          sitekey: mount.dataset.siteKey,
-        });
-        widget.addEventListener("frc:widget.complete", async (event) => {
-          renderForm(event.detail.response);
-          (mount.parentElement as HTMLDivElement).style.display = "none";
-        });
-      });
-    </script>
-  </head>
-  <body data-form-slug={slug} data-survey={_surveySchema}>
-    <div class="captcha">
-      <h1>{form.title}</h1>
-      <p>Pour accéder au formulaire, cochez la case :</p>
-      <div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
-    </div>
+				// Create the widget
+				const widget = sdk.createWidget({
+					element: mount,
+					sitekey: mount.dataset.siteKey,
+				});
+				widget.addEventListener("frc:widget.complete", async (event) => {
+					renderForm(event.detail.response);
+					(mount.parentElement as HTMLDivElement).style.display = "none";
+				});
+			});
+		</script>
+	</head>
+	<body data-form-slug={slug} data-survey={_surveySchema}>
+		<div class="captcha">
+			<h1>{form.title}</h1>
+			<p>Pour accéder au formulaire, cochez la case :</p>
+			<div id="friendly-captcha" data-site-key={friendlyCaptchaSiteKey}></div>
+		</div>
 
-    <div id="surveyContainer"></div>
-  </body>
+		<div id="surveyContainer"></div>
+	</body>
 </html>
