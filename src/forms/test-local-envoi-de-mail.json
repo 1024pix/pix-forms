@@ -38,6 +38,6 @@
 		}
 	],
 	"sendByEmail": true,
-	"emailRecipientAddress": "kemohe5855@bitmah.com",
+	"emailRecipientAddress": "test@example.net",
 	"internalComment": "Ceci est un formulaire de test pour les envois de mail en local."
 }
