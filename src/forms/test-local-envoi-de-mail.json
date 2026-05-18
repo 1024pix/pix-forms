@@ -38,6 +38,6 @@
 		}
 	],
 	"sendByEmail": true,
-	"emailRecipientAddress": "pix-form@example.net",
+	"emailRecipientAddress": "team-acquisition@pix.fr",
 	"internalComment": "Ceci est un formulaire de test pour les envois de mail en local."
 }
