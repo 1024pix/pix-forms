@@ -1,7 +1,7 @@
 import {
 	extractCustomFields,
 	formatAttachment,
-} from "../../src/services/freescout.service";
+} from "../../../src/services/freescout.service";
 
 describe("Unit | Services | Freescout", () => {
 	describe("#extractCustomFields", () => {

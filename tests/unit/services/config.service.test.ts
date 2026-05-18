@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { getConfigParam } from "../../src/services/config.service";
+import { getConfigParam } from "../../../src/services/config.service";
 
 describe("Unit | Services | Config", () => {
 	afterEach(() => {

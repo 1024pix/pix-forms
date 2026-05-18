@@ -1,4 +1,4 @@
-import { processBase64Attachment } from "../../src/services/attachments.service";
+import { processBase64Attachment } from "../../../src/services/attachments.service";
 
 describe("Unit | Services | Attachments", () => {
 	describe("#processBase64Attachment", () => {
