@@ -4,7 +4,7 @@ const params = Astro.params;
 let _surveySchema = null;
 
 try {
-	if (!["new", "continue"].includes(params.slug)) {
+	if (params.slug && !_isCurrentFormNewForm(params.slug)) {
 		const surveyJson = await import(`../../forms/${params.slug}.json`);
 		_surveySchema = JSON.stringify(surveyJson);
 	}
@@ -14,6 +14,10 @@ try {
 }
 
 export const prerender = false;
+
+function _isCurrentFormNewForm(formSlug: string) {
+	return ["new", "continue"].includes(formSlug);
+}
 ---
 
 <!doctype html>
