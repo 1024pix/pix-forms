@@ -1,6 +1,5 @@
 ---
 const params = Astro.params;
-
 let _surveySchema = null;
 
 try {
@@ -30,6 +29,10 @@ function _isCurrentFormNewForm(formSlug: string) {
 		<meta name="generator" content={Astro.generator} />
 
 		<script>
+			import { slk } from "survey-core";
+
+			slk(import.meta.env.PUBLIC_SURVEYJS_LICENSE);
+
 			import { SurveyCreator } from "survey-creator-js";
 			import "survey-core";
 			import "survey-core/i18n/french";
