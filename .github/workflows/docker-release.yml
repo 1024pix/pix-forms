@@ -14,7 +14,7 @@ jobs:
             "name": "pix-forms",
             "context": "./",
             "dockerfile": "./Dockerfile",
-            "build-args": ["PUBLIC_SURVEYJS_LICENSE=${{ secrets.PUBLIC_SURVEYJS_LICENSE }}"]
+            "build-args": ["PUBLIC_SURVEYJS_LICENSE=${{ vars.PUBLIC_SURVEYJS_LICENSE }}"]
           }
         ]
     secrets:
