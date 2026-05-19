@@ -9,7 +9,6 @@ RUN npm ci
 
 # Copier le reste et build
 COPY . .
-ARG PUBLIC_SURVEYJS_LICENSE
 RUN npm run build
 
 # # Configuration utilisateur non-root
