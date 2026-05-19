@@ -30,9 +30,6 @@ function _isCurrentFormNewForm(formSlug: string) {
 
 		<script>
 			import { slk } from "survey-core";
-
-			slk(import.meta.env.PUBLIC_SURVEYJS_LICENSE);
-
 			import { SurveyCreator } from "survey-creator-js";
 			import "survey-core";
 			import "survey-core/i18n/french";
@@ -49,6 +46,12 @@ function _isCurrentFormNewForm(formSlug: string) {
 				getLocaleStrings,
 				PropertyGridEditorCollection,
 			} from "survey-creator-core";
+
+			import { Serializer, SvgRegistry } from "survey-core";
+			import initQuill from "../../quill";
+
+			slk(import.meta.env.PUBLIC_SURVEYJS_LICENSE);
+
 			surveyLocalization.supportedLocales = ["en", "fr"];
 			surveyLocalization.defaultLocale = "fr";
 
@@ -60,9 +63,6 @@ function _isCurrentFormNewForm(formSlug: string) {
 
 			const creator = new SurveyCreator(creatorOptions);
 			creator.applyTheme(SharpLightPanelless);
-
-			import { Serializer, SvgRegistry } from "survey-core";
-			import initQuill from "../../quill";
 
 			// Add a property to the Survey class
 			Serializer.addProperty("survey", {
