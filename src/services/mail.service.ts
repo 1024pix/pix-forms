@@ -28,7 +28,7 @@ export async function sendFormEmail(
 
 	await _sendEmail({
 		from: sender,
-		replyTo: formResult.customer_email as string,
+		replyTo: formResult.customer_email,
 		to: recipientAddress,
 		subject: formResult.subject,
 		html: body.replace(/\n/g, "<br>"),

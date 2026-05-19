@@ -1,7 +1,7 @@
 import { processBase64Attachment } from "./attachments.service.ts";
 import { getConfigParam } from "./config.service.ts";
 
-type Attachement = {
+type Attachment = {
 	name: string;
 	type: string;
 	content: string; // base64 encoded content
@@ -13,8 +13,8 @@ type FormResult = {
 	customer_lastname: string;
 	subject: string;
 	message: string;
-	attachments: Attachement[];
-	[key: string]: string | number | Attachement[];
+	attachments: Attachment[];
+	[key: string]: string | number | Attachment[];
 };
 
 type FreescoutAttachment = {
@@ -60,12 +60,12 @@ export async function createConversation(
 	});
 
 	const result = await response.json();
+	if (!result) return;
 	if (result.message === "Error occurred") {
 		throw new Error(JSON.stringify(result));
 	}
 
 	console.log(`Conversation #${result.id} created`);
-	if (!result) return;
 	const { id: customerId, lastName, firstName } = result.customer;
 	await _updateCustomerAndCustomerFields(
 		customerId,
@@ -78,23 +78,20 @@ export async function createConversation(
 function _extractCustomFields(
 	formResult: FormResult,
 	customFieldPrefix: string,
-): { id: number; value: string | number | Attachement[] }[] {
+): { id: number; value: string | number | Attachment[] }[] {
 	return Object.entries(formResult)
-		.map(([key, value]) => {
-			if (key.startsWith(customFieldPrefix)) {
-				const customerFieldId = Number(key.replace(customFieldPrefix, ""));
-				return { id: customerFieldId, value };
-			}
-			return null;
-		})
-		.filter((field) => field !== null);
+		.filter(([key]) => key.startsWith(customFieldPrefix))
+		.map(([key, value]) => ({
+			id: Number(key.replace(customFieldPrefix, "")),
+			value,
+		}));
 }
 
 function _formatAttachment({
 	name,
 	type,
 	content,
-}: Attachement): FreescoutAttachment {
+}: Attachment): FreescoutAttachment {
 	return {
 		fileName: name,
 		mimeType: type,
@@ -102,11 +99,13 @@ function _formatAttachment({
 	};
 }
 
-const _getHeaders = () => ({
-	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-	"Content-Type": "application/json",
-	Accept: "application/json",
-});
+function _getHeaders() {
+	return {
+		"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+		"Content-Type": "application/json",
+		Accept: "application/json",
+	};
+}
 
 async function _updateCustomer(
 	customerId: number,
