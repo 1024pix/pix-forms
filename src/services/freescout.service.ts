@@ -66,13 +66,17 @@ export async function createConversation(
 	}
 
 	console.log(`Conversation #${result.id} created`);
-	const { id: customerId, lastName, firstName } = result.customer;
-	await _updateCustomerAndCustomerFields(
-		customerId,
-		firstName,
-		lastName,
-		formResult,
-	);
+	const { id: customerId, firstName, lastName } = result.customer;
+	if (!customerId) return;
+
+	if (_hasNameChanged(firstName, lastName, formResult)) {
+		await _updateCustomer(customerId, formResult);
+	}
+
+	const customerFields = _extractCustomFields(formResult, "customer_field_");
+	if (_hasCustomerFields(customerFields)) {
+		await _updateCustomerFields(customerId, customerFields);
+	}
 }
 
 function _extractCustomFields(
@@ -107,67 +111,47 @@ function _getHeaders() {
 	};
 }
 
-async function _updateCustomer(
-	customerId: number,
+function _hasCustomerFields(
+	customerFields: { id: number; value: string | number | Attachment[] }[],
+): boolean {
+	return customerFields.length > 0;
+}
+
+function _hasNameChanged(
 	firstName: string,
 	lastName: string,
 	formResult: FormResult,
-) {
-	if (
-		firstName === formResult.customer_firstname &&
-		lastName === formResult.customer_lastname
-	) {
-		return;
-	}
+): boolean {
+	return (
+		firstName !== formResult.customer_firstname ||
+		lastName !== formResult.customer_lastname
+	);
+}
+
+async function _updateCustomer(customerId: number, formResult: FormResult) {
 	const updateUrl = new URL(
 		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}`,
 	);
-
-	const body = JSON.stringify({
-		firstName: formResult.customer_firstname,
-		lastName: formResult.customer_lastname,
-	});
-
 	await fetch(updateUrl, {
 		method: "PUT",
 		headers: _getHeaders(),
-		body,
+		body: JSON.stringify({
+			firstName: formResult.customer_firstname,
+			lastName: formResult.customer_lastname,
+		}),
 	});
-}
-
-async function _updateCustomerAndCustomerFields(
-	customerId: number,
-	firstName: string,
-	lastName: string,
-	formResult: FormResult,
-) {
-	if (!customerId) {
-		console.log("pas de customer à update");
-		return;
-	}
-	await _updateCustomer(customerId, firstName, lastName, formResult);
-	await _updateCustomerFields(customerId, formResult);
 }
 
 async function _updateCustomerFields(
 	customerId: number,
-	formResult: FormResult,
+	customerFields: { id: number; value: string | number | Attachment[] }[],
 ) {
-	const customerFields = _extractCustomFields(formResult, "customer_field_");
-
-	if (!customerFields.length) {
-		console.log("pas de customerFields à update");
-		return;
-	}
-
 	const updateUrl = new URL(
 		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}/customer_fields`,
 	);
-	const body = JSON.stringify({ customerFields });
-
 	await fetch(updateUrl, {
 		method: "PUT",
 		headers: _getHeaders(),
-		body,
+		body: JSON.stringify({ customerFields }),
 	});
 }
