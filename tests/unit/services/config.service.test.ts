@@ -1,7 +1,6 @@
 import { getConfigParam } from "../../../src/services/config.service";
 
 describe("Unit | Services | Config", () => {
-
 	describe("#getConfigParam", () => {
 		describe("When env variable is defined", () => {
 			test("it should return its value", () => {

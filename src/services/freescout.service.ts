@@ -23,12 +23,6 @@ type FreescoutAttachment = {
 	data: string;
 };
 
-const getHeaders = () => ({
-	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-	"Content-Type": "application/json",
-	Accept: "application/json",
-});
-
 export async function createConversation(
 	formResult: FormResult,
 	freescoutMailboxId: number,
@@ -46,7 +40,7 @@ export async function createConversation(
 			firstName: formResult.customer_firstname,
 			lastName: formResult.customer_lastname,
 		},
-		customFields: extractCustomFields(formResult, "custom_field_"),
+		customFields: _extractCustomFields(formResult, "custom_field_"),
 		threads: [
 			{
 				text: formResult.message,
@@ -54,14 +48,14 @@ export async function createConversation(
 				customer: {
 					email: formResult.customer_email,
 				},
-				attachments: formResult.attachments?.map(formatAttachment),
+				attachments: formResult.attachments?.map(_formatAttachment),
 			},
 		],
 	};
 
 	const response = await fetch(url, {
 		method: "POST",
-		headers: getHeaders(),
+		headers: _getHeaders(),
 		body: JSON.stringify(body),
 	});
 
@@ -73,7 +67,7 @@ export async function createConversation(
 	console.log(`Conversation #${result.id} created`);
 	if (!result) return;
 	const { id: customerId, lastName, firstName } = result.customer;
-	await updateCustomerAndCustomerFields(
+	await _updateCustomerAndCustomerFields(
 		customerId,
 		firstName,
 		lastName,
@@ -81,21 +75,40 @@ export async function createConversation(
 	);
 }
 
-async function updateCustomerAndCustomerFields(
-	customerId: number,
-	firstName: string,
-	lastName: string,
+function _extractCustomFields(
 	formResult: FormResult,
-) {
-	if (!customerId) {
-		console.log("pas de customer à update");
-		return;
-	}
-	await updateCustomer(customerId, firstName, lastName, formResult);
-	await updateCustomerFields(customerId, formResult);
+	customFieldPrefix: string,
+): { id: number; value: string | number | Attachement[] }[] {
+	return Object.entries(formResult)
+		.map(([key, value]) => {
+			if (key.startsWith(customFieldPrefix)) {
+				const customerFieldId = Number(key.replace(customFieldPrefix, ""));
+				return { id: customerFieldId, value };
+			}
+			return null;
+		})
+		.filter((field) => field !== null);
 }
 
-async function updateCustomer(
+function _formatAttachment({
+	name,
+	type,
+	content,
+}: Attachement): FreescoutAttachment {
+	return {
+		fileName: name,
+		mimeType: type,
+		data: processBase64Attachment(content),
+	};
+}
+
+const _getHeaders = () => ({
+	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+	"Content-Type": "application/json",
+	Accept: "application/json",
+});
+
+async function _updateCustomer(
 	customerId: number,
 	firstName: string,
 	lastName: string,
@@ -118,16 +131,30 @@ async function updateCustomer(
 
 	await fetch(updateUrl, {
 		method: "PUT",
-		headers: getHeaders(),
+		headers: _getHeaders(),
 		body,
 	});
 }
 
-async function updateCustomerFields(
+async function _updateCustomerAndCustomerFields(
+	customerId: number,
+	firstName: string,
+	lastName: string,
+	formResult: FormResult,
+) {
+	if (!customerId) {
+		console.log("pas de customer à update");
+		return;
+	}
+	await _updateCustomer(customerId, firstName, lastName, formResult);
+	await _updateCustomerFields(customerId, formResult);
+}
+
+async function _updateCustomerFields(
 	customerId: number,
 	formResult: FormResult,
 ) {
-	const customerFields = extractCustomFields(formResult, "customer_field_");
+	const customerFields = _extractCustomFields(formResult, "customer_field_");
 
 	if (!customerFields.length) {
 		console.log("pas de customerFields à update");
@@ -141,34 +168,7 @@ async function updateCustomerFields(
 
 	await fetch(updateUrl, {
 		method: "PUT",
-		headers: getHeaders(),
+		headers: _getHeaders(),
 		body,
 	});
-}
-
-export function formatAttachment({
-	name,
-	type,
-	content,
-}: Attachement): FreescoutAttachment {
-	return {
-		fileName: name,
-		mimeType: type,
-		data: processBase64Attachment(content),
-	};
-}
-
-export function extractCustomFields(
-	formResult: FormResult,
-	customFieldPrefix: string,
-): { id: number; value: string | number | Attachement[] }[] {
-	return Object.entries(formResult)
-		.map(([key, value]) => {
-			if (key.startsWith(customFieldPrefix)) {
-				const customerFieldId = Number(key.replace(customFieldPrefix, ""));
-				return { id: customerFieldId, value };
-			}
-			return null;
-		})
-		.filter((field) => field !== null);
 }

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import type Mail from "nodemailer/lib/mailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { processBase64Attachment } from "./attachments.service.ts";
 import { getConfigParam } from "./config.service.ts";
@@ -18,16 +19,31 @@ type FormResult = {
 	[key: string]: unknown;
 };
 
-export function buildEmailBody(formResult: FormResult): string {
+export async function sendFormEmail(
+	formResult: FormResult,
+	recipientAddress: string,
+): Promise<void> {
+	const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
+	const body = _buildEmailBody(formResult);
+
+	await _sendEmail({
+		from: sender,
+		replyTo: formResult.customer_email as string,
+		to: recipientAddress,
+		subject: formResult.subject,
+		html: body.replace(/\n/g, "<br>"),
+		attachments: formResult.attachments?.map(_formatMailAttachment) ?? [],
+	});
+}
+
+function _buildEmailBody(formResult: FormResult): string {
 	return Object.entries(formResult)
 		.filter(([key]) => key !== "attachments")
 		.map(([key, value]) => `<strong>${key}</strong><br> ${value}`)
 		.join("<br><br>");
 }
 
-export function formatMailAttachment(
-	attachment: MailAttachment,
-): nodemailer.Attachment {
+function _formatMailAttachment(attachment: MailAttachment): Mail.Attachment {
 	return {
 		filename: attachment.name,
 		content: processBase64Attachment(attachment.content),
@@ -36,7 +52,7 @@ export function formatMailAttachment(
 	};
 }
 
-async function sendEmail(options: nodemailer.SendMailOptions): Promise<void> {
+async function _sendEmail(options: nodemailer.SendMailOptions): Promise<void> {
 	const smtpOptions: SMTPTransport.Options = {
 		host: getConfigParam("SMTP_HOST"),
 		port: Number(getConfigParam("SMTP_PORT")),
@@ -49,21 +65,4 @@ async function sendEmail(options: nodemailer.SendMailOptions): Promise<void> {
 	const transporter = nodemailer.createTransport(smtpOptions);
 	const info = await transporter.sendMail(options);
 	console.log("Message sent:", info.messageId);
-}
-
-export async function sendFormEmail(
-	formResult: FormResult,
-	recipientAddress: string,
-): Promise<void> {
-	const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
-	const body = buildEmailBody(formResult);
-
-	await sendEmail({
-		from: sender,
-		replyTo: formResult.customer_email as string,
-		to: recipientAddress,
-		subject: formResult.subject,
-		html: body.replace(/\n/g, "<br>"),
-		attachments: formResult.attachments?.map(formatMailAttachment) ?? [],
-	});
 }
