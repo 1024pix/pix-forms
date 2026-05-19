@@ -31,7 +31,35 @@ export async function createConversation(
 		`${getConfigParam("FREESCOUT_API_URL")}/api/conversations`,
 	);
 
-	const body = {
+	const response = await fetch(url, {
+		method: "POST",
+		headers: _getHeaders(),
+		body: JSON.stringify(
+			_buildConversationBody(formResult, freescoutMailboxId),
+		),
+	});
+
+	const result = await response.json();
+	if (!result) return;
+	if (result.message === "Error occurred") {
+		throw new Error(JSON.stringify(result));
+	}
+
+	console.log(`Conversation #${result.id} created`);
+	const { id: customerId, lastName, firstName } = result.customer;
+	await _updateCustomerAndCustomerFields(
+		customerId,
+		firstName,
+		lastName,
+		formResult,
+	);
+}
+
+function _buildConversationBody(
+	formResult: FormResult,
+	freescoutMailboxId: number,
+) {
+	return {
 		type: "email",
 		mailboxId: freescoutMailboxId,
 		subject: formResult.subject,
@@ -52,27 +80,6 @@ export async function createConversation(
 			},
 		],
 	};
-
-	const response = await fetch(url, {
-		method: "POST",
-		headers: _getHeaders(),
-		body: JSON.stringify(body),
-	});
-
-	const result = await response.json();
-	if (!result) return;
-	if (result.message === "Error occurred") {
-		throw new Error(JSON.stringify(result));
-	}
-
-	console.log(`Conversation #${result.id} created`);
-	const { id: customerId, lastName, firstName } = result.customer;
-	await _updateCustomerAndCustomerFields(
-		customerId,
-		firstName,
-		lastName,
-		formResult,
-	);
 }
 
 function _extractCustomFields(
