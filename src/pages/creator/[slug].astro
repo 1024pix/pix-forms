@@ -34,6 +34,7 @@ function _isCurrentFormNewForm(formSlug: string) {
 			import "survey-core";
 			import "survey-core/i18n/french";
 			import "survey-creator-core/i18n/french";
+			import { slk } from "survey-core";
 
 			import { SharpLightPanelless } from "survey-core/themes";
 
@@ -60,6 +61,10 @@ function _isCurrentFormNewForm(formSlug: string) {
 
 			import { Serializer, SvgRegistry } from "survey-core";
 			import initQuill from "../../quill";
+
+			slk(
+				"OTM5NjNkYzktZDMzNS00NTVhLWFiZmUtMWJhZmYxNzAyMmJjJmRvbWFpbnM6ZXhhbXBsZS5uZXQ7MT0yMDI3LTAzLTA5LDI9MjAyNy0wMy0wOSw0PTIwMjctMDMtMDk="
+			);
 
 			// Add a property to the Survey class
 			Serializer.addProperty("survey", {
