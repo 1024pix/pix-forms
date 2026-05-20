@@ -10,7 +10,7 @@ describe("Unit | Services | Attachments", () => {
 			const result = processBase64Attachment(fileContent);
 
 			// then
-			expect(result).to.equal("ABC123");
+			expect(result).toBe("ABC123");
 		});
 	});
 });

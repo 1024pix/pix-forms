@@ -1,11 +1,6 @@
-import { vi } from "vitest";
 import { getConfigParam } from "../../../src/services/config.service";
 
 describe("Unit | Services | Config", () => {
-	afterEach(() => {
-		vi.unstubAllEnvs();
-	});
-
 	describe("#getConfigParam", () => {
 		describe("When env variable is defined", () => {
 			test("it should return its value", () => {
