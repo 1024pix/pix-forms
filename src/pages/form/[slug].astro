@@ -1,5 +1,7 @@
 ---
 import "dotenv/config";
+
+import Layout from "../../layouts/Layout.astro";
 import { getConfigParam } from "../../services/config.service";
 
 const friendlyCaptchaSiteKey = getConfigParam(
@@ -20,6 +22,7 @@ try {
 }
 
 export const prerender = false;
+const pageTitle = form.title;
 ---
 
 <style>
@@ -37,85 +40,79 @@ export const prerender = false;
 		margin: 0;
 	}
 </style>
+<Layout title={pageTitle}>
+	<script>
+		import { SurveyModel } from "survey-js-ui";
 
-<html lang="fr">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+		import "survey-core";
+		import "survey-core/i18n/french";
+		import "survey-core/survey-core.css";
 
-		<title>{form.title}</title>
+		import { SharpLightPanelless } from "survey-core/themes";
 
-		<script>
-			import { SurveyModel } from "survey-js-ui";
+		import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
-			import "survey-core";
-			import "survey-core/i18n/french";
-			import "survey-core/survey-core.css";
+		// Re-use this SDK if you are creating multiple widgets.
+		const sdk = new FriendlyCaptchaSDK();
 
-			import { SharpLightPanelless } from "survey-core/themes";
+		import { actions } from "astro:actions";
 
-			import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
+		const surveyJson = JSON.parse(
+			document.getElementById("form-data").getAttribute("data-survey"),
+		);
 
-			// Re-use this SDK if you are creating multiple widgets.
-			const sdk = new FriendlyCaptchaSDK();
+		const surveyInstance = new SurveyModel(surveyJson);
+		surveyInstance.applyTheme(SharpLightPanelless);
+		surveyInstance.locale = surveyJson?.locale || "fr";
 
-			import { actions } from "astro:actions";
-
-			const surveyJson = JSON.parse(document.body.getAttribute("data-survey"));
-
-			const surveyInstance = new SurveyModel(surveyJson);
-			surveyInstance.applyTheme(SharpLightPanelless);
-			surveyInstance.locale = surveyJson?.locale || "fr";
-
-			function renderForm(captchaResponse: string) {
-				surveyInstance.render(document.getElementById("surveyContainer"));
-				surveyInstance.onComplete.add(async () => {
-					const result = surveyInstance.data;
-					const { error } = await actions.answer({
-						formSlug: document.body.getAttribute("data-form-slug") || "",
-						formResult: result,
-						captchaResponse,
-					});
-
-					if (error) {
-						alert(
-							"Une erreur est survenue lors de la soumission du formulaire : " +
-								error.message,
-						);
-						console.error("Error submitting survey:", error);
-						return;
-					}
-
-					console.log("Survey results:", result);
+		function renderForm(captchaResponse: string) {
+			surveyInstance.render(document.getElementById("surveyContainer"));
+			surveyInstance.onComplete.add(async () => {
+				const result = surveyInstance.data;
+				const { error } = await actions.answer({
+					formSlug:
+						document
+							.getElementById("form-data")
+							.getAttribute("data-form-slug") || "",
+					formResult: result,
+					captchaResponse,
 				});
-			}
 
-			document.addEventListener("DOMContentLoaded", function () {
-				// HTML element that you want to mount the widget to.
-				const mount = document.querySelector(
-					"#friendly-captcha",
-				) as HTMLElement;
-
-				if (mount.dataset.siteKey === "") {
-					renderForm("");
+				if (error) {
+					alert(
+						"Une erreur est survenue lors de la soumission du formulaire : " +
+							error.message,
+					);
+					console.error("Error submitting survey:", error);
 					return;
 				}
 
-				// Create the widget
-				const widget = sdk.createWidget({
-					element: mount,
-					sitekey: mount.dataset.siteKey,
-				});
-				widget.addEventListener("frc:widget.complete", async (event) => {
-					renderForm(event.detail.response);
-					(mount.parentElement as HTMLDivElement).style.display = "none";
-				});
+				console.log("Survey results:", result);
 			});
-		</script>
-	</head>
-	<body data-form-slug={slug} data-survey={_surveySchema}>
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			// HTML element that you want to mount the widget to.
+			const mount = document.querySelector("#friendly-captcha") as HTMLElement;
+
+			if (mount.dataset.siteKey === "") {
+				renderForm("");
+				return;
+			}
+
+			// Create the widget
+			const widget = sdk.createWidget({
+				element: mount,
+				sitekey: mount.dataset.siteKey,
+			});
+			widget.addEventListener("frc:widget.complete", async (event) => {
+				renderForm(event.detail.response);
+				(mount.parentElement as HTMLDivElement).style.display = "none";
+			});
+		});
+	</script>
+
+	<div id="form-data" data-form-slug={slug} data-survey={_surveySchema}>
 		<div class="captcha">
 			<h1>{form.title}</h1>
 			<p>Pour accéder au formulaire, cochez la case :</p>
@@ -123,5 +120,5 @@ export const prerender = false;
 		</div>
 
 		<div id="surveyContainer"></div>
-	</body>
-</html>
+	</div>
+</Layout>
