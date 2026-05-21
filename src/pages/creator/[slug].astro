@@ -61,8 +61,8 @@ function _isCurrentFormNewForm(formSlug: string) {
 
 			const creator = new SurveyCreator(creatorOptions);
 			creator.applyTheme(SharpLightPanelless);
-			creator.slk("OTM5NjNkYzktZDMzNS00NTVhLWFiZmUtMWJhZmYxNzAyMmJjJmRvbWFpbnM6cGl4LmRpZ2l0YWw7MT0yMDI3LTAzLTA5LDI9MjAyNy0wMy0wOSw0PTIwMjctMDMtMDk=")
-			console.log('license valide')
+			creator.slk(import.meta.env.PUBLIC_SURVEYJS_LICENSE)
+			console.log('license valide via docker')
 
 			// Add a property to the Survey class
 			Serializer.addProperty("survey", {
