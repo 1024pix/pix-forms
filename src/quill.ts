@@ -56,7 +56,7 @@ export default function initQuill(
 			updateValueHandler();
 		},
 		willUnmount: (_: Question, el: HTMLElement) => {
-			el.previousSibling && el.previousSibling.remove();
+			el.previousSibling?.remove();
 			el.innerHTML = "";
 		},
 	};

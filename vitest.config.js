@@ -5,5 +5,8 @@ export default getViteConfig({
 	test: {
 		globals: true,
 		include: ["tests/**/*.test.ts"],
+		restoreMocks: true,
+		unstubEnvs: true,
+		unstubGlobals: true,
 	},
 });

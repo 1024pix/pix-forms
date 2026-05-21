@@ -2,11 +2,9 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import "dotenv/config";
-import nodemailer from "nodemailer";
-import type SMTPTransport from "nodemailer/lib/smtp-transport";
-import { processBase64Attachment } from "../services/attachments.service.ts";
 import { getConfigParam } from "../services/config.service.ts";
 import { createConversation } from "../services/freescout.service.ts";
+import { sendFormEmail } from "../services/mail.service.ts";
 
 export const server = {
 	answer: defineAction({
@@ -67,53 +65,7 @@ export const server = {
 			}
 
 			if (sendByEmail && emailRecipientAddress) {
-				const sender = `${formResult.customer_firstname} ${formResult.customer_lastname} <forms@pix.digital>`;
-				const subject = formResult.subject;
-
-				const smtpOptions: SMTPTransport.Options = {
-					host: getConfigParam("SMTP_HOST"),
-					port: Number(getConfigParam("SMTP_PORT")),
-					secure: getConfigParam("SMTP_SECURE") === "true",
-					auth: {
-						user: getConfigParam("SMTP_USER"),
-						pass: getConfigParam("SMTP_PASS"),
-					},
-				};
-
-				const transporter = nodemailer.createTransport(smtpOptions);
-
-				const message = Object.entries(formResult)
-					.map(([key, value]) => {
-						if (key !== "attachments") {
-							return `<strong>${key}</strong><br> ${value}`;
-						}
-						return null;
-					})
-					.join("<br><br>");
-
-				const email = {
-					from: sender,
-					replyTo: formResult.customer_email,
-					to: emailRecipientAddress,
-					subject,
-					html: message.replace(/\n/g, "<br>"),
-					attachments: [],
-				};
-
-				if (formResult.attachments && formResult.attachments.length > 0) {
-					email.attachments = formResult.attachments.map((attachment: any) => {
-						return {
-							filename: attachment.name,
-							content: processBase64Attachment(attachment.content),
-							contentType: attachment.type,
-							encoding: "base64",
-						};
-					});
-				}
-
-				const info = await transporter.sendMail(email);
-
-				console.log("Message sent:", info.messageId);
+				await sendFormEmail(formResult, emailRecipientAddress);
 			}
 
 			console.log(`Form submitted`);

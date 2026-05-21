@@ -1,7 +1,7 @@
 import { processBase64Attachment } from "./attachments.service.ts";
 import { getConfigParam } from "./config.service.ts";
 
-type Attachement = {
+type Attachment = {
 	name: string;
 	type: string;
 	content: string; // base64 encoded content
@@ -13,8 +13,8 @@ type FormResult = {
 	customer_lastname: string;
 	subject: string;
 	message: string;
-	attachments: Attachement[];
-	[key: string]: string | number | Attachement[];
+	attachments: Attachment[];
+	[key: string]: string | number | Attachment[];
 };
 
 type FreescoutAttachment = {
@@ -22,12 +22,6 @@ type FreescoutAttachment = {
 	mimeType: string;
 	data: string;
 };
-
-const getHeaders = () => ({
-	"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
-	"Content-Type": "application/json",
-	Accept: "application/json",
-});
 
 export async function createConversation(
 	formResult: FormResult,
@@ -46,7 +40,7 @@ export async function createConversation(
 			firstName: formResult.customer_firstname,
 			lastName: formResult.customer_lastname,
 		},
-		customFields: extractCustomFields(formResult, "custom_field_"),
+		customFields: _extractCustomFields(formResult, "custom_field_"),
 		threads: [
 			{
 				text: formResult.message,
@@ -54,103 +48,54 @@ export async function createConversation(
 				customer: {
 					email: formResult.customer_email,
 				},
-				attachments: formResult.attachments?.map(formatAttachment),
+				attachments: formResult.attachments?.map(_formatAttachment),
 			},
 		],
 	};
 
 	const response = await fetch(url, {
 		method: "POST",
-		headers: getHeaders(),
+		headers: _getHeaders(),
 		body: JSON.stringify(body),
 	});
 
 	const result = await response.json();
+	if (!result) return;
 	if (result.message === "Error occurred") {
 		throw new Error(JSON.stringify(result));
 	}
 
 	console.log(`Conversation #${result.id} created`);
-	if (!result) return;
-	const { id: customerId, lastName, firstName } = result.customer;
-	await updateCustomerAndCustomerFields(
-		customerId,
-		firstName,
-		lastName,
-		formResult,
-	);
-}
+	const { id: customerId, firstName, lastName } = result.customer;
+	if (!customerId) return;
 
-async function updateCustomerAndCustomerFields(
-	customerId: number,
-	firstName: string,
-	lastName: string,
-	formResult: FormResult,
-) {
-	if (!customerId) {
-		console.log("pas de customer à update");
-		return;
-	}
-	await updateCustomer(customerId, firstName, lastName, formResult);
-	await updateCustomerFields(customerId, formResult);
-}
-
-async function updateCustomer(
-	customerId: number,
-	firstName: string,
-	lastName: string,
-	formResult: FormResult,
-) {
-	if (
-		firstName === formResult.customer_firstname &&
-		lastName === formResult.customer_lastname
-	) {
-		return;
-	}
-	const updateUrl = new URL(
-		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}`,
-	);
-
-	const body = JSON.stringify({
-		firstName: formResult.customer_firstname,
-		lastName: formResult.customer_lastname,
-	});
-
-	await fetch(updateUrl, {
-		method: "PUT",
-		headers: getHeaders(),
-		body,
-	});
-}
-
-async function updateCustomerFields(
-	customerId: number,
-	formResult: FormResult,
-) {
-	const customerFields = extractCustomFields(formResult, "customer_field_");
-
-	if (!customerFields.length) {
-		console.log("pas de customerFields à update");
-		return;
+	if (_hasNameChanged(firstName, lastName, formResult)) {
+		await _updateCustomer(customerId, formResult);
 	}
 
-	const updateUrl = new URL(
-		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}/customer_fields`,
-	);
-	const body = JSON.stringify({ customerFields });
-
-	await fetch(updateUrl, {
-		method: "PUT",
-		headers: getHeaders(),
-		body,
-	});
+	const customerFields = _extractCustomFields(formResult, "customer_field_");
+	if (_hasCustomerFields(customerFields)) {
+		await _updateCustomerFields(customerId, customerFields);
+	}
 }
 
-export function formatAttachment({
+function _extractCustomFields(
+	formResult: FormResult,
+	customFieldPrefix: string,
+): { id: number; value: string | number | Attachment[] }[] {
+	return Object.entries(formResult)
+		.filter(([key]) => key.startsWith(customFieldPrefix))
+		.map(([key, value]) => ({
+			id: Number(key.replace(customFieldPrefix, "")),
+			value,
+		}));
+}
+
+function _formatAttachment({
 	name,
 	type,
 	content,
-}: Attachement): FreescoutAttachment {
+}: Attachment): FreescoutAttachment {
 	return {
 		fileName: name,
 		mimeType: type,
@@ -158,17 +103,55 @@ export function formatAttachment({
 	};
 }
 
-export function extractCustomFields(
+function _getHeaders() {
+	return {
+		"X-FreeScout-API-Key": getConfigParam("FREESCOUT_API_KEY"),
+		"Content-Type": "application/json",
+		Accept: "application/json",
+	};
+}
+
+function _hasCustomerFields(
+	customerFields: { id: number; value: string | number | Attachment[] }[],
+): boolean {
+	return customerFields.length > 0;
+}
+
+function _hasNameChanged(
+	firstName: string,
+	lastName: string,
 	formResult: FormResult,
-	customFieldPrefix: string,
-): { id: number; value: string | number | Attachement[] }[] {
-	return Object.entries(formResult)
-		.map(([key, value]) => {
-			if (key.startsWith(customFieldPrefix)) {
-				const customerFieldId = Number(key.replace(customFieldPrefix, ""));
-				return { id: customerFieldId, value };
-			}
-			return null;
-		})
-		.filter((field) => field !== null);
+): boolean {
+	return (
+		firstName !== formResult.customer_firstname ||
+		lastName !== formResult.customer_lastname
+	);
+}
+
+async function _updateCustomer(customerId: number, formResult: FormResult) {
+	const updateUrl = new URL(
+		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}`,
+	);
+	await fetch(updateUrl, {
+		method: "PUT",
+		headers: _getHeaders(),
+		body: JSON.stringify({
+			firstName: formResult.customer_firstname,
+			lastName: formResult.customer_lastname,
+		}),
+	});
+}
+
+async function _updateCustomerFields(
+	customerId: number,
+	customerFields: { id: number; value: string | number | Attachment[] }[],
+) {
+	const updateUrl = new URL(
+		`${getConfigParam("FREESCOUT_API_URL")}/api/customers/${customerId}/customer_fields`,
+	);
+	await fetch(updateUrl, {
+		method: "PUT",
+		headers: _getHeaders(),
+		body: JSON.stringify({ customerFields }),
+	});
 }
