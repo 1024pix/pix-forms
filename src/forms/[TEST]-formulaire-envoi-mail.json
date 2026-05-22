@@ -1,5 +1,5 @@
 {
-	"title": "Test local envoi de mail",
+	"title": "[TEST] Envoi de mail",
 	"pages": [
 		{
 			"name": "Name",
@@ -33,6 +33,14 @@
 					"name": "message",
 					"title": "Message",
 					"isRequired": true
+				},
+				{
+					"type": "file",
+					"name": "attachment",
+					"title": "Pièce jointe",
+					"fileOrPhotoPlaceholder": "Faites glisser et déposez ou sélectionnez un fichier à télécharger ou à prendre une photo à l’aide de l’appareil photo.",
+					"photoPlaceholder": "Cliquez sur le bouton ci-dessous pour prendre une photo à l'aide de l'appareil photo.",
+					"filePlaceholder": "Déposez un fichier ici ou cliquez sur le bouton ci-dessous pour charger le fichier."
 				}
 			]
 		}
