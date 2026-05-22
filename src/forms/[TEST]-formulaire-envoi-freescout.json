@@ -1,5 +1,5 @@
 {
-	"title": "Formulaire de test",
+	"title": "[TEST] Envoi freescout",
 	"pages": [
 		{
 			"name": "page1",
@@ -50,7 +50,5 @@
 	],
 	"saveToFreescout": true,
 	"freescoutMailboxId": 3,
-	"sendByEmail": true,
-	"emailRecipientAddress": "support@example.org",
 	"internalComment": "test"
 }
