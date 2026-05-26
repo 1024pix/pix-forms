@@ -1,5 +1,5 @@
 {
-	"title": "Contacter le support Pix",
+	"title": "[TEST] Contacter le support Pix",
 	"description": "Vous n'avez pas trouvé votre réponse dans notre centre d'aide ? Écrivez-nous !",
 	"completedHtml": "Merci d'avoir contacté le support !",
 	"pages": [
@@ -151,17 +151,20 @@
 				{
 					"type": "text",
 					"name": "customer_firstname",
-					"title": "Votre prénom"
+					"title": "Votre prénom",
+					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_lastname",
-					"title": "Votre nom"
+					"title": "Votre nom",
+					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_email",
-					"title": "Votre adresse e-mail"
+					"title": "Votre adresse e-mail",
+					"isRequired": true
 				}
 			]
 		},

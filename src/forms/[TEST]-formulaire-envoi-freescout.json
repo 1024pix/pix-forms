@@ -1,26 +1,32 @@
 {
-	"title": "Formulaire pour test recette",
+	"title": "[TEST] Envoi freescout",
 	"pages": [
 		{
-			"name": "Name",
+			"name": "page1",
 			"elements": [
 				{
 					"type": "text",
 					"name": "customer_firstname",
-					"title": "<p>Prénom</p>",
+					"title": "Prénom",
 					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_lastname",
-					"title": "<p>Nom de famille</p>",
+					"title": "Nom de famille",
 					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_email",
-					"title": "<p>Adresse e-mail</p>",
+					"title": "Adresse e-mail",
+					"defaultValue": "i@i.fr",
 					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_field_1",
+					"title": "SIRET"
 				},
 				{
 					"type": "text",
@@ -31,20 +37,18 @@
 				{
 					"type": "comment",
 					"name": "message",
-					"title": "<p>Message</p>",
+					"title": "Message",
 					"isRequired": true
 				},
 				{
-					"type": "boolean",
-					"name": "custom_field_24",
-					"title": "<p>oui ou non</p>",
-					"isRequired": true,
-					"labelTrue": "<p>Oui</p>",
-					"labelFalse": "<p>Non</p>"
+					"type": "file",
+					"name": "attachments",
+					"title": "Pièce jointe"
 				}
 			]
 		}
 	],
 	"saveToFreescout": true,
-	"freescoutMailboxId": 3
+	"freescoutMailboxId": 3,
+	"internalComment": "test"
 }
