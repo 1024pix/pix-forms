@@ -56,6 +56,7 @@ const pageTitle = form.title;
 		const sdk = new FriendlyCaptchaSDK();
 
 		import { actions } from "astro:actions";
+		import DOMPurify from "dompurify";
 
 		const surveyJson = JSON.parse(
 			document.getElementById("form-data").getAttribute("data-survey"),
@@ -64,6 +65,9 @@ const pageTitle = form.title;
 		const surveyInstance = new SurveyModel(surveyJson);
 		surveyInstance.applyTheme(SharpLightPanelless);
 		surveyInstance.locale = surveyJson?.locale || "fr";
+		surveyInstance.onTextMarkdown.add((_survey, options) => {
+			options.html = DOMPurify.sanitize(options.text);
+		});
 
 		function renderForm(captchaResponse: string) {
 			surveyInstance.render(document.getElementById("surveyContainer"));
