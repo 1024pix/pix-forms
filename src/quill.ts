@@ -42,7 +42,7 @@ export default function initQuill(
 			let isValueChanging = false;
 			editor.on("text-change", () => {
 				isValueChanging = true;
-				question.value = editor.root.innerHTML;
+				question.value = _stripWrappingParagraph(editor.root.innerHTML);
 				isValueChanging = false;
 			});
 			const updateValueHandler = () => {
@@ -63,20 +63,9 @@ export default function initQuill(
 
 	CustomWidgetCollection.Instance.addCustomWidget(widget, "customtype");
 
-	function applyHtml(_: SurveyModel, options: TextMarkdownEvent) {
-		let str = options.text;
-		if (str.indexOf("<p>") === 0) {
-			// Remove root paragraphs <p></p>
-			str = str.substring(3);
-			str = str.substring(0, str.length - 4);
-		}
-		// Set HTML markup to render
-		options.html = str;
-	}
-
-	creator.survey.onTextMarkdown.add(applyHtml);
+	creator.survey.onTextMarkdown.add(_applyHtml);
 	creator.onSurveyInstanceCreated.add((_, options) => {
-		options.survey.onTextMarkdown.add(applyHtml);
+		options.survey.onTextMarkdown.add(_applyHtml);
 	});
 
 	// Register `quill` as an editor for properties of the `text` and `html` types in the Survey Creator's Property Grid
@@ -84,4 +73,15 @@ export default function initQuill(
 		fit: (prop) => prop.type === "text" || prop.type === "html",
 		getJSON: () => ({ type: "quill" }),
 	});
+}
+
+function _applyHtml(_: SurveyModel, options: TextMarkdownEvent) {
+	options.html = _stripWrappingParagraph(options.text);
+}
+
+function _stripWrappingParagraph(html: string): string {
+	if (html.indexOf("<p>") === 0) {
+		return html.substring(3, html.length - 4);
+	}
+	return html;
 }
