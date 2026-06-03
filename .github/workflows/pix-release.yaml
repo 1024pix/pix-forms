@@ -1,0 +1,23 @@
+name: release
+
+on:
+  repository_dispatch:
+    types: [ 'deploy' ]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+
+      - uses: 1024pix/pix-actions/release@main
+        id: semantic
+        with:
+          changelogTitle: "# Pix Changelog"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PIX_SERVICE_RELEASE_ACTION_TOKEN }}
