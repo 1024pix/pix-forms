@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [1.0.1](https://github.com/1024pix/pix-forms/compare/v1.0.0...v1.0.1) (2026-06-08)
+
+### :building_construction: Tech
+
+- [#31](https://github.com/1024pix/pix-forms/pull/31) Publier formulaire test support (PIX-23058)
+
 # 1.0.0 (2026-06-03)
 
 ### :bug: Correction
