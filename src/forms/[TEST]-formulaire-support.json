@@ -20,7 +20,7 @@
 				},
 				{
 					"type": "text",
-					"name": "customer_field_1",
+					"name": "custom_field_1",
 					"visibleIf": "{custom_field_124} = 'Prof'",
 					"title": {
 						"fr": "UAI de votre établissement",
@@ -30,7 +30,7 @@
 				},
 				{
 					"type": "dropdown",
-					"name": "customer_field_19",
+					"name": "custom_field_19",
 					"visibleIf": "({custom_field_124} = 'Élève') or ({custom_field_124} = 'Parent')",
 					"title": {
 						"fr": "Type d'établissement",
@@ -82,7 +82,7 @@
 						{
 							"type": "html",
 							"name": "question4",
-							"visibleIf": "({custom_field_124} = 'Élève') and ({customer_field_19} anyof ['Public', 'PSC'])",
+							"visibleIf": "({custom_field_124} = 'Élève') and ({custom_field_19} anyof ['Public', 'PSC'])",
 							"html": "Si vous avez oublié votre mot de passe, nous vous invitons à demander à votre enseignant(e) de le renouveler. Nous ne pourrons pas le faire."
 						}
 					]
