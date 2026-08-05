@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [1.0.2](https://github.com/1024pix/pix-forms/compare/v1.0.1...v1.0.2) (2026-08-05)
+
+### :building_construction: Tech
+
+- [#32](https://github.com/1024pix/pix-forms/pull/32) Améliorer les formulaires (PIX-23800)
+
 ## [1.0.1](https://github.com/1024pix/pix-forms/compare/v1.0.0...v1.0.1) (2026-06-08)
 
 ### :building_construction: Tech
