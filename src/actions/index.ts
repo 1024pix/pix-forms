@@ -18,9 +18,9 @@ export const server = {
 			let schema = null;
 			try {
 				schema = await import(`../forms/${formSlug}.json`);
-			} catch (error: any) {
+			} catch (error) {
 				console.error(error);
-				throw new Error("Error loading survey JSON:", error);
+				throw new Error("Error loading survey JSON:", { cause: error });
 			}
 
 			const {
@@ -60,7 +60,10 @@ export const server = {
 				try {
 					await createConversation(formResult, freescoutMailboxId);
 				} catch (e) {
-					console.log(e);
+					console.error(
+						`Error saving to Freescout (formSlug: ${formSlug}):`,
+						e,
+					);
 				}
 			}
 
