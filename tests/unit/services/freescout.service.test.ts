@@ -13,9 +13,17 @@ function mockFetch(customer = { id: 1, firstName: "John", lastName: "Doe" }) {
 	const fetchMock = vi
 		.fn()
 		.mockResolvedValueOnce({
-			json: () => Promise.resolve({ id: 42, customer }),
+			ok: true,
+			status: 200,
+			statusText: "OK",
+			text: () => Promise.resolve(JSON.stringify({ id: 42, customer })),
 		})
-		.mockResolvedValue({ json: () => Promise.resolve({}) });
+		.mockResolvedValue({
+			ok: true,
+			status: 200,
+			statusText: "OK",
+			text: () => Promise.resolve("{}"),
+		});
 	vi.stubGlobal("fetch", fetchMock);
 	return fetchMock;
 }
@@ -62,11 +70,16 @@ describe("Unit | Services | Freescout", () => {
 				vi.stubGlobal(
 					"fetch",
 					vi.fn().mockResolvedValue({
-						json: () =>
-							Promise.resolve({
-								message: "Error occurred",
-								errors: ["invalid mailbox"],
-							}),
+						ok: false,
+						status: 422,
+						statusText: "Unprocessable Content",
+						text: () =>
+							Promise.resolve(
+								JSON.stringify({
+									message: "Error occurred",
+									errors: ["invalid mailbox"],
+								}),
+							),
 					}),
 				);
 
@@ -74,6 +87,26 @@ describe("Unit | Services | Freescout", () => {
 				await expect(
 					createConversation(defaultFormResult, 3),
 				).rejects.toThrow();
+			});
+		});
+
+		describe("When the API succeeds without returning a customer", () => {
+			test("it should not throw and should not attempt customer updates", async () => {
+				// given
+				vi.stubGlobal(
+					"fetch",
+					vi.fn().mockResolvedValue({
+						ok: true,
+						status: 200,
+						statusText: "OK",
+						text: () => Promise.resolve(JSON.stringify({ id: 42 })),
+					}),
+				);
+
+				// when / then
+				await expect(
+					createConversation(defaultFormResult, 3),
+				).resolves.not.toThrow();
 			});
 		});
 
