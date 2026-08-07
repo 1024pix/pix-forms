@@ -23,11 +23,6 @@ type FreescoutAttachment = {
 	data: string;
 };
 
-type ConversationResponse = {
-	id: number;
-	customer?: { id: number; firstName: string; lastName: string };
-};
-
 export async function createConversation(
 	formResult: FormResult,
 	freescoutMailboxId: number,
@@ -64,32 +59,13 @@ export async function createConversation(
 		body: JSON.stringify(body),
 	});
 
-	const rawBody = await response.text();
-	console.log(
-		`[DEBUG] Freescout response status: ${response.status} ${response.statusText}`,
-	);
-	console.log(
-		`[DEBUG] Freescout response body (first 300 chars): ${rawBody.slice(0, 300)}`,
-	);
-
-	let result: ConversationResponse;
-	try {
-		result = JSON.parse(rawBody);
-	} catch {
-		throw new Error(
-			`Freescout API returned non-JSON response (status ${response.status}): ${rawBody.slice(0, 300)}`,
-		);
-	}
-
-	if (!response.ok) {
-		throw new Error(
-			`Freescout API error (${response.status}): ${JSON.stringify(result)}`,
-		);
-	}
+	const result = await response.json();
 	if (!result) return;
+	if (result.message === "Error occurred") {
+		throw new Error(JSON.stringify(result));
+	}
 
 	console.log(`Conversation #${result.id} created`);
-	if (!result.customer) return;
 	const { id: customerId, firstName, lastName } = result.customer;
 	if (!customerId) return;
 
