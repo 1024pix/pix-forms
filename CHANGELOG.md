@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## [1.0.3](https://github.com/1024pix/pix-forms/compare/v1.0.2...v1.0.3) (2026-08-10)
+
+### :rewind: Retour en arrière
+
+- [#34](https://github.com/1024pix/pix-forms/pull/34) Revert "[TECH] Ajoute de log temporaire pour debugguer la recette (#33)"
+
+### :building_construction: Tech
+
+- [#33](https://github.com/1024pix/pix-forms/pull/33) Ajoute de log temporaire pour debugguer la recette
+- [#35](https://github.com/1024pix/pix-forms/pull/35) Améliorer le contraste des couleurs pour l'accessibilité des formulaires (PIX-23802)
+
 ## [1.0.2](https://github.com/1024pix/pix-forms/compare/v1.0.1...v1.0.2) (2026-08-05)
 
 ### :building_construction: Tech
