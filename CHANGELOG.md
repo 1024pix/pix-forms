@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [1.0.4](https://github.com/1024pix/pix-forms/compare/v1.0.3...v1.0.4) (2026-08-24)
+
+### :building_construction: Tech
+
+- [#36](https://github.com/1024pix/pix-forms/pull/36) Ajouter un nouveau formulaire contact de test pour le support (PIX-23955)
+
 ## [1.0.3](https://github.com/1024pix/pix-forms/compare/v1.0.2...v1.0.3) (2026-08-10)
 
 ### :rewind: Retour en arrière
