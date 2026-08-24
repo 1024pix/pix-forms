@@ -1,0 +1,166 @@
+{
+	"title": "[Test] Contacter le support Pix France",
+	"description": "Merci de renseigner les champs ci-dessous le plus précisément possible afin que notre équipe puisse vous apporter la réponse la plus adaptée.\n",
+	"logo": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxNDZweCIgaGVpZ2h0PSIxMDlweCIgdmlld0JveD0iMCAwIDE0NiAxMDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHRpdGxlPkxvZ29zL3BpeC9waXgtY291bGV1cjwvdGl0bGU+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSI0MS4wNTYyMDg0JSIgeTE9IjAlIiB4Mj0iNTguOTQzNzkxNiUiIHkyPSIxMDAlIiBpZD0ibGluZWFyR3JhZGllbnQtMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzEyQTNGRiIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMzRDY4RkYiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IHgxPSIzNC4xNTE1NDM0JSIgeTE9IjAlIiB4Mj0iNjUuODQ4NDU2NiUiIHkyPSIxMDAlIiBpZD0ibGluZWFyR3JhZGllbnQtMiI+PHN0b3Agc3RvcC1jb2xvcj0iI0ZGQkUwMCIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiNGRjlGMDAiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IHgxPSIyOC45Njg5MzQzJSIgeTE9IjAlIiB4Mj0iNzEuMDMxMDY1NyUiIHkyPSIxMDAlIiBpZD0ibGluZWFyR3JhZGllbnQtMyI+PHN0b3Agc3RvcC1jb2xvcj0iIzEyQTNGRiIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMzRDY4RkYiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IHgxPSI0OC40MTAwMTE2JSIgeTE9IjAlIiB4Mj0iNTEuNTg5OTg4NCUiIHkyPSIxMDAlIiBpZD0ibGluZWFyR3JhZGllbnQtNCI+PHN0b3Agc3RvcC1jb2xvcj0iIzEyQTNGRiIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMzRDY4RkYiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxnIGlkPSJMb2dvcy9waXgvcGl4LWNvdWxldXIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGlkPSJsb2dvcy0tcGl4L2NvdWxldXItY29weS00Ij48ZyBpZD0iR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg5LjIxMTExMSwgMjUuOTYzNjM2KSI+PHBhdGggZD0iTTM2LjQzNDEzNjIsMzQuMjIwMjQ2OSBMNTMuMTA0MjkyOCw1NC41NzUwMjQ4IEM1Ni4xMzAwMTc5LDU4LjQ1MjEwNTQgNTUuOTg1NzUyOCw1OS4xNzAxNzc4IDUwLjk0MzA5MTEsNTkuMTcwMTc3OCBMNTAuOTQzMDkxMSw1OS4xNzAxNzc4IEw0OS4yMTQwNDQ0LDU5LjE3MDE3NzggQzQ0LjE3MTM4MjYsNTkuMTcwMTc3OCA0Mi4yOTgyODQzLDU4LjE2NDk2MTUgMzkuMjcyNTU5Miw1NC41NzUwMjQ4IEwzOS4yNzI1NTkyLDU0LjU3NTAyNDggTDMwLjA4OTM2NzIsNDMuNDMxODM4MyBMMzIuMjc5NDQwOSw0MC43NzU0MDM0IEMzNC4yMjgzOTUxLDM4LjUyODAyNzcgMzUuNjEzMjkzNiwzNi4zNTc4NzUyIDM2LjQzNDEzNjIsMzQuMjIwMjQ2OSBaIE01MS4xODcxNDkyLDAuMDA3NDI4MDA0NDggQzU1Ljk4OTYzMDksMC4wMzEyMzA2NDExIDU2LjA4MDQxNTgsMC43ODg0Njk0MzUgNTMuMTA0MjkyOCw0LjYwMTk5MTMzIEw1My4xMDQyOTI4LDQuNjAxOTkxMzMgTDM2LjQzNDAxOCwyNC45NTY0NjE0IEMzNS42MTMxNTg5LDIyLjgxODkyODIgMzQuMjI4Mjk1OCwyMC42NDg4NzE1IDMyLjI3OTQyODcsMTguNDAxNTk4NiBMMzAuMDg5MzY3MiwxNS43NDM4MzgzIEwzOS4yNzI1NTkyLDQuNjAxOTkxMzMgQzQyLjIyNzkxODYsMS4wOTU1NDE1MiA0NC4wODM2Mzg0LDAuMDU0OTkwNDY0MyA0OC44NjczMTksMC4wMDg0ODkxNDM4NiBMNDkuMjE0MDQ0NCwwLjAwNjgzODMxNTUzIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC0xKSIvPjxwYXRoIGQ9Ik0yOS42MDE5MzU5LDU5LjE3MDE3NzggQzM0LjY0NDU5NzYsNTkuMTcwMTc3OCAzNC43ODg4NjI3LDU4LjQ1MjEwNTQgMzEuNzYzMTM3Niw1NC41NzUwMjQ4IEwxNC40NzM1MjM5LDMzLjQ2NTY5NSBDMTMuMTc2ODQ1NSwzMS44ODYxOTA5IDEyLjQ1NjM3MzgsMzAuNTkzNjE4IDEyLjQ1NjM3MzgsMjkuNTg4NDAxNyBDMTIuNDU2MzczOCwyOC40Mzk2MTM1IDEzLjE3Njg0NTUsMjcuMTQ3MjUzMyAxNC40NzM1MjM5LDI1LjcxMTMyMTEgTDMxLjc2MzEzNzYsNC42MDE5OTEzMyBDMzQuNzg4ODYyNywwLjcyNDkxMDczNiAzNC42NDQ1OTc2LDAuMDA2ODM4MzE1NTMgMjkuNjAxOTM1OSwwLjAwNjgzODMxNTUzIEwyNy44NzI4ODkxLDAuMDA2ODM4MzE1NTMgQzIyLjgzMDIyNzQsMC4wMDY4MzgzMTU1MyAyMC45NTcxMjksMS4wMTIwNTQ2MiAxNy45MzE0MDQsNC42MDE5OTEzMyBMNC42NzYwOTAzNiwyMC42ODUyMzk2IEMtMC45NDMyMDQ4MjUsMjcuMTQ3MjUzMyAtMC45NDMyMDQ4MjUsMzIuMDI5NzYyOSA0LjY3NjA5MDM2LDM4LjQ5MTc3NjYgTDE3LjkzMTQwNCw1NC41NzUwMjQ4IEMyMC45NTcxMjksNTguMTY0OTYxNSAyMi44MzAyMjc0LDU5LjE3MDE3NzggMjcuODcyODg5MSw1OS4xNzAxNzc4IEwyOS42MDE5MzU5LDU5LjE3MDE3NzggWiIgaWQ9IlBhZ2UtMSIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC0yKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTcuMTE2MTAzLCAyOS41ODg1MDgpIHNjYWxlKC0xLCAxKSB0cmFuc2xhdGUoLTE3LjExNjEwMywgLTI5LjU4ODUwOCkgIi8+PC9nPjxwYXRoIGQ9Ik0wLjEyMDIwMjAyLDEwMy41NDMxNTIgQzAuMTIwMjAyMDIsMTA3LjgzMDUzOCAxLjE5NTYyOTgyLDEwOC45MDIzODQgNS40OTczNDEsMTA4LjkwMjM4NCBMNi45MzExMDY5NiwxMDguOTAyMzg0IEMxMS4yMzI4MTgyLDEwOC45MDIzODQgMTIuMzA4MjQ1OSwxMDcuODMwNTM4IDEyLjMwODI0NTksMTAzLjU0MzE1MiBMMTIuMzA4MjQ1OSw3OC42NTI3OTMxIEMxNS41MzQ1MjkzLDgzLjc3MzcyMjggMjEuMzg5NjU5Miw4Ni4zOTM4MTQ4IDI5Ljg3MzQyODksODYuMzkzODE0OCBDNDYuNDgyNjMsODYuMzkzODE0OCA1NC43Mjc1MDc2LDc3LjY5OTk5NDkgNTQuNzI3NTA3Niw2MC40MzE2MDk0IEw1NC43Mjc1MDc2LDUwLjA3MDQ5NTcgQzU0LjcyNzUwNzYsMzIuODAxOTA0MyA0NS44ODUxOTMxLDI0LjcwMzczNzcgMjcuMzY0MDI4NCwyNC43MDM3Mzc3IEMxMC4xNTczOTA0LDI0LjcwMzczNzcgMC4xMjAyMDIwMiwzMy4wNDAyMDY4IDAuMTIwMjAyMDIsNTAuMDcwNDk1NyBMMC4xMjAyMDIwMiwxMDMuNTQzMTUyIFogTTQyLjQyMDAxNzYsNjAuNjY5NzA2IEM0Mi40MjAwMTc2LDcwLjY3MzQ2ODkgMzkuMDc0Mjg4Miw3NC44NDE4MDY0IDI3LjQ4MzY4MTIsNzQuODQxODA2NCBDMTUuNjUzOTc1NCw3NC44NDE4MDY0IDEyLjMwODI0NTksNzAuNTU0NDIwNiAxMi4zMDgyNDU5LDYwLjY2OTcwNiBMMTIuMzA4MjQ1OSw1MC40Mjc2NDA2IEMxMi4zMDgyNDU5LDQwLjQyMzg3NzcgMTUuODkzMDc0MiwzNi4xMzY0OTE5IDI3LjQ4MzY4MTIsMzYuMTM2NDkxOSBDMzkuMzEzMTgwMywzNi4xMzY0OTE5IDQyLjQyMDAxNzYsNDAuNDIzODc3NyA0Mi40MjAwMTc2LDUwLjQyNzY0MDYgTDQyLjQyMDAxNzYsNjAuNjY5NzA2IFoiIGlkPSJGaWxsLTEiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtMykiLz48cGF0aCBkPSJNNjYuMjIxMjMxMiw3OS42MzE0NjU1IEM2Ni4yMjEyMzEyLDgzLjkxODg1MTIgNjcuMjk2NjU5LDg0Ljk5MDY5NzcgNzEuNTk4MzcwMSw4NC45OTA2OTc3IEw3My4xNTE1ODIyLDg0Ljk5MDY5NzcgQzc3LjQ1MzI5MzMsODQuOTkwNjk3NyA3OC41Mjg3MjExLDgzLjkxODg1MTIgNzguNTI4NzIxMSw3OS42MzE0NjU1IEw3OC41Mjg3MjExLDMxLjI3OTczODkgQzc4LjUyODcyMTEsMjYuOTkyMzUzMSA3Ny40NTMyOTMzLDI1LjkyMDUwNjcgNzMuMTUxNTgyMiwyNS45MjA1MDY3IEw3MS41OTgzNzAxLDI1LjkyMDUwNjcgQzY3LjI5NjY1OSwyNS45MjA1MDY3IDY2LjIyMTIzMTIsMjYuOTkyMzUzMSA2Ni4yMjEyMzEyLDMxLjI3OTczODkgTDY2LjIyMTIzMTIsNzkuNjMxNDY1NSBaIE02Ny4wNTc1NjAyLDEzLjA1ODU1NTIgQzcwLjA0NDk1MTUsMTUuOTE2NzQzOCA3NC44MjQ0NDY5LDE1LjkxNjc0MzggNzcuNjkyMzkyMSwxMy4wNTg1NTUyIEM4MC42Nzk1NzY3LDEwLjA4MTExMjQgODAuNjc5NTc2Nyw1LjMxNzUzMzUzIDc3LjY5MjM5MjEsMi40NTkzNDQ5OSBDNzQuODI0NDQ2OSwtMC41MTgwOTc4MDEgNzAuMDQ0OTUxNSwtMC41MTgwOTc4MDEgNjcuMDU3NTYwMiwyLjQ1OTM0NDk5IEM2NC4wNzAzNzU2LDUuMzE3NTMzNTMgNjQuMDcwMzc1NiwxMC4wODExMTI0IDY3LjA1NzU2MDIsMTMuMDU4NTU1MiBMNjcuMDU3NTYwMiwxMy4wNTg1NTUyIFoiIGlkPSJGaWxsLTIiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtNCkiLz48L2c+PC9nPjwvc3ZnPg==",
+	"completedHtml": "Merci pour votre demande, notre équipe vous répondra dans les meilleurs délais !",
+	"loadingHtml": "Le formulaire est en cours de chargement...",
+	"pages": [
+		{
+			"name": "Votre demande",
+			"title": "Votre demande",
+			"description": "Merci d'indiquer votre profil et le motif de contact.",
+			"elements": [
+				{
+					"type": "dropdown",
+					"name": "custom_field_155",
+					"title": "Quel est votre profil ?",
+					"description": "<br>",
+					"isRequired": true,
+					"choices": [
+						{
+							"value": "Item 1",
+							"text": "Je suis un collégien/lycéen"
+						},
+						{
+							"value": "Item 2",
+							"text": "Je suis un enseignant ou faisant partie du personnel de l'établissement"
+						}
+					],
+					"placeholder": "Sélectionnez votre profil"
+				},
+				{
+					"type": "dropdown",
+					"name": "Précision du user visé",
+					"visibleIf": "{custom_field_155} = 'Item 2'",
+					"title": "Vous nous contactez",
+					"description": "<br>",
+					"isRequired": true,
+					"choices": [
+						{
+							"value": "Item 1",
+							"text": "pour une question au sujet de votre compte (profil Pix, Pix Orga, etc.)"
+						},
+						{
+							"value": "Item 2",
+							"text": "pour aider un élève"
+						}
+					],
+					"placeholder": "Choisissez..."
+				},
+				{
+					"type": "dropdown",
+					"name": "custom_field_158",
+					"visibleIf": "{custom_field_155} = 'Item 1'",
+					"title": "Quel est le motif de votre demande ?",
+					"isRequired": true,
+					"choices": [
+						{
+							"value": "Item 1",
+							"text": "J'ai perdu mon mot de passe"
+						},
+						{
+							"value": "Item 2",
+							"text": "J'ai plusieurs comptes et souhaite n'en conserver qu'un seul"
+						},
+						{
+							"value": "Item 3",
+							"text": "Je ne retrouve pas mon code parcours"
+						}
+					],
+					"showOtherItem": true,
+					"otherText": "Autre (préciser la raison)"
+				},
+				{
+					"type": "html",
+					"name": "Auto 1",
+					"visibleIf": "{custom_field_158} = 'Item 1'",
+					"title": "Quel est le motif de votre demande ?",
+					"html": "Si vous avez perdu votre mot de passe, plusieurs solutions sont possibles :</p><p><br></p><p><br></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>si vous avez un compte Pix avec une adresse e-mail, vous pouvez vous rendre sur cette page : <a href=\"https://app.pix.fr/mot-de-passe-oublie\" rel=\"noopener noreferrer\" target=\"_blank\">https://app.pix.fr/mot-de-passe-oublie</a></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>si vous avez un compte avec une autre méthode de connexion (par votre ENT ou avec un identifiant), vous devrez vous rapprocher de votre enseignant qui pourra réinitialiser votre mot de passe</li><"
+				},
+				{
+					"type": "dropdown",
+					"name": "custom_field_160",
+					"visibleIf": "{custom_field_155} = 'Item 2' and {Précision du user visé} = 'Item 1'",
+					"title": "Quel est le motif de votre demande ?",
+					"isRequired": true,
+					"choices": [
+						{
+							"value": "Item 1",
+							"text": "J'ai perdu mon mot de passe"
+						},
+						{
+							"value": "Item 2",
+							"text": "J'ai plusieurs comptes et souhaite n'en conserver qu'un seul"
+						}
+					],
+					"otherText": "Autre (préciser la raison)"
+				},
+				{
+					"type": "dropdown",
+					"name": "Question ignorée",
+					"visibleIf": "{custom_field_155} = 'Item 2' and {Précision du user visé} = 'Item 2'",
+					"title": "Quel est le motif de votre demande ?",
+					"isRequired": true,
+					"choices": [
+						{
+							"value": "Item 1",
+							"text": "L'élève a bloqué son compte"
+						},
+						{
+							"value": "Item 2",
+							"text": "L'élève a plusieurs comptes"
+						}
+					],
+					"otherText": "Autre (préciser la raison)"
+				}
+			]
+		},
+		{
+			"name": "Informations personnelles",
+			"visibleIf": "{custom_field_158} anyof ['Item 2', 'Item 3', 'other'] or {custom_field_160} notempty or {Question ignorée} notempty",
+			"title": "Vos informations personnelles",
+			"description": "Merci de renseigner ces informations afin que nous puissions retrouver votre compte et vous apporter une réponse plus précise",
+			"elements": [
+				{
+					"type": "text",
+					"name": "customer_firstname",
+					"title": "Votre prénom",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_lastname",
+					"title": "Votre nom",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_email",
+					"title": "Votre adresse e-mail",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "customer_field_1",
+					"visibleIf": "{custom_field_155} = 'Item 2'",
+					"title": "UAI de votre établissement",
+					"isRequired": true
+				},
+				{
+					"type": "text",
+					"name": "subject",
+					"title": "Objet de la demande",
+					"isRequired": true
+				},
+				{
+					"type": "comment",
+					"name": "message",
+					"title": "Message",
+					"description": "Merci de nous préciser toute information supplémentaire susceptible de nous aider à répondre à votre demande."
+				}
+			]
+		}
+	],
+	"saveToFreescout": true,
+	"freescoutMailboxId": 28
+}
