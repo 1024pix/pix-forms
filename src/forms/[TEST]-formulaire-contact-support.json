@@ -14,7 +14,6 @@
 					"type": "dropdown",
 					"name": "custom_field_155",
 					"title": "Quel est votre profil ?",
-					"description": "<br>",
 					"isRequired": true,
 					"choices": [
 						{
@@ -33,7 +32,6 @@
 					"name": "Précision du user visé",
 					"visibleIf": "{custom_field_155} = 'Item 2'",
 					"title": "Vous nous contactez",
-					"description": "<br>",
 					"isRequired": true,
 					"choices": [
 						{
@@ -75,7 +73,7 @@
 					"name": "Auto 1",
 					"visibleIf": "{custom_field_158} = 'Item 1'",
 					"title": "Quel est le motif de votre demande ?",
-					"html": "Si vous avez perdu votre mot de passe, plusieurs solutions sont possibles :</p><p><br></p><p><br></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>si vous avez un compte Pix avec une adresse e-mail, vous pouvez vous rendre sur cette page : <a href=\"https://app.pix.fr/mot-de-passe-oublie\" rel=\"noopener noreferrer\" target=\"_blank\">https://app.pix.fr/mot-de-passe-oublie</a></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>si vous avez un compte avec une autre méthode de connexion (par votre ENT ou avec un identifiant), vous devrez vous rapprocher de votre enseignant qui pourra réinitialiser votre mot de passe</li><"
+					"html": "<p>Si vous avez perdu votre mot de passe, plusieurs solutions sont possibles :</p><ul><li>si vous avez un compte Pix avec une adresse e-mail, vous pouvez vous rendre sur cette page : <a href=\"https://app.pix.fr/mot-de-passe-oublie\" rel=\"noopener noreferrer\" target=\"_blank\">https://app.pix.fr/mot-de-passe-oublie</a></li><li>si vous avez un compte avec une autre méthode de connexion (par votre ENT ou avec un identifiant), vous devrez vous rapprocher de votre enseignant qui pourra réinitialiser votre mot de passe</li></ul>"
 				},
 				{
 					"type": "dropdown",
