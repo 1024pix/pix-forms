@@ -7,19 +7,19 @@
 				{
 					"type": "text",
 					"name": "customer_firstname",
-					"title": "<p>Prénom</p>",
+					"title": "Prénom",
 					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_lastname",
-					"title": "<p>Nom de famille</p>",
+					"title": "Nom de famille",
 					"isRequired": true
 				},
 				{
 					"type": "text",
 					"name": "customer_email",
-					"title": "<p>Adresse e-mail</p>",
+					"title": "Adresse e-mail",
 					"isRequired": true
 				},
 				{
@@ -31,16 +31,16 @@
 				{
 					"type": "comment",
 					"name": "message",
-					"title": "<p>Message</p>",
+					"title": "Message",
 					"isRequired": true
 				},
 				{
 					"type": "boolean",
 					"name": "custom_field_24",
-					"title": "<p>oui ou non</p>",
+					"title": "oui ou non",
 					"isRequired": true,
-					"labelTrue": "<p>Oui</p>",
-					"labelFalse": "<p>Non</p>"
+					"labelTrue": "Oui",
+					"labelFalse": "Non"
 				}
 			]
 		}

@@ -9,6 +9,7 @@
 		"astro": "astro",
 		"test": "vitest run",
 		"test:unit": "vitest run tests/unit",
+		"test:integration": "playwright test",
 		"lint": "biome check",
 		"lint:fix": "biome check --write && prettier --write **/*.astro"
 	},
@@ -26,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
+		"@playwright/test": "^1.63.0",
 		"@types/dompurify": "^3.2.0",
 		"@types/nodemailer": "^6.4.17",
 		"playwright": "^1.54.1",

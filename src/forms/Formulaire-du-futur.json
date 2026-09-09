@@ -26,7 +26,7 @@
 							"type": "html",
 							"name": "question11",
 							"visibleIf": "{customer_firstname} notempty",
-							"html": "Test d'une suggestion de réponse :</p><p><br></p><p>Attention à ne pas mettre ton pseudo on veut ton vrai prénom !</p><p><br></p><p>Sinon on envoie <a href=\"https://ih1.redbubble.net/image.4681641964.8122/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg\" rel=\"noopener noreferrer\" target=\"_blank\">notre agent</a> te retrouver !"
+							"html": "<p>Test d'une suggestion de réponse :</p><br><p>Attention à ne pas mettre ton pseudo on veut ton vrai prénom !</p><br><p>Sinon on envoie <a href=\"https://ih1.redbubble.net/image.4681641964.8122/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg\" rel=\"noopener noreferrer\" target=\"_blank\">notre agent</a> te retrouver !</p>"
 						}
 					]
 				},
