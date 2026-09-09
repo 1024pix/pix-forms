@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [1.0.5](https://github.com/1024pix/pix-forms/compare/v1.0.4...v1.0.5) (2026-09-09)
+
+### :bug: Correction
+
+- [#37](https://github.com/1024pix/pix-forms/pull/37) Corriger l'apparition d'un chevron fantôme dans une question de type Code HTML (PIX-24075)
+
 ## [1.0.4](https://github.com/1024pix/pix-forms/compare/v1.0.3...v1.0.4) (2026-08-24)
 
 ### :building_construction: Tech
